@@ -1,8 +1,8 @@
 // NOTE: these values are inserted into the DOM via innerHTML without escaping (see js/render.js). Never source a field here from user input or an external API without HTML-escaping it first.
 export const profile = {
   name: 'Garrett Ennis',
-  role: 'Lead Security Engineer',
-  tagline: 'Builds detection systems that separate real threats from noise.',
+  role: 'AI Security Researcher / Security Engineer',
+  tagline: 'Optimizing AI-assisted defenders by building the attackers they have to face.',
   location: 'Maryland, USA',
   email: 'williamgarrettennis@gmail.com',
   links: {
@@ -11,17 +11,27 @@ export const profile = {
   },
   resumeHref: 'assets/Garrett_Ennis_CV_General.pdf',
   about:
-    "I'm a security engineer focused on detection engineering and SOC " +
-    'architecture — building the pipelines and alerting logic that turn ' +
-    'raw telemetry into signal analysts can actually act on. My background ' +
-    'spans enterprise SIEM design, cloud security operations across Azure ' +
-    'and Microsoft 365, and earlier work in application penetration testing ' +
-    'and large-scale network infrastructure. Most environments generate far ' +
-    'more alerts than any team can triage; the real work is building systems ' +
-    'precise enough to surface what actually matters.',
+    'I am an AI security researcher at the SecAI Lab at Sungkyunkwan ' +
+    'University (SKKU), and a security engineer by background. My work ' +
+    'covers both sides of one problem: how AI assistance changes what an ' +
+    'attacker can do at scale, and what a defender needs in order to keep ' +
+    'pace. Before moving into research, I designed SOC architectures and ' +
+    'SIEM ingestion pipelines for regulated environments. The limiting ' +
+    'factor there was rarely detection logic. It was alert volume that no ' +
+    'team could triage, which is the constraint my research starts from.',
 };
 
 export const experience = [
+  {
+    role: 'AI Security Researcher',
+    org: 'SecAI Lab, SKKU',
+    start: '2026',
+    end: 'Present',
+    bullets: [
+      'Study how AI assistance changes adversary capability, and what detection has to do once reconnaissance and evasion are cheap to automate.',
+      'Evaluate where AI assistance lowers analyst load in a security operations center (SOC), and where it moves the bottleneck instead of removing it.',
+    ],
+  },
   {
     role: 'Lead Security Engineer',
     org: 'SysArc',
@@ -61,19 +71,19 @@ export const experience = [
 
 export const researchInterests = [
   {
-    title: 'AI-augmented adversarial attack & defense',
+    title: 'AI-augmented adversarial attack and defense',
     description:
-      'How adversaries use AI to accelerate reconnaissance and evasion, and how detection systems can adapt to match.',
+      'How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.',
   },
   {
     title: 'SOC optimization',
     description:
-      'Improving alert fidelity and analyst workflow efficiency through structured telemetry normalization and pipeline design.',
+      'Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.',
   },
   {
-    title: 'Threat hunting & adversary intelligence',
+    title: 'Threat hunting and adversary intelligence',
     description:
-      'Real-world threat hunting, OPSEC, and information gathering on adversaries and advanced persistent threats (APTs).',
+      'Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.',
   },
 ];
 
@@ -81,21 +91,21 @@ export const projects = [
   {
     title: 'SIEM alert-fidelity pipeline',
     description:
-      'A generalized version of a normalization pipeline pattern used to reduce false-positive volume in high-telemetry SOC environments, illustrating structured field validation before correlation.',
+      'A generalized normalization pipeline that validates structured fields before correlation, which cuts false-positive volume in high-telemetry environments.',
     tags: ['SIEM', 'Detection Engineering', 'Python'],
     illustrative: true,
   },
   {
     title: 'Cloud identity threat model',
     description:
-      'A sample threat-modeling walkthrough for Azure/M365 identity flows, showing how privilege-escalation paths get mapped and prioritized.',
+      'A threat-modeling walkthrough for Azure and Microsoft 365 identity flows. It maps privilege-escalation paths and ranks them by what an attacker gains.',
     tags: ['Azure', 'Threat Modeling', 'M365'],
     illustrative: true,
   },
   {
     title: 'APT infrastructure tracking pattern',
     description:
-      'An illustrative framework for correlating adversary infrastructure indicators over time to support proactive threat hunting.',
+      'A method for correlating adversary infrastructure indicators over time, so hunting starts from infrastructure reuse rather than single indicators.',
     tags: ['Threat Intel', 'OPSEC'],
     illustrative: true,
   },

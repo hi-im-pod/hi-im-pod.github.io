@@ -26,7 +26,7 @@ function renderExperience() {
   list.innerHTML = experience.map(job => `
     <li class="timeline-item">
       <time datetime="${job.start}">${job.start}–${job.end}</time>
-      <h3>${job.role} — ${job.org}</h3>
+      <h3>${job.role}, ${job.org}</h3>
       <ul>
         ${job.bullets.map(bullet => `<li>${bullet}</li>`).join('')}
       </ul>
@@ -53,7 +53,7 @@ function renderProjects() {
       <div class="tile__tags">
         ${project.tags.map(tag => `<span class="tile__tag">${tag}</span>`).join('')}
       </div>
-      ${project.illustrative ? '<p class="tile__note">Illustrative example — built to demonstrate approach, not real client work.</p>' : ''}
+      ${project.illustrative ? '<p class="tile__note">Illustrative example, not real client work.</p>' : ''}
     </div>
   `).join('');
 }
