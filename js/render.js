@@ -25,7 +25,7 @@ function renderExperience() {
   const list = document.getElementById('experience-list');
   list.innerHTML = experience.map(job => `
     <li class="timeline-item">
-      <time>${job.start}–${job.end}</time>
+      <time datetime="${job.start}">${job.start}–${job.end}</time>
       <h3>${job.role} — ${job.org}</h3>
       <ul>
         ${job.bullets.map(bullet => `<li>${bullet}</li>`).join('')}

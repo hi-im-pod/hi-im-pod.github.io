@@ -1,5 +1,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 
+html { scroll-padding-top: 5rem; }
+
 body {
   margin: 0;
   background: var(--color-ink);

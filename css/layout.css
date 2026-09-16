@@ -34,4 +34,5 @@
 
 @media (max-width: 40rem) {
   .section { padding: var(--space-4) var(--space-2); }
+  .divider { padding: 0 var(--space-2); }
 }

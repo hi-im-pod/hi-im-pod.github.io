@@ -1,18 +1,20 @@
 export function createWaveform(container, { animated = false, height = 60 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.className = 'waveform-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
   container.appendChild(canvas);
 
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const spikeX = 0.62;
+  const signalColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-signal').trim() || '#2FD9C4';
 
   function resize() {
     const width = container.clientWidth;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
@@ -20,8 +22,6 @@ export function createWaveform(container, { animated = false, height = 60 } = {}
   function draw(t) {
     const width = container.clientWidth;
     ctx.clearRect(0, 0, width, height);
-    const signalColor = getComputedStyle(document.documentElement)
-      .getPropertyValue('--color-signal').trim() || '#2FD9C4';
     ctx.strokeStyle = signalColor;
     ctx.lineWidth = 2;
     ctx.beginPath();

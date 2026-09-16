@@ -1,3 +1,4 @@
+// NOTE: these values are inserted into the DOM via innerHTML without escaping (see js/render.js). Never source a field here from user input or an external API without HTML-escaping it first.
 export const profile = {
   name: 'Garrett Ennis',
   role: 'Lead Security Engineer',
