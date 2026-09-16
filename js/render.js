@@ -1,6 +1,6 @@
 import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
-import { profile, experience } from './content.js';
+import { profile, experience, researchInterests } from './content.js';
 
 // --- section renderers ---
 
@@ -34,11 +34,22 @@ function renderExperience() {
   `).join('');
 }
 
+function renderResearch() {
+  const list = document.getElementById('research-list');
+  list.innerHTML = researchInterests.map(item => `
+    <div class="card">
+      <h3>${item.title}</h3>
+      <p>${item.description}</p>
+    </div>
+  `).join('');
+}
+
 // --- init ---
 function init() {
   renderHero();
   renderAbout();
   renderExperience();
+  renderResearch();
 
   document.querySelectorAll('[data-waveform-divider]').forEach(el => {
     createWaveform(el, { animated: false, height: 32 });
