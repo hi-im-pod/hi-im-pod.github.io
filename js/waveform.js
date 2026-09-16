@@ -89,7 +89,7 @@ function attachParallaxListener() {
   update();
 }
 
-export function createWaveform(container, { animated = false, height = 60, parallax = !animated, signal = '', reflection = false } = {}) {
+export function createWaveform(container, { animated = false, height = 60, parallax = !animated, signal = '', reflection = false, segPitch = 8 } = {}) {
   const canvas = document.createElement('canvas');
   canvas.className = 'waveform-canvas';
   canvas.setAttribute('aria-hidden', 'true');
@@ -159,7 +159,6 @@ export function createWaveform(container, { animated = false, height = 60, paral
     const fieldHeight = reflection ? height * 0.72 : height;
     const pitch = width / barCount;
     const barWidth = Math.max(2, pitch * 0.8);
-    const segPitch = animated ? 8 : 5.5;
     const segHeight = segPitch * 0.7;
     const segRows = Math.max(3, Math.floor(fieldHeight / segPitch));
     const reflectRows = reflection

@@ -53,9 +53,6 @@
   width: 100%;
   display: block;
   /* One GPU pass for the whole bar field, rather than a shadow per segment. */
-  filter: drop-shadow(0 0 4px var(--color-pink-glow));
-}
-.hero-waveform .waveform-canvas {
   filter: drop-shadow(0 0 7px var(--color-pink-glow));
 }
 

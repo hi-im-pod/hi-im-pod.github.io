@@ -90,7 +90,12 @@ function init() {
   renderFooter();
 
   document.querySelectorAll('[data-waveform-divider]').forEach(el => {
-    createWaveform(el, { animated: false, height: 40, signal: el.dataset.signal });
+    createWaveform(el, {
+      animated: false,
+      height: 90,
+      signal: el.dataset.signal,
+      reflection: true,
+    });
   });
 
   const heroWaveformEl = document.querySelector('[data-waveform-hero]');
