@@ -12,6 +12,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Faint groove texture over the whole page so no area reads as flat void. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: repeating-radial-gradient(circle at 50% 40%, var(--color-text-primary) 0, var(--color-text-primary) 1px, transparent 1px, transparent 7px);
+}
+
 h1, h2, h3 {
   font-family: var(--font-display);
   font-weight: 700;

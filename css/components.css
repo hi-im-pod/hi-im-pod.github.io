@@ -27,11 +27,56 @@
 .site-nav__links a:hover { color: var(--color-signal); }
 
 .divider {
+  position: relative;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-3);
 }
+/* A pool of stage light around each bar cluster, so the dividers sit in
+   something instead of floating in an empty band between sections. */
+.divider::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(68rem, 95%);
+  height: 18rem;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(48% 55% at 28% 50%, var(--color-pink-glow), transparent 72%),
+    radial-gradient(48% 55% at 72% 50%, var(--color-signal-glow), transparent 72%);
+}
 .waveform-canvas { width: 100%; display: block; }
+
+.sparkle-field {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -5rem;
+  bottom: -5rem;
+  z-index: -1;
+  pointer-events: none;
+}
+.sparkle-field span {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-lavender);
+  box-shadow: 0 0 8px 2px rgba(183, 156, 255, 0.45);
+  animation: sparkle-twinkle 5.5s ease-in-out infinite;
+}
+.sparkle-field span:nth-child(3n + 1) {
+  background: var(--color-pink);
+  box-shadow: 0 0 6px 1px var(--color-pink-glow);
+}
+.sparkle-field span:nth-child(3n + 2) {
+  background: var(--color-signal);
+  box-shadow: 0 0 6px 1px var(--color-signal-glow);
+}
 
 .hero-content { position: relative; z-index: 1; max-width: var(--content-width); }
 .hero-content .eyebrow-line { font-family: var(--font-mono); color: var(--color-pink); font-size: var(--fs-small); }

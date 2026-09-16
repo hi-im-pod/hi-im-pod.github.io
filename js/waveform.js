@@ -27,11 +27,34 @@ function morseLevels(text) {
   return levels;
 }
 
+// Deterministic pseudo-random in 0..1, so layouts stay stable across reloads.
+function noise(seed) {
+  const n = Math.sin(seed) * 43758.5453;
+  return n - Math.floor(n);
+}
+
 // Deterministic per-bar variation so an encoded pattern still reads as a
 // meter rather than a barcode. Small enough to keep dots and dashes apart.
 function barJitter(i) {
-  const n = Math.sin(i * 12.9898) * 43758.5453;
-  return (n - Math.floor(n) - 0.5) * 0.08;
+  return (noise(i * 12.9898) - 0.5) * 0.08;
+}
+
+// A few drifting motes in the band around a divider, so the space between
+// sections reads as atmosphere rather than a gap.
+function addSparkleField(container, count = 7) {
+  const field = document.createElement('div');
+  field.className = 'sparkle-field';
+  field.setAttribute('aria-hidden', 'true');
+
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement('span');
+    dot.style.left = `${(6 + noise((i + 1) * 91.17) * 88).toFixed(1)}%`;
+    dot.style.top = `${(noise((i + 1) * 57.31) * 100).toFixed(1)}%`;
+    dot.style.animationDelay = `${(noise((i + 1) * 13.73) * 5).toFixed(1)}s`;
+    field.appendChild(dot);
+  }
+
+  container.appendChild(field);
 }
 
 const parallaxTargets = [];
@@ -167,6 +190,7 @@ export function createWaveform(container, { animated = false, height = 60, paral
   if (parallax && !reduceMotion) {
     parallaxTargets.push({ container, canvas });
     attachParallaxListener();
+    addSparkleField(container);
   }
 
   return canvas;
