@@ -1,0 +1,35 @@
+:root {
+  /* Color */
+  --color-ink: #12131A;
+  --color-surface: #191B26;
+  --color-hairline: #2A2D3E;
+  --color-text-primary: #E8E6F0;
+  --color-text-muted: #8B8CA3;
+  --color-signal: #2FD9C4;
+  --color-copper: #C97B3D;
+
+  /* Type */
+  --font-display: 'Archivo', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --fs-hero: clamp(2.5rem, 6vw, 4.5rem);
+  --fs-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --fs-h3: 1.25rem;
+  --fs-body: 1rem;
+  --fs-small: 0.875rem;
+
+  /* Spacing scale */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6rem;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --max-width: 72rem;
+  --content-width: 42rem;
+}
