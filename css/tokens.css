@@ -6,7 +6,10 @@
   --color-text-primary: #E8E6F0;
   --color-text-muted: #8B8CA3;
   --color-signal: #2FD9C4;
-  --color-copper: #C97B3D;
+  --color-pink: #FF9FD6;
+  --color-lavender: #B79CFF;
+  --color-pink-glow: rgba(255, 159, 214, 0.35);
+  --color-signal-glow: rgba(47, 217, 196, 0.35);
 
   /* Type */
   --font-display: 'Archivo', sans-serif;
