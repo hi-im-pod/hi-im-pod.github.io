@@ -49,7 +49,15 @@
     radial-gradient(48% 55% at 28% 50%, var(--color-pink-glow), transparent 72%),
     radial-gradient(48% 55% at 72% 50%, var(--color-signal-glow), transparent 72%);
 }
-.waveform-canvas { width: 100%; display: block; }
+.waveform-canvas {
+  width: 100%;
+  display: block;
+  /* One GPU pass for the whole bar field, rather than a shadow per segment. */
+  filter: drop-shadow(0 0 4px var(--color-pink-glow));
+}
+.hero-waveform .waveform-canvas {
+  filter: drop-shadow(0 0 7px var(--color-pink-glow));
+}
 
 .sparkle-field {
   position: absolute;

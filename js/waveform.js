@@ -5,12 +5,14 @@ const MORSE = {
   V: '...-', W: '.--', X: '-..-', Y: '-.--', Z: '--..',
 };
 
-const DOT_LEVEL = 0.34;
-const DASH_LEVEL = 0.86;
-const REST_LEVEL = 0.05;
+// Three clearly separated height tiers. Every column is populated, so the
+// field reads as a solid meter; the message lives in the tiers, not in gaps.
+const REST_LEVEL = 0.12;
+const DOT_LEVEL = 0.44;
+const DASH_LEVEL = 0.95;
 
-// Morse, read left to right: a short bar is a dot, a tall bar a dash, and a
-// stub is the rest between letters. Legible as an audio meter either way.
+// Morse, read left to right: a mid-height column is a dot, a full-height one
+// a dash, and a stub column is the rest between letters.
 function morseLevels(text) {
   const levels = [];
   text.toUpperCase().split(/\s+/).filter(Boolean).forEach((word, wordIndex) => {
@@ -87,7 +89,7 @@ function attachParallaxListener() {
   update();
 }
 
-export function createWaveform(container, { animated = false, height = 60, parallax = !animated, signal = '' } = {}) {
+export function createWaveform(container, { animated = false, height = 60, parallax = !animated, signal = '', reflection = false } = {}) {
   const canvas = document.createElement('canvas');
   canvas.className = 'waveform-canvas';
   canvas.setAttribute('aria-hidden', 'true');
@@ -147,32 +149,60 @@ export function createWaveform(container, { animated = false, height = 60, paral
     return Math.max(0.04, Math.min(1, level));
   }
 
+  // LED-style columns: every slot is filled top to bottom with dim unlit
+  // segments, and the level decides how many light up. Keeps the field solid
+  // the way a real visualiser is, while the lit height still carries Morse.
   function draw(t) {
     const width = container.clientWidth;
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = barGradient;
-    ctx.shadowColor = pinkColor;
-    ctx.shadowBlur = animated ? 12 : 5;
 
-    const gap = width / barCount;
-    const barWidth = gap * 0.55;
-    const radius = Math.min(2, barWidth / 2);
+    const fieldHeight = reflection ? height * 0.72 : height;
+    const pitch = width / barCount;
+    const barWidth = Math.max(2, pitch * 0.8);
+    const segPitch = animated ? 8 : 5.5;
+    const segHeight = segPitch * 0.7;
+    const segRows = Math.max(3, Math.floor(fieldHeight / segPitch));
+    const reflectRows = reflection
+      ? Math.floor((height - fieldHeight) / segPitch)
+      : 0;
+    const radius = Math.min(1.5, segHeight / 2, barWidth / 2);
 
-    for (let i = 0; i < barCount; i++) {
-      // Rests are drawn as true gaps, so letter boundaries stay unambiguous.
-      if (encodedLevels && encodedLevels[i] === REST_LEVEL) continue;
-
-      const barHeight = Math.max(3, barLevel(i, barCount, t) * height);
-      const x = i * gap + (gap - barWidth) / 2;
-      const y = height - barHeight;
+    function segment(x, y) {
       if (ctx.roundRect) {
         ctx.beginPath();
-        ctx.roundRect(x, y, barWidth, barHeight, radius);
+        ctx.roundRect(x, y, barWidth, segHeight, radius);
         ctx.fill();
       } else {
-        ctx.fillRect(x, y, barWidth, barHeight);
+        ctx.fillRect(x, y, barWidth, segHeight);
       }
     }
+
+    ctx.fillStyle = barGradient;
+
+    for (let i = 0; i < barCount; i++) {
+      const x = i * pitch + (pitch - barWidth) / 2;
+      const litRows = Math.max(1, Math.round(barLevel(i, barCount, t) * segRows));
+
+      // unlit bed
+      ctx.globalAlpha = 0.09;
+      for (let row = 0; row < segRows; row++) {
+        segment(x, fieldHeight - (row + 1) * segPitch);
+      }
+
+      // lit segments
+      ctx.globalAlpha = 1;
+      for (let row = 0; row < litRows; row++) {
+        segment(x, fieldHeight - (row + 1) * segPitch);
+      }
+
+      // mirrored reflection, fading as it drops away from the baseline
+      for (let row = 0; row < Math.min(litRows, reflectRows); row++) {
+        ctx.globalAlpha = 0.28 * (1 - row / reflectRows);
+        segment(x, fieldHeight + row * segPitch + (segPitch - segHeight));
+      }
+    }
+
+    ctx.globalAlpha = 1;
   }
 
   resize();

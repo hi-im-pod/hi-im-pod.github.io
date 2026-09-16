@@ -95,7 +95,12 @@ function init() {
 
   const heroWaveformEl = document.querySelector('[data-waveform-hero]');
   if (heroWaveformEl) {
-    createWaveform(heroWaveformEl, { animated: true, height: 120, signal: heroWaveformEl.dataset.signal });
+    createWaveform(heroWaveformEl, {
+      animated: true,
+      height: 170,
+      signal: heroWaveformEl.dataset.signal,
+      reflection: true,
+    });
   }
 
   initNav();
