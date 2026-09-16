@@ -1,6 +1,6 @@
 import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
-import { profile } from './content.js';
+import { profile, experience } from './content.js';
 
 // --- section renderers ---
 
@@ -21,10 +21,24 @@ function renderAbout() {
   document.getElementById('about-content').innerHTML = `<p>${profile.about}</p>`;
 }
 
+function renderExperience() {
+  const list = document.getElementById('experience-list');
+  list.innerHTML = experience.map(job => `
+    <li class="timeline-item">
+      <time>${job.start}–${job.end}</time>
+      <h3>${job.role} — ${job.org}</h3>
+      <ul>
+        ${job.bullets.map(bullet => `<li>${bullet}</li>`).join('')}
+      </ul>
+    </li>
+  `).join('');
+}
+
 // --- init ---
 function init() {
   renderHero();
   renderAbout();
+  renderExperience();
 
   document.querySelectorAll('[data-waveform-divider]').forEach(el => {
     createWaveform(el, { animated: false, height: 32 });
