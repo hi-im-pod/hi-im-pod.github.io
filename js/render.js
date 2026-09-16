@@ -60,7 +60,7 @@ function renderProjects() {
 
 function renderContact() {
   document.getElementById('contact-content').innerHTML = `
-    <p>Based in ${profile.location}. The fastest way to reach me is email.</p>
+    <p>Based in ${profile.location}, with a home base in ${profile.homeBase}. The fastest way to reach me is email.</p>
     <div class="hero-actions">
       <a class="btn" href="mailto:${profile.email}">Email me</a>
       <a class="btn" href="${profile.resumeHref}" download>Download résumé</a>

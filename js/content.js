@@ -3,11 +3,12 @@ export const profile = {
   name: 'Garrett Ennis',
   role: 'AI Security Researcher / Security Engineer',
   tagline: 'Optimizing AI-assisted defenders by building the attackers they have to face.',
-  location: 'Maryland, USA',
+  location: 'Suwon, South Korea',
+  homeBase: 'Maryland, USA',
   email: 'williamgarrettennis@gmail.com',
   links: {
     linkedin: 'https://www.linkedin.com/in/garrett-ennis-security/',
-    github: 'https://github.com/SecAI-Lab',
+    github: 'https://github.com/hi-im-pod',
   },
   resumeHref: 'assets/Garrett_Ennis_CV_General.pdf',
   about:
@@ -30,13 +31,14 @@ export const experience = [
     bullets: [
       'Study how AI assistance changes adversary capability, and what detection has to do once reconnaissance and evasion are cheap to automate.',
       'Evaluate where AI assistance lowers analyst load in a security operations center (SOC), and where it moves the bottleneck instead of removing it.',
+      'Research in progress, with no published results yet.',
     ],
   },
   {
     role: 'Lead Security Engineer',
     org: 'SysArc',
     start: '2022',
-    end: 'Present',
+    end: '2026',
     bullets: [
       'Designed and implemented enterprise SOC architectures supporting multiple commercial and government contractor clients.',
       'Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity and reduced noise through structured normalization validation.',
