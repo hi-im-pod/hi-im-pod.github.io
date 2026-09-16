@@ -71,21 +71,102 @@ export const experience = [
   },
 ];
 
+// Every entry in `reading` is peer reviewed and was checked against the
+// publisher's own proceedings page. No preprints.
 export const researchInterests = [
   {
+    id: 'ai-adversarial',
     title: 'AI-augmented adversarial attack and defense',
     description:
       'How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.',
+    reading: [
+      {
+        title: 'PentestGPT: Evaluating and Harnessing Large Language Models for Automated Penetration Testing',
+        authors: 'Deng et al.',
+        venue: 'USENIX Security',
+        year: 2024,
+        url: 'https://www.usenix.org/conference/usenixsecurity24/presentation/deng',
+      },
+      {
+        title: 'Jailbroken: How Does LLM Safety Training Fail?',
+        authors: 'Wei, Haghtalab, and Steinhardt',
+        venue: 'NeurIPS',
+        year: 2023,
+        url: 'https://proceedings.neurips.cc/paper_files/paper/2023/hash/fd6613131889a4b656206c50a8bd7790-Abstract-Conference.html',
+      },
+      {
+        title: "Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection",
+        authors: 'Greshake et al.',
+        venue: 'AISec at ACM CCS',
+        year: 2023,
+        url: 'https://doi.org/10.1145/3605764.3623985',
+      },
+    ],
   },
   {
+    id: 'soc',
     title: 'SOC optimization',
     description:
       'Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.',
+    reading: [
+      {
+        title: 'Alert Fatigue in Security Operations Centres: Research Challenges and Opportunities',
+        authors: 'Tariq, Baruwal Chhetri, Nepal, and Paris',
+        venue: 'ACM Computing Surveys 57(9)',
+        year: 2025,
+        url: 'https://doi.org/10.1145/3723158',
+      },
+      {
+        title: 'Alert Prioritisation in Security Operations Centres: A Systematic Survey on Criteria and Methods',
+        authors: 'Jalalvand, Baruwal Chhetri, Nepal, and Paris',
+        venue: 'ACM Computing Surveys 57(2)',
+        year: 2024,
+        url: 'https://doi.org/10.1145/3695462',
+      },
+      {
+        title: 'A Human Capital Model for Mitigating Security Analyst Burnout',
+        authors: 'Sundaramurthy et al.',
+        venue: 'SOUPS',
+        year: 2015,
+        url: 'https://www.usenix.org/conference/soups2015/proceedings/presentation/sundaramurthy',
+      },
+    ],
   },
   {
+    id: 'threat-hunting',
     title: 'Threat hunting and adversary intelligence',
     description:
       'Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.',
+    reading: [
+      {
+        title: 'HOLMES: Real-Time APT Detection through Correlation of Suspicious Information Flows',
+        authors: 'Milajerdi et al.',
+        venue: 'IEEE Symposium on Security and Privacy',
+        year: 2019,
+        url: 'https://ieeexplore.ieee.org/document/8835390/',
+      },
+      {
+        title: 'UNICORN: Runtime Provenance-Based Detector for Advanced Persistent Threats',
+        authors: 'Han, Pasquier, Bates, Mickens, and Seltzer',
+        venue: 'NDSS',
+        year: 2020,
+        url: 'https://www.ndss-symposium.org/ndss-paper/unicorn-runtime-provenance-based-detector-for-advanced-persistent-threats/',
+      },
+      {
+        title: 'ATLAS: A Sequence-based Learning Approach for Attack Investigation',
+        authors: 'Alsaheel et al.',
+        venue: 'USENIX Security',
+        year: 2021,
+        url: 'https://www.usenix.org/conference/usenixsecurity21/presentation/alsaheel',
+      },
+      {
+        title: 'Reading the Tea Leaves: A Comparative Analysis of Threat Intelligence',
+        authors: 'Li et al.',
+        venue: 'USENIX Security',
+        year: 2019,
+        url: 'https://www.usenix.org/conference/usenixsecurity19/presentation/li',
+      },
+    ],
   },
 ];
 

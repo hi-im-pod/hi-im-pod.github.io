@@ -37,9 +37,27 @@ function renderExperience() {
 function renderResearch() {
   const list = document.getElementById('research-list');
   list.innerHTML = researchInterests.map(item => `
-    <div class="card">
+    <a class="card card--link" href="#reading-${item.id}">
       <h3>${item.title}</h3>
       <p>${item.description}</p>
+      <span class="card__cue">${item.reading.length} papers</span>
+    </a>
+  `).join('');
+}
+
+function renderReading() {
+  const container = document.getElementById('reading-content');
+  container.innerHTML = researchInterests.map(item => `
+    <div class="reading-group" id="reading-${item.id}">
+      <h3>${item.title}</h3>
+      <ul class="reading-list">
+        ${item.reading.map(paper => `
+          <li>
+            <a href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>
+            <span class="reading-meta">${paper.authors}. ${paper.venue}, ${paper.year}.</span>
+          </li>
+        `).join('')}
+      </ul>
     </div>
   `).join('');
 }
@@ -85,6 +103,7 @@ function init() {
   renderAbout();
   renderExperience();
   renderResearch();
+  renderReading();
   renderProjects();
   renderContact();
   renderFooter();

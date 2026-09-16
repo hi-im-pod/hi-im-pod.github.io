@@ -163,6 +163,46 @@
 }
 .card h3 { margin-bottom: var(--space-1); }
 
+/* The whole card is the link, so the inner text has to opt out of link colour. */
+.card--link {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+.card--link:hover { text-decoration: none; }
+.card--link p { flex: 1; }
+.card__cue {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-signal);
+}
+.card--link:hover .card__cue { color: var(--color-pink); }
+
+.reading-group { margin-bottom: var(--space-4); }
+.reading-group h3 { margin-bottom: var(--space-2); color: var(--color-pink); }
+.reading-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--color-hairline);
+}
+.reading-list li {
+  padding: 0 0 var(--space-3) var(--space-3);
+  max-width: var(--content-width);
+}
+.reading-list a { font-weight: 500; }
+.reading-meta {
+  display: block;
+  margin-top: 0.15rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.section-lede { max-width: var(--content-width); margin-bottom: var(--space-4); }
+
 .tile {
   background: var(--color-surface);
   border: 1px solid var(--color-hairline);
