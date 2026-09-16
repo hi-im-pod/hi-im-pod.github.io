@@ -58,6 +58,27 @@ function renderProjects() {
   `).join('');
 }
 
+function renderContact() {
+  document.getElementById('contact-content').innerHTML = `
+    <p>Based in ${profile.location}. The fastest way to reach me is email.</p>
+    <div class="hero-actions">
+      <a class="btn" href="mailto:${profile.email}">Email me</a>
+      <a class="btn" href="${profile.resumeHref}" download>Download résumé</a>
+    </div>
+  `;
+}
+
+function renderFooter() {
+  document.getElementById('site-footer').innerHTML = `
+    <p>${profile.name}</p>
+    <p>
+      <a href="mailto:${profile.email}">Email</a>
+      <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
+    </p>
+  `;
+}
+
 // --- init ---
 function init() {
   renderHero();
@@ -65,6 +86,8 @@ function init() {
   renderExperience();
   renderResearch();
   renderProjects();
+  renderContact();
+  renderFooter();
 
   document.querySelectorAll('[data-waveform-divider]').forEach(el => {
     createWaveform(el, { animated: false, height: 32 });
