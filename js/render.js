@@ -90,12 +90,12 @@ function init() {
   renderFooter();
 
   document.querySelectorAll('[data-waveform-divider]').forEach(el => {
-    createWaveform(el, { animated: false, height: 32 });
+    createWaveform(el, { animated: false, height: 40, signal: el.dataset.signal });
   });
 
   const heroWaveformEl = document.querySelector('[data-waveform-hero]');
   if (heroWaveformEl) {
-    createWaveform(heroWaveformEl, { animated: true, height: 120 });
+    createWaveform(heroWaveformEl, { animated: true, height: 120, signal: heroWaveformEl.dataset.signal });
   }
 
   initNav();

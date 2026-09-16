@@ -1,3 +1,39 @@
+const MORSE = {
+  A: '.-', B: '-...', C: '-.-.', D: '-..', E: '.', F: '..-.', G: '--.',
+  H: '....', I: '..', J: '.---', K: '-.-', L: '.-..', M: '--', N: '-.',
+  O: '---', P: '.--.', Q: '--.-', R: '.-.', S: '...', T: '-', U: '..-',
+  V: '...-', W: '.--', X: '-..-', Y: '-.--', Z: '--..',
+};
+
+const DOT_LEVEL = 0.34;
+const DASH_LEVEL = 0.86;
+const REST_LEVEL = 0.05;
+
+// Morse, read left to right: a short bar is a dot, a tall bar a dash, and a
+// stub is the rest between letters. Legible as an audio meter either way.
+function morseLevels(text) {
+  const levels = [];
+  text.toUpperCase().split(/\s+/).filter(Boolean).forEach((word, wordIndex) => {
+    if (wordIndex > 0) levels.push(REST_LEVEL, REST_LEVEL);
+    [...word].forEach((char, charIndex) => {
+      const code = MORSE[char];
+      if (!code) return;
+      if (charIndex > 0) levels.push(REST_LEVEL);
+      for (const symbol of code) {
+        levels.push(symbol === '-' ? DASH_LEVEL : DOT_LEVEL);
+      }
+    });
+  });
+  return levels;
+}
+
+// Deterministic per-bar variation so an encoded pattern still reads as a
+// meter rather than a barcode. Small enough to keep dots and dashes apart.
+function barJitter(i) {
+  const n = Math.sin(i * 12.9898) * 43758.5453;
+  return (n - Math.floor(n) - 0.5) * 0.08;
+}
+
 const parallaxTargets = [];
 let parallaxListenerAttached = false;
 
@@ -28,7 +64,7 @@ function attachParallaxListener() {
   update();
 }
 
-export function createWaveform(container, { animated = false, height = 60, parallax = !animated } = {}) {
+export function createWaveform(container, { animated = false, height = 60, parallax = !animated, signal = '' } = {}) {
   const canvas = document.createElement('canvas');
   canvas.className = 'waveform-canvas';
   canvas.setAttribute('aria-hidden', 'true');
@@ -41,7 +77,8 @@ export function createWaveform(container, { animated = false, height = 60, paral
   const pinkColor = rootStyle.getPropertyValue('--color-pink').trim() || '#FF9FD6';
   const lavenderColor = rootStyle.getPropertyValue('--color-lavender').trim() || '#B79CFF';
   const signalColor = rootStyle.getPropertyValue('--color-signal').trim() || '#2FD9C4';
-  const barCount = animated ? 28 : 16;
+  const encodedLevels = signal ? morseLevels(signal) : null;
+  const barCount = encodedLevels ? encodedLevels.length : (animated ? 28 : 16);
   let barGradient = signalColor;
 
   function resize() {
@@ -58,19 +95,33 @@ export function createWaveform(container, { animated = false, height = 60, paral
     barGradient = gradient;
   }
 
-  // fraction (0..1) of max bar height for bar i of n, shaped like a DJ
-  // meter with a main peak and a smaller secondary bump — the same
-  // "signal that stands out" idea as before, now as a bar cluster.
+  // fraction (0..1) of max bar height for bar i of n. With a signal to
+  // encode, the shape is that message in Morse; otherwise it falls back to
+  // a DJ meter with a main peak and a smaller secondary bump.
   function barLevel(i, n, t) {
-    const x = i / (n - 1);
-    const mainPeak = Math.exp(-(((x - 0.62) / 0.14) ** 2));
-    const secondaryPeak = 0.35 * Math.exp(-(((x - 0.26) / 0.09) ** 2));
-    let level = 0.16 + 0.68 * mainPeak + secondaryPeak;
-    if (animated && !reduceMotion) {
-      const wobble = 0.14 * Math.sin(t / 260 + i * 0.85) + 0.07 * Math.sin(t / 130 + i * 1.7);
-      level = Math.max(0.08, Math.min(1, level + wobble));
+    let level;
+    let isRest = false;
+
+    if (encodedLevels) {
+      level = encodedLevels[i];
+      isRest = level === REST_LEVEL;
+      if (!isRest) level += barJitter(i);
+    } else {
+      const x = i / (n - 1);
+      const mainPeak = Math.exp(-(((x - 0.62) / 0.14) ** 2));
+      const secondaryPeak = 0.35 * Math.exp(-(((x - 0.26) / 0.09) ** 2));
+      level = 0.16 + 0.68 * mainPeak + secondaryPeak;
     }
-    return Math.min(1, level);
+
+    if (animated && !reduceMotion && !isRest) {
+      // Encoded bars pulse gently enough that dots stay short and dashes tall.
+      const amplitude = encodedLevels ? 0.07 : 0.14;
+      const wobble = amplitude * Math.sin(t / 260 + i * 0.85)
+        + (amplitude / 2) * Math.sin(t / 130 + i * 1.7);
+      level += wobble;
+    }
+
+    return Math.max(0.04, Math.min(1, level));
   }
 
   function draw(t) {
@@ -85,6 +136,9 @@ export function createWaveform(container, { animated = false, height = 60, paral
     const radius = Math.min(2, barWidth / 2);
 
     for (let i = 0; i < barCount; i++) {
+      // Rests are drawn as true gaps, so letter boundaries stay unambiguous.
+      if (encodedLevels && encodedLevels[i] === REST_LEVEL) continue;
+
       const barHeight = Math.max(3, barLevel(i, barCount, t) * height);
       const x = i * gap + (gap - barWidth) / 2;
       const y = height - barHeight;
