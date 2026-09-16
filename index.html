@@ -10,8 +10,63 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
 </head>
 <body>
-  <p style="padding: 2rem;">Scaffold OK — tokens and base styles loaded.</p>
+  <nav id="site-nav" class="site-nav">
+    <a href="#hero" class="site-nav__brand">Garrett Ennis</a>
+    <div class="site-nav__links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="hero" class="section section--hero">
+      <div id="hero-content" class="hero-content"></div>
+      <div class="hero-waveform" data-waveform-hero></div>
+    </section>
+
+    <div class="divider" data-waveform-divider></div>
+
+    <section id="about" class="section">
+      <h2>About</h2>
+      <div id="about-content"></div>
+    </section>
+
+    <div class="divider" data-waveform-divider></div>
+
+    <section id="experience" class="section">
+      <h2>Experience</h2>
+      <ol id="experience-list" class="timeline"></ol>
+    </section>
+
+    <div class="divider" data-waveform-divider></div>
+
+    <section id="research" class="section">
+      <h2>Research interests</h2>
+      <div id="research-list" class="card-grid"></div>
+    </section>
+
+    <div class="divider" data-waveform-divider></div>
+
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <div id="projects-list" class="tile-grid"></div>
+    </section>
+
+    <div class="divider" data-waveform-divider></div>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <div id="contact-content"></div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
 </body>
 </html>
