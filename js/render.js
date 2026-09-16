@@ -1,5 +1,6 @@
 import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
+import { renderFooter, renderDividers } from './shared.js';
 import { profile, experience, researchInterests, projects } from './content.js';
 
 // --- section renderers ---
@@ -37,28 +38,11 @@ function renderExperience() {
 function renderResearch() {
   const list = document.getElementById('research-list');
   list.innerHTML = researchInterests.map(item => `
-    <a class="card card--link" href="#reading-${item.id}">
+    <a class="card card--link" href="reading.html#${item.id}">
       <h3>${item.title}</h3>
       <p>${item.description}</p>
       <span class="card__cue">${item.reading.length} papers</span>
     </a>
-  `).join('');
-}
-
-function renderReading() {
-  const container = document.getElementById('reading-content');
-  container.innerHTML = researchInterests.map(item => `
-    <div class="reading-group" id="reading-${item.id}">
-      <h3>${item.title}</h3>
-      <ul class="reading-list">
-        ${item.reading.map(paper => `
-          <li>
-            <a href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>
-            <span class="reading-meta">${paper.authors}. ${paper.venue}, ${paper.year}.</span>
-          </li>
-        `).join('')}
-      </ul>
-    </div>
   `).join('');
 }
 
@@ -86,36 +70,16 @@ function renderContact() {
   `;
 }
 
-function renderFooter() {
-  document.getElementById('site-footer').innerHTML = `
-    <p>${profile.name}</p>
-    <p>
-      <a href="mailto:${profile.email}">Email</a>
-      <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
-    </p>
-  `;
-}
-
 // --- init ---
 function init() {
   renderHero();
   renderAbout();
   renderExperience();
   renderResearch();
-  renderReading();
   renderProjects();
   renderContact();
   renderFooter();
-
-  document.querySelectorAll('[data-waveform-divider]').forEach(el => {
-    createWaveform(el, {
-      animated: false,
-      height: 90,
-      signal: el.dataset.signal,
-      reflection: true,
-    });
-  });
+  renderDividers();
 
   const heroWaveformEl = document.querySelector('[data-waveform-hero]');
   if (heroWaveformEl) {

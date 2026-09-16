@@ -180,8 +180,16 @@
 }
 .card--link:hover .card__cue { color: var(--color-pink); }
 
-.reading-group { margin-bottom: var(--space-4); }
-.reading-group h3 { margin-bottom: var(--space-2); color: var(--color-pink); }
+.page-title { font-size: var(--fs-h2); }
+.section--page-head { padding-bottom: var(--space-4); }
+
+.reading-group { margin-bottom: var(--space-6); scroll-margin-top: 6rem; }
+.reading-group h2 { font-size: var(--fs-h3); color: var(--color-pink); margin-bottom: var(--space-1); }
+.reading-group__note {
+  max-width: var(--content-width);
+  margin-bottom: var(--space-3);
+}
+.reading-back { margin-top: var(--space-2); }
 .reading-list {
   list-style: none;
   margin: 0;
