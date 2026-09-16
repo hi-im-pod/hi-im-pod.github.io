@@ -120,3 +120,9 @@
 }
 .site-footer a { color: var(--color-text-muted); margin: 0 var(--space-1); }
 .site-footer a:hover { color: var(--color-signal); }
+
+@media (max-width: 36rem) {
+  .site-nav { padding: var(--space-1) var(--space-2); }
+  .site-nav__brand { font-size: 0.9rem; }
+  .site-nav__links { gap: var(--space-2); font-size: 0.75rem; }
+}
