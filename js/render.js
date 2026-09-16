@@ -1,6 +1,6 @@
 import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
-import { profile, experience, researchInterests } from './content.js';
+import { profile, experience, researchInterests, projects } from './content.js';
 
 // --- section renderers ---
 
@@ -44,12 +44,27 @@ function renderResearch() {
   `).join('');
 }
 
+function renderProjects() {
+  const list = document.getElementById('projects-list');
+  list.innerHTML = projects.map(project => `
+    <div class="tile">
+      <h3>${project.title}</h3>
+      <p>${project.description}</p>
+      <div class="tile__tags">
+        ${project.tags.map(tag => `<span class="tile__tag">${tag}</span>`).join('')}
+      </div>
+      ${project.illustrative ? '<p class="tile__note">Illustrative example — built to demonstrate approach, not real client work.</p>' : ''}
+    </div>
+  `).join('');
+}
+
 // --- init ---
 function init() {
   renderHero();
   renderAbout();
   renderExperience();
   renderResearch();
+  renderProjects();
 
   document.querySelectorAll('[data-waveform-divider]').forEach(el => {
     createWaveform(el, { animated: false, height: 32 });
