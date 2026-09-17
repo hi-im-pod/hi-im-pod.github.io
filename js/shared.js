@@ -11,15 +11,23 @@ export function renderFooter() {
       <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
       <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
     </p>
-    ${onDecoderPage() ? '' : `
-    <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them,
-      and <a href="decoder.html">so can you</a>.</p>`}
+    ${footerHints()}
   `;
 }
 
-// The hint links to the decoder, so it would point at itself there.
-function onDecoderPage() {
-  return location.pathname.endsWith('decoder.html');
+// Each hint is dropped on the page it points at, so nothing self-links.
+function footerHints() {
+  const path = location.pathname;
+  const hints = [];
+
+  if (!path.endsWith('decoder.html')) {
+    hints.push('The meters are not decorative. A certain Mr. Morse could read them, and <a href="decoder.html">so can you</a>.');
+  }
+  if (!path.endsWith('diagnostics.html')) {
+    hints.push('Bars sitting still? <a href="diagnostics.html">Check your browser</a>.');
+  }
+
+  return hints.length ? `<p class="footer-hint">${hints.join(' ')}</p>` : '';
 }
 
 export function renderDividers() {

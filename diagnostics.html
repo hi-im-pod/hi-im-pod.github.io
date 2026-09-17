@@ -17,12 +17,36 @@
              border: 1px solid #FF9FD6; max-width: 40rem; }
   .verdict.ok { border-color: #2FD9C4; }
   code { font-family: ui-monospace, monospace; font-size: 0.85em; color: #B79CFF; }
+  a { color: #2FD9C4; }
+  .lede { color: #8B8CA3; max-width: 40rem; margin: 0 0 1.25rem; }
+  .back { margin-top: 1.5rem; }
+  .sample { margin-top: 1.25rem; max-width: 40rem; }
+  .sample h2 { font-size: 0.85rem; color: #8B8CA3; font-weight: 500; margin: 0 0 0.4rem; }
+  .sample iframe { width: 100%; height: 230px; border: 1px solid #2A2D3E; border-radius: 4px; display: block; }
 </style>
 </head>
 <body>
 <h1>Motion diagnostics</h1>
+<p class="lede">If the bars on this site look frozen, this page works out why. It runs on its
+own, without the site's stylesheet or scripts, so it still reports correctly when
+something there is broken.</p>
+
+<noscript>
+  <div class="verdict">
+    JavaScript is switched off in this browser. That alone explains a still page:
+    the bars are drawn in JavaScript, so nothing will move until it is enabled.
+  </div>
+</noscript>
+
 <table id="out"></table>
 <div class="verdict" id="verdict">Measuring…</div>
+
+<div class="sample">
+  <h2>Live sample of the bars from the main page</h2>
+  <div id="sample-slot"></div>
+</div>
+
+<p class="back"><a href="index.html">Back to the main page</a></p>
 
 <script>
 const rows = [];
@@ -45,17 +69,21 @@ function done() {
   const fps = Math.round(frames / ((performance.now() - t0) / 1000));
   add('animation frames per second', String(fps), fps >= 30 ? 'yes' : 'no');
 
-  // Confirm the site's own hero canvas changes over time, in an iframe.
+  // Load the real page and watch its hero bars. The frame has to be on screen
+  // and scrolled to the bars: the site only redraws what is visible, so a
+  // hidden frame sits frozen and this page would cry wolf.
   const f = document.createElement('iframe');
-  f.src = '../index.html';
-  f.style.cssText = 'position:fixed;left:-9999px;width:1200px;height:900px;border:0';
-  document.body.appendChild(f);
+  f.src = 'index.html';
+  f.title = 'Live sample of the bars from the main page';
+  document.getElementById('sample-slot').appendChild(f);
 
   f.onload = () => setTimeout(() => {
     let verdict, ok = false;
     try {
       const c = f.contentDocument.querySelector('[data-waveform-hero] canvas');
       if (!c) throw new Error('hero canvas not found');
+      // park the frame on the bars so they are both visible and redrawing
+      c.scrollIntoView({ block: 'center' });
       const snap = () => c.toDataURL();
       const a = snap();
       setTimeout(() => {
@@ -77,8 +105,9 @@ function done() {
             'often battery saver or a background tab. It will look like a stutter rather than a glide.';
           ok = true;
         } else {
-          verdict = 'Motion is allowed, frames are healthy, and the hero bars are changing. The animation is running. ' +
-            'It is a subtle one: the bars shift by roughly one to three LED segments so the hidden message stays readable.';
+          verdict = 'Motion is allowed, frames are healthy, and the bars are changing. The animation is running. ' +
+            'What moves is a band of brightness travelling across the bars, not their height. The heights hold ' +
+            'still on purpose, because they spell something.';
           ok = true;
         }
         const v = document.getElementById('verdict');
