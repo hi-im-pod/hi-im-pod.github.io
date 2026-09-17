@@ -215,7 +215,21 @@ function status(text) {
   el.hidden = !text;
 }
 
+// Alongside window.__activeWaveforms, for diagnostics.html and for checking
+// that the contour and the video actually agree on how long the track is. A
+// visualiser built from a different master than the one playing drifts further
+// out of step the longer it runs, and nothing on screen would say why.
+function publishState() {
+  window.__radio = {
+    playing,
+    track: playlist[current]?.title ?? null,
+    videoSeconds: player?.getDuration?.() ?? null,
+    envelopeSeconds: live ? live.frames / live.fps : null,
+  };
+}
+
 function paint() {
+  publishState();
   document.querySelectorAll('#radio-list li').forEach((li, i) => {
     li.classList.toggle('is-current', i === current);
     const btn = li.querySelector('button');

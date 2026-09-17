@@ -17,10 +17,10 @@
 
 export const playlist = [
   {
-    id: 'jNQXAC9IVRw',
-    title: 'Placeholder',
-    artist: 'Swap this entry out',
-    envelope: 'assets/envelopes/placeholder.bin',
+    id: 'Ob_EDY9Eiis',
+    title: 'WannaCry',
+    artist: 'Ninajirachi & Porter Robinson',
+    envelope: 'assets/envelopes/wannacry.bin',
   },
 ];
 
