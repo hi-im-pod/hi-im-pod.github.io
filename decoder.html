@@ -36,18 +36,20 @@
 
     <section class="section">
       <h2>How the bars encode letters</h2>
-      <p class="decoder-note">Count the lit segments in each column. They come in three clearly different heights, and each height means something:</p>
+      <p class="decoder-note">Each column belongs to one of three height bands. Judge it by how far up the column reaches, or count the lit segments if you want to be exact:</p>
 
       <table class="key-table">
         <thead>
-          <tr><th>What you see</th><th>Roughly</th><th>Means</th></tr>
+          <tr><th>What you see</th><th>Lit segments</th><th>Means</th></tr>
         </thead>
         <tbody>
-          <tr><td>A tall column, full height</td><td>7 to 8 segments</td><td>dash <span class="key-sym">—</span></td></tr>
-          <tr><td>A middling column, about half</td><td>3 to 4 segments</td><td>dot <span class="key-sym">•</span></td></tr>
-          <tr><td>A stub, one lit segment</td><td>1 segment</td><td>end of a letter</td></tr>
+          <tr><td>A tall column, well into the top third</td><td>11 to 15</td><td>dash <span class="key-sym">—</span></td></tr>
+          <tr><td>A middling column, around a third up</td><td>4 to 7</td><td>dot <span class="key-sym">•</span></td></tr>
+          <tr><td>A stub at the base</td><td>1</td><td>end of a letter</td></tr>
         </tbody>
       </table>
+
+      <p class="decoder-note">The bars bounce, but each one stays inside its own band. A dot at its highest is still four segments short of a dash at its lowest, and the rows between the bands never light up, so the reading does not change as they move. Stubs hold still.</p>
 
       <p class="decoder-note">Read left to right. Two stubs in a row mean a space between words. Every divider spells the name of the section below it, and the big animated bars in the header spell something else.</p>
 

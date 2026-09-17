@@ -180,7 +180,7 @@ async function build() {
   root.innerHTML = panels.join('');
 
   const sig = root.querySelector('[data-signature]');
-  if (sig) createWaveform(sig, { animated: true, parallax: false, height: 90, signal: code, reflection: true });
+  if (sig) createWaveform(sig, { animated: true, parallax: false, height: 170, signal: code, reflection: true });
 }
 
 function init() {

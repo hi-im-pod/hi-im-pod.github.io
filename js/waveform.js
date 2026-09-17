@@ -5,40 +5,49 @@ const MORSE = {
   V: '...-', W: '.--', X: '-..-', Y: '-.--', Z: '--..',
 };
 
-// Three clearly separated height tiers. Every column is populated, so the
-// field reads as a solid meter; the message lives in the tiers, not in gaps.
-const REST_LEVEL = 0.12;
-const DOT_LEVEL = 0.44;
-const DASH_LEVEL = 0.95;
+// Each tier owns a band of the column's height and bounces only inside it, as
+// a fraction of the full field. The bands never touch, so a dot at its peak
+// stays well below a dash at its floor and the message survives the motion.
+// At the 15 rows a 170px field gives: rest 1, dot 4-7, dash 11-15, leaving
+// rows 2-3 and rows 8-10 permanently dark as the guard gaps between them.
+export const BANDS = {
+  rest: { lo: 0.06, hi: 0.06 },
+  dot: { lo: 0.27, hi: 0.47 },
+  dash: { lo: 0.72, hi: 1.00 },
+};
 
 // Morse, read left to right: a mid-height column is a dot, a full-height one
 // a dash, and a stub column is the rest between letters.
-function morseLevels(text) {
-  const levels = [];
+function morseTiers(text) {
+  const tiers = [];
   text.toUpperCase().split(/\s+/).filter(Boolean).forEach((word, wordIndex) => {
-    if (wordIndex > 0) levels.push(REST_LEVEL, REST_LEVEL);
+    if (wordIndex > 0) tiers.push('rest', 'rest');
     [...word].forEach((char, charIndex) => {
       const code = MORSE[char];
       if (!code) return;
-      if (charIndex > 0) levels.push(REST_LEVEL);
+      if (charIndex > 0) tiers.push('rest');
       for (const symbol of code) {
-        levels.push(symbol === '-' ? DASH_LEVEL : DOT_LEVEL);
+        tiers.push(symbol === '-' ? 'dash' : 'dot');
       }
     });
   });
-  return levels;
+  return tiers;
+}
+
+// Per-bar oscillation in 0..1. The primary sine spans the whole band every
+// cycle so a bar actually visits its floor and ceiling; the faster term adds
+// texture and pushes it past the ends, where the clamp holds it for a moment
+// the way a meter sits on a peak. Per-bar phase keeps neighbours out of step.
+function bounce(i, t) {
+  const primary = 0.5 + 0.5 * Math.sin(t / 430 + i * 1.31);
+  const detail = 0.18 * Math.sin(t / 210 + i * 2.17);
+  return Math.max(0, Math.min(1, primary + detail));
 }
 
 // Deterministic pseudo-random in 0..1, so layouts stay stable across reloads.
 function noise(seed) {
   const n = Math.sin(seed) * 43758.5453;
   return n - Math.floor(n);
-}
-
-// Deterministic per-bar variation so an encoded pattern still reads as a
-// meter rather than a barcode. Small enough to keep dots and dashes apart.
-function barJitter(i) {
-  return (noise(i * 12.9898) - 0.5) * 0.08;
 }
 
 // A few drifting motes in the band around a divider, so the space between
@@ -141,8 +150,8 @@ export function createWaveform(container, { animated = false, height = 60, paral
   const pinkColor = rootStyle.getPropertyValue('--color-pink').trim() || '#FF9FD6';
   const lavenderColor = rootStyle.getPropertyValue('--color-lavender').trim() || '#B79CFF';
   const signalColor = rootStyle.getPropertyValue('--color-signal').trim() || '#2FD9C4';
-  const encodedLevels = signal ? morseLevels(signal) : null;
-  const barCount = encodedLevels ? encodedLevels.length : (animated ? 28 : 16);
+  const encodedTiers = signal ? morseTiers(signal) : null;
+  const barCount = encodedTiers ? encodedTiers.length : (animated ? 28 : 16);
   let barGradient = signalColor;
 
   // Geometry only changes on resize, so work it out once instead of per frame.
@@ -210,52 +219,59 @@ export function createWaveform(container, { animated = false, height = 60, paral
     barGradient = gradient;
 
     geom = measure(width);
+    // Published so diagnostics.html and the Morse verifier can read the real
+    // geometry instead of inferring it from pixels, where the reflection below
+    // the baseline is easily miscounted as more rows.
+    canvas.dataset.segRows = geom.segRows;
+    canvas.dataset.fieldHeight = geom.fieldHeight.toFixed(1);
     buildBed();
   }
 
-  // fraction (0..1) of max bar height for bar i of n. With a signal to
-  // encode, the shape is that message in Morse; otherwise it falls back to
-  // a DJ meter with a main peak and a smaller secondary bump.
-  function barLevel(i, n, t) {
-    let level;
-    let isRest = false;
+  // Lit segment count for bar i at time t. Encoded bars are resolved in whole
+  // rows rather than as a fraction, because the row count is what a reader
+  // counts: rounding a moving fraction is what let a dot's peak land on a
+  // dash's floor and turned EXPERIENCE into EXPEWIENCE.
+  function barRows(i, t) {
+    const { segRows } = geom;
 
-    if (encodedLevels) {
-      level = encodedLevels[i];
-      isRest = level === REST_LEVEL;
-      if (!isRest) level += barJitter(i);
-    } else {
-      const x = i / (n - 1);
-      const mainPeak = Math.exp(-(((x - 0.62) / 0.14) ** 2));
-      const secondaryPeak = 0.35 * Math.exp(-(((x - 0.26) / 0.09) ** 2));
-      level = 0.16 + 0.68 * mainPeak + secondaryPeak;
+    if (encodedTiers) {
+      const band = BANDS[encodedTiers[i]];
+      const lo = Math.max(1, Math.round(band.lo * segRows));
+      const hi = Math.max(lo, Math.round(band.hi * segRows));
+      // Reduced motion and the still first frame sit at the top of the band,
+      // where the tiers are furthest apart and easiest to tell apart.
+      if (!animated || reduceMotion || hi === lo) return hi;
+      return lo + Math.round((hi - lo) * bounce(i, t));
     }
 
-    // Encoded columns never move. Their height is the message, and the
-    // decoder page tells readers a dot is 3 to 4 segments and a dash 7 to 8.
-    // Wobbling the height pushed dots up into dash range and turned
-    // EXPERIENCE into EXPEWIENCE. Motion comes from the sweep instead.
-    if (animated && !reduceMotion && !isRest && !encodedLevels) {
-      const wobble = 0.14 * Math.sin(t / 260 + i * 0.85)
-        + 0.07 * Math.sin(t / 130 + i * 1.7);
-      level += wobble;
+    // No message to carry: a DJ meter with a main peak and a smaller bump.
+    const x = i / (barCount - 1);
+    const mainPeak = Math.exp(-(((x - 0.62) / 0.14) ** 2));
+    const secondaryPeak = 0.35 * Math.exp(-(((x - 0.26) / 0.09) ** 2));
+    let level = 0.16 + 0.68 * mainPeak + secondaryPeak;
+    if (animated && !reduceMotion) {
+      level += 0.14 * Math.sin(t / 260 + i * 0.85) + 0.07 * Math.sin(t / 130 + i * 1.7);
     }
-
-    return Math.max(0.04, Math.min(1, level));
+    return Math.max(1, Math.round(Math.max(0.04, Math.min(1, level)) * segRows));
   }
 
   // LED-style columns: every slot is filled top to bottom with dim unlit
   // segments, and the level decides how many light up. Keeps the field solid
   // the way a real visualiser is, while the lit height still carries Morse.
+  // Each frame's row counts, reused by the sweep so its highlight lands on the
+  // bars as they currently stand rather than on where they were at t=0.
+  const litPerBar = new Array(barCount).fill(0);
+
   function draw(t) {
-    const { width, fieldHeight, pitch, segRows, reflectRows } = geom;
+    const { width, fieldHeight, pitch, reflectRows } = geom;
     ctx.clearRect(0, 0, width, height);
     ctx.drawImage(bed, 0, 0, width, height);
     ctx.fillStyle = barGradient;
 
     for (let i = 0; i < barCount; i++) {
       const x = i * pitch + (pitch - geom.barWidth) / 2;
-      const litRows = Math.max(1, Math.round(barLevel(i, barCount, t) * segRows));
+      const litRows = barRows(i, t);
+      litPerBar[i] = litRows;
 
       ctx.globalAlpha = 1;
       for (let row = 0; row < litRows; row++) {
@@ -273,12 +289,12 @@ export function createWaveform(container, { animated = false, height = 60, paral
     ctx.globalAlpha = 1;
   }
 
-  // A band of extra brightness travelling left to right. It lights columns
-  // that are already drawn rather than changing their height, so the encoded
-  // message stays exactly as the decoder page describes it.
+  // A band of extra brightness travelling left to right, on top of the bounce.
+  // It re-lights segments that are already drawn, so it adds a second rhythm
+  // without touching any column's height.
   const SWEEP_WIDTH = 0.13;
   function drawSweep(t) {
-    const { fieldHeight, pitch, segRows } = geom;
+    const { fieldHeight, pitch } = geom;
     const head = ((t / 2600) % 1.5) - 0.25;
 
     ctx.globalCompositeOperation = 'lighter';
@@ -291,8 +307,7 @@ export function createWaveform(container, { animated = false, height = 60, paral
 
       ctx.globalAlpha = 0.6 * (1 - distance / SWEEP_WIDTH) ** 2;
       const x = i * pitch + (pitch - geom.barWidth) / 2;
-      const litRows = Math.max(1, Math.round(barLevel(i, barCount, 0) * segRows));
-      for (let row = 0; row < litRows; row++) {
+      for (let row = 0; row < litPerBar[i]; row++) {
         paintSegment(ctx, x, fieldHeight - (row + 1) * segPitch);
       }
     }

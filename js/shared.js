@@ -37,7 +37,10 @@ export function renderDividers() {
       animated: true,
       // `parallax` defaults to !animated, so it has to be set back on here.
       parallax: true,
-      height: 90,
+      // Same height as the hero field. Matching them keeps the bar geometry
+      // uniform down the page, and 15 rows is what gives each tier room to
+      // bounce without crossing into the next one.
+      height: 170,
       signal: el.dataset.signal,
       reflection: true,
     });
