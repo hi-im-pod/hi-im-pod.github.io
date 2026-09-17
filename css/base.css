@@ -1,5 +1,13 @@
 *, *::before, *::after { box-sizing: border-box; }
 
+/* The browser's own [hidden] rule has specificity (0,1,0), and so does any
+   class that sets display. Author styles win that tie, so a class like
+   .radio-controls { display: flex } silently defeats el.hidden = true and the
+   element stays painted while the code believes it is gone. Settle it here for
+   every element rather than per component, since the next one would fail the
+   same way and look like a JavaScript bug. */
+[hidden] { display: none !important; }
+
 html { scroll-padding-top: 5rem; }
 
 body {
