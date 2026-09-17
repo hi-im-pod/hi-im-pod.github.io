@@ -11,8 +11,15 @@ export function renderFooter() {
       <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
       <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
     </p>
-    <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them.</p>
+    ${onDecoderPage() ? '' : `
+    <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them,
+      and <a href="decoder.html">so can you</a>.</p>`}
   `;
+}
+
+// The hint links to the decoder, so it would point at itself there.
+function onDecoderPage() {
+  return location.pathname.endsWith('decoder.html');
 }
 
 export function renderDividers() {

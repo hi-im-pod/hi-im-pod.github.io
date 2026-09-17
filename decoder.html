@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal decoder, Garrett Ennis</title>
+  <meta name="description" content="How to read the message hidden in the meter bars on this site, with a decoder." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2312131A%22/><path d=%22M20 55 L40 55 L48 35 L58 70 L68 55 L80 55%22 stroke=%22%232FD9C4%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <nav id="site-nav" class="site-nav">
+    <a href="index.html" class="site-nav__brand">Garrett Ennis</a>
+    <div class="site-nav__links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#education">Education</a>
+      <a href="index.html#research">Research</a>
+      <a href="reading.html">Reading</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section section--page-head">
+      <h1 class="page-title">Signal decoder</h1>
+      <p class="section-lede">The meter bars on this site are not random. Each one carries a message in Morse. Here is how to read it.</p>
+    </section>
+
+    <div class="divider" data-waveform-divider data-signal="DECODER"></div>
+
+    <section class="section">
+      <h2>How the bars encode letters</h2>
+      <p class="decoder-note">Count the lit segments in each column. They come in three clearly different heights, and each height means something:</p>
+
+      <table class="key-table">
+        <thead>
+          <tr><th>What you see</th><th>Roughly</th><th>Means</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A tall column, full height</td><td>7 to 8 segments</td><td>dash <span class="key-sym">—</span></td></tr>
+          <tr><td>A middling column, about half</td><td>3 to 4 segments</td><td>dot <span class="key-sym">•</span></td></tr>
+          <tr><td>A stub, one lit segment</td><td>1 segment</td><td>end of a letter</td></tr>
+        </tbody>
+      </table>
+
+      <p class="decoder-note">Read left to right. Two stubs in a row mean a space between words. Every divider spells the name of the section below it, and the big animated bars in the header spell something else.</p>
+
+      <h3>Worked example</h3>
+      <p class="decoder-note">The first divider on the front page reads:</p>
+      <p class="worked"><span>•</span> <span>—</span> <span class="brk">|</span> <span>—</span> <span>•</span> <span>•</span> <span>•</span> <span class="brk">|</span> <span>—</span> <span>—</span> <span>—</span> <span class="brk">|</span> <span>•</span> <span>•</span> <span>—</span> <span class="brk">|</span> <span>—</span></p>
+      <p class="decoder-note">Split at the stubs: <code>.-</code> <code>-...</code> <code>---</code> <code>..-</code> <code>-</code>, which is A, B, O, U, T.</p>
+    </section>
+
+    <div class="divider" data-waveform-divider data-signal="DECODE"></div>
+
+    <section class="section">
+      <h2>Decode as you read</h2>
+      <p class="decoder-note">Tap a button for each column you see. Keyboard works too: full stop for a dot, hyphen for a dash, space for a letter break, backspace to undo.</p>
+
+      <noscript>
+        <p class="noscript-note">The interactive decoder needs JavaScript. The table above and the alphabet below work without it.</p>
+      </noscript>
+
+      <div class="decoder-pad">
+        <button type="button" class="btn" data-add="dot">Dot &bull; <span>half-height</span></button>
+        <button type="button" class="btn" data-add="dash">Dash &mdash; <span>full height</span></button>
+        <button type="button" class="btn" data-add="break">Letter break <span>stub</span></button>
+      </div>
+      <div class="decoder-pad">
+        <button type="button" class="btn btn--quiet" id="undo">Undo</button>
+        <button type="button" class="btn btn--quiet" id="clear">Start over</button>
+      </div>
+
+      <p class="decoder-label">What you have entered</p>
+      <p class="strip is-empty" id="strip">Nothing read yet.</p>
+
+      <p class="decoder-label">Reads as</p>
+      <p class="decoded" id="output">&mdash;</p>
+      <p class="decoder-note" id="hint-unknown" hidden>A group in brackets is not a letter in Morse. Check whether a tall bar was counted as short, or a stub was missed.</p>
+    </section>
+
+    <div class="divider" data-waveform-divider data-signal="ALPHABET"></div>
+
+    <section class="section">
+      <h2>Morse alphabet</h2>
+      <ul class="alphabet">
+        <li><b>A</b> <code>.-</code></li><li><b>B</b> <code>-...</code></li>
+        <li><b>C</b> <code>-.-.</code></li><li><b>D</b> <code>-..</code></li>
+        <li><b>E</b> <code>.</code></li><li><b>F</b> <code>..-.</code></li>
+        <li><b>G</b> <code>--.</code></li><li><b>H</b> <code>....</code></li>
+        <li><b>I</b> <code>..</code></li><li><b>J</b> <code>.---</code></li>
+        <li><b>K</b> <code>-.-</code></li><li><b>L</b> <code>.-..</code></li>
+        <li><b>M</b> <code>--</code></li><li><b>N</b> <code>-.</code></li>
+        <li><b>O</b> <code>---</code></li><li><b>P</b> <code>.--.</code></li>
+        <li><b>Q</b> <code>--.-</code></li><li><b>R</b> <code>.-.</code></li>
+        <li><b>S</b> <code>...</code></li><li><b>T</b> <code>-</code></li>
+        <li><b>U</b> <code>..-</code></li><li><b>V</b> <code>...-</code></li>
+        <li><b>W</b> <code>.--</code></li><li><b>X</b> <code>-..-</code></li>
+        <li><b>Y</b> <code>-.--</code></li><li><b>Z</b> <code>--..</code></li>
+      </ul>
+      <p class="decoder-note">One liberty taken: real Morse marks a letter break with silence, not a short tone. A gap would leave holes in the bar field, so a stub column stands in for it here.</p>
+      <p class="reading-back"><a href="index.html">Back to the main page</a></p>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script type="module" src="js/decoder.js"></script>
+</body>
+</html>

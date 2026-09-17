@@ -220,6 +220,83 @@
   color: var(--color-text-primary);
 }
 
+.decoder-note { max-width: var(--content-width); }
+.decoder-label {
+  margin: var(--space-3) 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.key-table {
+  border-collapse: collapse;
+  margin: var(--space-2) 0 var(--space-3);
+  max-width: var(--content-width);
+  width: 100%;
+}
+.key-table th, .key-table td {
+  text-align: left;
+  padding: var(--space-1) var(--space-2) var(--space-1) 0;
+  border-bottom: 1px solid var(--color-hairline);
+}
+.key-table th { color: var(--color-text-muted); font-weight: 500; font-size: var(--fs-small); }
+.key-table td { color: var(--color-text-muted); }
+.key-sym { color: var(--color-pink); font-family: var(--font-mono); }
+
+.worked {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--color-signal);
+  letter-spacing: 0.1em;
+}
+.worked .brk { color: var(--color-pink); }
+
+.decoder-pad { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-2); }
+.decoder-pad .btn { display: flex; flex-direction: column; align-items: flex-start; }
+.decoder-pad .btn span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  opacity: 0.75;
+}
+.btn--quiet { border-color: var(--color-hairline); color: var(--color-text-muted); box-shadow: none; }
+.btn--quiet:hover { background: var(--color-surface); border-color: var(--color-text-muted); color: var(--color-text-primary); }
+
+.strip {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  color: var(--color-signal);
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+  word-break: break-word;
+  min-height: 1.5em;
+}
+.strip.is-empty { color: var(--color-text-muted); font-size: var(--fs-small); }
+
+.decoded {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  letter-spacing: 0.06em;
+  color: var(--color-pink);
+  word-break: break-word;
+  margin: 0;
+}
+.decoded.has-unknown { color: var(--color-text-muted); }
+
+.alphabet {
+  list-style: none;
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: var(--space-1) var(--space-2);
+}
+.alphabet li { color: var(--color-text-muted); }
+.alphabet b { color: var(--color-text-primary); margin-right: 0.4rem; }
+.alphabet code { font-family: var(--font-mono); color: var(--color-signal); }
+
 .footer-hint {
   margin-top: var(--space-3);
   font-family: var(--font-mono);
@@ -303,8 +380,14 @@
 
 .btn {
   display: inline-block;
+  /* Set explicitly so this works on <button> as well as <a>. A real button
+     otherwise inherits the UA's light ButtonFace background and its own
+     smaller font, which left near-white text on a near-white fill. */
+  background: transparent;
   font-family: var(--font-body);
+  font-size: 1rem;
   font-weight: 600;
+  cursor: pointer;
   padding: 0.65rem 1.25rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-pink);
