@@ -84,13 +84,19 @@ function updateBands(t) {
   for (let b = 0; b < env.bands; b++) {
     const a = env.data[f0 * env.bands + b];
     const c = env.data[f1 * env.bands + b];
-    const target = (a + (c - a) * mix) / 255;
-    // Rise almost immediately, fall away slowly. This is what makes a meter
-    // read as a meter rather than as a graph: the peak is legible because it
-    // lingers a moment after the transient that caused it.
+    // A contrast curve on top of the per-band normalisation in the builder.
+    // Normalising gives every bar the whole column; this is what makes it
+    // actually travel, by deepening the troughs while leaving the peaks where
+    // they are. Without it a dense mix keeps every band busy enough that bars
+    // hover in the upper half and never visibly drop between hits.
+    const target = ((a + (c - a) * mix) / 255) ** 1.7;
+
+    // Rise almost immediately, fall away more slowly. This is what makes a
+    // meter read as a meter rather than as a graph: the peak stays legible for
+    // a moment after the transient that caused it.
     smoothed[b] = target > smoothed[b]
       ? smoothed[b] + (target - smoothed[b]) * 0.55
-      : smoothed[b] + (target - smoothed[b]) * 0.12;
+      : smoothed[b] + (target - smoothed[b]) * 0.18;
   }
   frameStamp = t;
 }

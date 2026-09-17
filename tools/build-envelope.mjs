@@ -125,13 +125,41 @@ for (let f = 0; f < frames; f++) {
   }
 }
 
-// Pull the track up so a quietly mastered one still moves the bars. Uses a high
-// percentile rather than the maximum, so one transient does not flatten
-// everything else.
-const sorted = Uint8Array.from(data).sort();
-const p98 = sorted[Math.floor(sorted.length * 0.98)] || 255;
-const gain = Math.min(3, 235 / Math.max(1, p98));
-for (let i = 0; i < data.length; i++) data[i] = Math.min(255, Math.round(data[i] * gain));
+// Stretch each band across its own observed range, rather than scaling the
+// whole contour by one number.
+//
+// Absolute magnitude is the wrong thing for a bar to show. Music carries far
+// more energy at 45 Hz than at 10 kHz, so on raw magnitudes the low bars clip
+// while the high ones never leave the bottom of the column: measured on the
+// first track, the top band peaked at 152 of 255 across the entire song, so
+// that bar could not reach beyond 9 rows of 15 however loud the cymbals got.
+// Normalising per band gives every bar the full column.
+//
+// This is per band over the whole track, not per frame, so the arrangement
+// survives: a quiet intro still sits low everywhere, a drop still fills the
+// field. It removes the fixed spectral tilt, not the dynamics.
+//
+// Percentiles rather than min and max, so one transient does not set the
+// ceiling for three minutes of music.
+const stretched = [];
+for (let b = 0; b < BANDS; b++) {
+  const col = new Uint8Array(frames);
+  for (let f = 0; f < frames; f++) col[f] = data[f * BANDS + b];
+  const sorted = Uint8Array.from(col).sort();
+  const lo = sorted[Math.floor(frames * 0.03)];
+  const hi = sorted[Math.floor(frames * 0.97)];
+
+  // A band with nothing going on in it is left alone. Stretching one would
+  // promote its noise floor to a dancing bar.
+  if (hi - lo < 20) continue;
+
+  const scale = 255 / (hi - lo);
+  for (let f = 0; f < frames; f++) {
+    const i = f * BANDS + b;
+    data[i] = Math.max(0, Math.min(255, Math.round((data[i] - lo) * scale)));
+  }
+  stretched.push(b);
+}
 
 // Self-describing, so the manifest carries a path and nothing that could drift
 // out of step with the file it points at.
@@ -150,4 +178,5 @@ const kb = (16 + data.length) / 1024;
 console.log(`${output}`);
 console.log(`  ${BANDS} bands x ${frames} frames at ${FPS}fps`);
 console.log(`  ${(durationMs / 1000).toFixed(1)}s of audio -> ${kb.toFixed(1)} KB`);
-console.log(`  gain applied: ${gain.toFixed(2)}x (98th percentile was ${p98})`);
+console.log(`  ${stretched.length} of ${BANDS} bands normalised to their own range`
+  + `${stretched.length < BANDS ? `, ${BANDS - stretched.length} left alone as too quiet to stretch` : ''}`);
