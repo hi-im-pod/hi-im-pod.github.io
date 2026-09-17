@@ -45,7 +45,7 @@ ${job.bullets.map(b => `        <li>${esc(b)}</li>`).join('\n')}
       </ul>`).join('\n')}
 
       <h2>Education</h2>
-${education.map(e => `      <h3>${esc(e.degree)}, ${esc(e.org)}</h3>
+${education.map(e => `      <h3>${esc(e.degree)}, ${esc(e.org)}${e.orgKorean ? ` <span lang="ko">${esc(e.orgKorean)}</span>` : ''}</h3>
       <p>${esc(e.period)}</p>
       <p>${esc(e.detail)}</p>`).join('\n')}
 
@@ -61,7 +61,7 @@ ${projects.map(p => `      <h3>${esc(p.title)}</h3>
 
       <h2>Contact</h2>
       <p>${esc(profile.lookingFor)}</p>
-      <p>Based in ${esc(profile.location)}, with a home base in ${esc(profile.homeBase)}.</p>
+      <p>Based in ${esc(profile.city)} <span lang="ko">(${esc(profile.cityKorean)})</span>, ${esc(profile.country)}, with a home base in ${esc(profile.homeBase)}.</p>
       <ul>
         <li>Email: <a href="mailto:${esc(profile.email)}">${esc(profile.email)}</a></li>
         <li>LinkedIn: <a href="${esc(profile.links.linkedin)}">${esc(profile.links.linkedin)}</a></li>

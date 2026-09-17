@@ -3,7 +3,13 @@ export const profile = {
   name: 'Garrett Ennis',
   role: 'AI Security Researcher / Security Engineer',
   tagline: 'Optimizing AI-assisted defenders by building the attackers they have to face.',
-  location: 'Suwon, South Korea',
+  city: 'Suwon',
+  // Rendered inside lang="ko" so browsers and screen readers pick the right
+  // font and the right voice for it. Keep these fields plain text: render.js
+  // wraps them, and markup here would be inserted unescaped.
+  cityKorean: '수원',
+  country: 'South Korea',
+  get location() { return `${this.city}, ${this.country}`; },
   homeBase: 'Maryland, USA',
   email: 'williamgarrettennis@gmail.com',
   links: {
@@ -92,6 +98,9 @@ export const education = [
   {
     degree: 'M.S. Computer Science and Engineering (AI)',
     org: 'Sungkyunkwan University (SKKU)',
+    // Rendered inside lang="ko" so browsers and screen readers pick the right
+    // font and the right voice for it.
+    orgKorean: '성균관대학교',
     period: 'Sep 2026 – May 2028 (expected)',
     detail: 'SecAI Lab. Research on AI-assisted defense and SOC automation.',
   },

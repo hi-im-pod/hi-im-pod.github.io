@@ -12,9 +12,13 @@
   --color-signal-glow: rgba(47, 217, 196, 0.35);
 
   /* Type */
-  --font-display: 'Archivo', sans-serif;
-  --font-body: 'IBM Plex Sans', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  /* IBM Plex Sans KR is bundled with Hangul coverage only, so it never
+     competes for a Latin character. It sits behind the Latin face in each
+     stack and picks up Korean text that would otherwise land on whatever the
+     visitor's system happened to install. */
+  --font-display: 'Archivo', 'IBM Plex Sans KR', sans-serif;
+  --font-body: 'IBM Plex Sans', 'IBM Plex Sans KR', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'IBM Plex Sans KR', monospace;
 
   --fs-hero: clamp(2.5rem, 6vw, 4.5rem);
   --fs-h2: clamp(1.75rem, 3vw, 2.5rem);

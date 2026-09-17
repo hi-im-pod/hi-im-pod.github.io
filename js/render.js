@@ -3,6 +3,11 @@ import { initNav } from './nav.js';
 import { renderFooter, renderDividers } from './shared.js';
 import { profile, experience, education, researchInterests, projects } from './content.js';
 
+// Korean strings get their own element so the language is declared rather than
+// guessed. Without it a screen reader reads Hangul with an English voice, and
+// the browser has no reason to reach for the Korean face we bundle.
+const ko = text => `<span lang="ko">${text}</span>`;
+
 // --- section renderers ---
 
 function renderHero() {
@@ -40,7 +45,7 @@ function renderEducation() {
   list.innerHTML = education.map(item => `
     <li class="timeline-item">
       <time>${item.period}</time>
-      <h3>${item.degree}, ${item.org}</h3>
+      <h3>${item.degree}, ${item.org}${item.orgKorean ? ` ${ko(item.orgKorean)}` : ''}</h3>
       <p>${item.detail}</p>
     </li>
   `).join('');
@@ -87,7 +92,7 @@ function renderProjects() {
 function renderContact() {
   document.getElementById('contact-content').innerHTML = `
     <p>${profile.lookingFor}</p>
-    <p>Based in ${profile.location}, with a home base in ${profile.homeBase}. The fastest way to reach me is email.</p>
+    <p>Based in ${profile.city} ${ko(`(${profile.cityKorean})`)}, ${profile.country}, with a home base in ${profile.homeBase}. The fastest way to reach me is email.</p>
     <div class="hero-actions">
       <a class="btn" href="mailto:${profile.email}">Email me</a>
       <a class="btn" href="${profile.resumeHref}" download>Download résumé</a>
