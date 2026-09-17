@@ -1,4 +1,5 @@
 import { renderFooter, renderDividers } from './shared.js';
+import { TARGETS, solved, record, allFound } from './progress.js';
 
 const MORSE = {
   'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
@@ -40,6 +41,25 @@ function symbolStrip() {
     .join(' ');
 }
 
+function mask(word) {
+  return word.split('').map(c => (c === ' ' ? ' ' : '▯')).join('');
+}
+
+function renderProgress() {
+  const list = document.getElementById('progress-list');
+  if (!list) return;
+  const have = solved();
+
+  list.innerHTML = TARGETS.map(word => `
+    <li class="${have.has(word) ? 'is-found' : ''}">
+      <span class="progress-word">${have.has(word) ? word : mask(word)}</span>
+    </li>
+  `).join('');
+
+  document.getElementById('progress-count').textContent = `${have.size} of ${TARGETS.length}`;
+  document.getElementById('progress-reward').hidden = !allFound();
+}
+
 function render() {
   const strip = document.getElementById('strip');
   const out = document.getElementById('output');
@@ -53,6 +73,8 @@ function render() {
   out.classList.toggle('has-unknown', unknown);
 
   document.getElementById('hint-unknown').hidden = !unknown;
+
+  if (!unknown && record(text)) renderProgress();
 }
 
 function push(kind) {
@@ -63,6 +85,7 @@ function push(kind) {
 function init() {
   renderFooter();
   renderDividers();
+  renderProgress();
 
   document.querySelectorAll('[data-add]').forEach(btn => {
     btn.addEventListener('click', () => push(btn.dataset.add));

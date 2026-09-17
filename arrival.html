@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What you sent ahead, Garrett Ennis</title>
+  <meta name="description" content="A demonstration of what a web page learns about a visitor without asking. Nothing on this page is stored or sent." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2312131A%22/><path d=%22M20 55 L40 55 L48 35 L58 70 L68 55 L80 55%22 stroke=%22%232FD9C4%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <nav id="site-nav" class="site-nav">
+    <a href="index.html" class="site-nav__brand">Garrett Ennis</a>
+    <div class="site-nav__links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#education">Education</a>
+      <a href="index.html#research">Research</a>
+      <a href="reading.html">Reading</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section section--page-head">
+      <p class="eyebrow-line">Passive collection</p>
+      <h1 class="page-title">What you sent ahead</h1>
+      <p class="section-lede">You opened a page. Before you read a word of it, your browser had already
+        answered a series of questions nobody asked it. Here are the answers, as this page received them.</p>
+
+      <p class="fp-disclaimer">Nothing below is stored, logged, or transmitted. There is no analytics
+        script, no cookie, and no localStorage. Every value was computed in your own browser and
+        disappears when you close the tab. The page does fetch its fonts from Google, so that request
+        exists and Google sees it, and GitHub serves these files and sees your address. Those two are
+        the honest exceptions, and both are covered in the <a href="ethics.html">ethics note</a>.
+        Beyond them, open the network panel while this page loads: nothing about you leaves it.</p>
+    </section>
+
+    <div class="divider" data-waveform-divider data-signal="ARRIVAL"></div>
+
+    <section class="section">
+      <noscript>
+        <p class="noscript-note">This page reads your browser with JavaScript, which is turned off. That
+          means it has learned almost nothing about you, which rather makes the point.</p>
+      </noscript>
+      <div id="fp-content" class="fp-grid"></div>
+    </section>
+
+    <div class="divider" data-waveform-divider data-signal="ENOUGH"></div>
+
+    <section class="section">
+      <h2>What is missing</h2>
+      <p class="fp-prose">One panel is deliberately absent. Your IP address reveals your city and your
+        internet provider, and it arrives before any of the above, in the connection itself. Reading it
+        needs a server, and this site is static files on GitHub Pages, so it has no server to read it with.
+        It is the single most identifying thing you sent, and the only reason it is not on this page is
+        that the hosting cannot reach it.</p>
+      <p class="fp-prose">That is worth sitting with. The most revealing signal here was withheld by an
+        accident of hosting rather than by anyone's restraint.</p>
+      <p class="reading-back"><a href="index.html">Back to the main page</a></p>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script type="module" src="js/fingerprint.js"></script>
+</body>
+</html>

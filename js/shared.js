@@ -10,6 +10,7 @@ export function renderFooter() {
       <a href="mailto:${profile.email}">Email</a>
       <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
       <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
+      <a href="ethics.html">Ethics</a>
     </p>
     ${footerHints()}
   `;

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethics, Garrett Ennis</title>
+  <meta name="description" content="How Garrett Ennis approaches offensive security research, and what this site does with visitor data, which is nothing." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2312131A%22/><path d=%22M20 55 L40 55 L48 35 L58 70 L68 55 L80 55%22 stroke=%22%232FD9C4%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <nav id="site-nav" class="site-nav">
+    <a href="index.html" class="site-nav__brand">Garrett Ennis</a>
+    <div class="site-nav__links">
+      <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
+      <a href="index.html#education">Education</a>
+      <a href="index.html#research">Research</a>
+      <a href="reading.html">Reading</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="section section--page-head">
+      <h1 class="page-title">Ethics</h1>
+      <p class="section-lede">My research builds attacks in order to improve defences. That is a
+        position that needs stating rather than assuming, so here it is, along with what this site
+        does with your data.</p>
+    </section>
+
+    <div class="divider" data-waveform-divider data-signal="ETHICS"></div>
+
+    <section class="section">
+      <h2>Research</h2>
+
+      <h3>Why build the attacker</h3>
+      <p class="ethics-note">A defence that has never been attacked is an assumption. Adversarial
+        evaluation is how a detection claim becomes a measurement, and it is standard practice in the
+        security venues I work toward. When I describe building attackers, I mean building them in a
+        lab, against systems I am authorised to test, to find out what a defender would actually have
+        missed.</p>
+
+      <h3>Scope and authorisation</h3>
+      <p class="ethics-note">Offensive work happens only against systems I own, systems belonging to
+        my lab, or systems where the owner has authorised the testing in writing. The penetration
+        testing in my professional history was contracted work with a defined scope. No technique on
+        this site is demonstrated against anyone else's infrastructure.</p>
+
+      <h3>Disclosure</h3>
+      <p class="ethics-note">If my work finds a vulnerability in software other people run, I report it
+        to the vendor or maintainer first and give them reasonable time to fix it before saying anything
+        publicly. Where a coordinated disclosure policy exists, I follow it. If we disagree about the
+        timeline, I would rather be late than be the reason something gets exploited.</p>
+
+      <h3>What I publish</h3>
+      <p class="ethics-note">I publish methods, measurements, and detections. I do not publish working
+        exploits for unpatched software, and I do not publish tooling whose main use is harming people
+        who did not consent. The line is not always obvious, and I would rather discuss a specific case
+        than pretend a general rule settles it.</p>
+
+      <h3>What is on this site</h3>
+      <p class="ethics-note">The project descriptions are illustrative and say so. They describe
+        approaches, not client systems, and contain no customer data, no real findings, and no detail
+        from work covered by an agreement.</p>
+    </section>
+
+    <div class="divider" data-waveform-divider data-signal="DATA"></div>
+
+    <section class="section">
+      <h2>What this site does with your data</h2>
+
+      <p class="ethics-note fp-disclaimer">Nothing. There is no analytics, no tag manager, no tracking
+        pixel, no cookie, no localStorage, no sessionStorage, and no server-side log I can read, because
+        the site is static files on GitHub Pages and I do not operate the server.</p>
+
+      <h3>The one page that looks like an exception</h3>
+      <p class="ethics-note">There is a page on this site that reads your browser and tells you what it
+        found. It is a demonstration of how much a page learns without asking. Every value is computed
+        in your browser, displayed to you, and then forgotten when you close the tab. None of it is
+        sent anywhere, including to me. Open the network panel in developer tools while that page loads
+        and you will see it stay empty.</p>
+
+      <h3>Decoder progress</h3>
+      <p class="ethics-note">The decoder tracks which hidden messages you have solved. That list is
+        held in memory for as long as the tab is open and is never written to your device. Reload the
+        page and it is empty again. It would have been easier to store it, and storing it would have
+        made the claim above untrue.</p>
+
+      <h3>What I cannot promise</h3>
+      <p class="ethics-note">GitHub serves these files, and GitHub sees the requests, including your IP
+        address. Their logging is their business and outside my control. The fonts load from Google
+        Fonts, which means Google sees a request from your browser too. Both are avoidable by
+        self-hosting the fonts and moving the hosting, and neither is currently done. Saying a site
+        collects nothing while quietly relying on two third parties would be the kind of half-truth
+        this page exists to avoid.</p>
+
+      <p class="reading-back"><a href="index.html">Back to the main page</a></p>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script type="module" src="js/ethics.js"></script>
+</body>
+</html>
