@@ -37,13 +37,26 @@ function renderExperience() {
 
 function renderResearch() {
   const list = document.getElementById('research-list');
-  list.innerHTML = researchInterests.map(item => `
+  list.innerHTML = researchInterests.map(item => {
+    // An interest with no papers yet is a plain card, not a link to an
+    // empty group. Adding one must not take the rest of the page with it.
+    const papers = item.reading ?? [];
+    if (!papers.length) {
+      return `
+    <div class="card">
+      <h3>${item.title}</h3>
+      <p>${item.description}</p>
+    </div>
+  `;
+    }
+    return `
     <a class="card card--link" href="reading.html#${item.id}">
       <h3>${item.title}</h3>
       <p>${item.description}</p>
-      <span class="card__cue">${item.reading.length} papers</span>
+      <span class="card__cue">${papers.length} ${papers.length === 1 ? 'paper' : 'papers'}</span>
     </a>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderProjects() {

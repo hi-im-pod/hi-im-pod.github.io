@@ -183,7 +183,9 @@
 .page-title { font-size: var(--fs-h2); }
 .section--page-head { padding-bottom: var(--space-4); }
 
-.reading-group { margin-bottom: var(--space-6); scroll-margin-top: 6rem; }
+/* No scroll-margin here: html already sets scroll-padding-top, and the two
+   stack, which parked headings ~120px below the nav instead of just under it. */
+.reading-group { margin-bottom: var(--space-6); }
 .reading-group h2 { font-size: var(--fs-h3); color: var(--color-pink); margin-bottom: var(--space-1); }
 .reading-group__note {
   max-width: var(--content-width);
