@@ -66,7 +66,7 @@
       <p class="decoder-note">Tap a button for each column you see. Keyboard works too: full stop for a dot, hyphen for a dash, space for a letter break, backspace to undo.</p>
 
       <noscript>
-        <p class="noscript-note">The interactive decoder needs JavaScript. The table above and the alphabet below work without it.</p>
+        <p class="noscript-note">The buttons need JavaScript. The height table above and the alphabet below are plain markup and work without it.</p>
       </noscript>
 
       <div class="decoder-pad">
@@ -85,6 +85,24 @@
       <p class="decoder-label">Reads as</p>
       <p class="decoded" id="output">&mdash;</p>
       <p class="decoder-note" id="hint-unknown" hidden>A group in brackets is not a letter in Morse. Check whether a tall bar was counted as short, or a stub was missed.</p>
+
+      <h3>Morse alphabet</h3>
+      <ul class="alphabet">
+        <li><b>A</b> <code>.-</code></li><li><b>B</b> <code>-...</code></li>
+        <li><b>C</b> <code>-.-.</code></li><li><b>D</b> <code>-..</code></li>
+        <li><b>E</b> <code>.</code></li><li><b>F</b> <code>..-.</code></li>
+        <li><b>G</b> <code>--.</code></li><li><b>H</b> <code>....</code></li>
+        <li><b>I</b> <code>..</code></li><li><b>J</b> <code>.---</code></li>
+        <li><b>K</b> <code>-.-</code></li><li><b>L</b> <code>.-..</code></li>
+        <li><b>M</b> <code>--</code></li><li><b>N</b> <code>-.</code></li>
+        <li><b>O</b> <code>---</code></li><li><b>P</b> <code>.--.</code></li>
+        <li><b>Q</b> <code>--.-</code></li><li><b>R</b> <code>.-.</code></li>
+        <li><b>S</b> <code>...</code></li><li><b>T</b> <code>-</code></li>
+        <li><b>U</b> <code>..-</code></li><li><b>V</b> <code>...-</code></li>
+        <li><b>W</b> <code>.--</code></li><li><b>X</b> <code>-..-</code></li>
+        <li><b>Y</b> <code>-.--</code></li><li><b>Z</b> <code>--..</code></li>
+      </ul>
+      <p class="decoder-note">One liberty taken: real Morse marks a letter break with silence, not a short tone. A gap would leave holes in the bar field, so a stub column stands in for it here.</p>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="PROGRESS"></div>
@@ -110,7 +128,7 @@
       <h2>A section that is not built yet</h2>
       <p class="decoder-note">The front page leaves one part out until someone asks for it by name.
         There is no riddle here and nothing to go and find: the name is <strong>RADIO</strong>. The
-        work is saying it in Morse, and the alphabet is at the bottom of this page. Send it with the
+        work is saying it in Morse, and the alphabet sits under the decoder above. Send it with the
         buttons above and the way in appears below.</p>
 
       <ul class="progress-list">
@@ -150,28 +168,7 @@
       <p class="progress-reward" id="progress-reward" hidden>
         Yes. <a href="arrival.html">That page is about you</a> rather than me, and it still stores nothing.
       </p>
-    </section>
 
-    <div class="divider" data-waveform-divider data-signal="ALPHABET"></div>
-
-    <section class="section">
-      <h2>Morse alphabet</h2>
-      <ul class="alphabet">
-        <li><b>A</b> <code>.-</code></li><li><b>B</b> <code>-...</code></li>
-        <li><b>C</b> <code>-.-.</code></li><li><b>D</b> <code>-..</code></li>
-        <li><b>E</b> <code>.</code></li><li><b>F</b> <code>..-.</code></li>
-        <li><b>G</b> <code>--.</code></li><li><b>H</b> <code>....</code></li>
-        <li><b>I</b> <code>..</code></li><li><b>J</b> <code>.---</code></li>
-        <li><b>K</b> <code>-.-</code></li><li><b>L</b> <code>.-..</code></li>
-        <li><b>M</b> <code>--</code></li><li><b>N</b> <code>-.</code></li>
-        <li><b>O</b> <code>---</code></li><li><b>P</b> <code>.--.</code></li>
-        <li><b>Q</b> <code>--.-</code></li><li><b>R</b> <code>.-.</code></li>
-        <li><b>S</b> <code>...</code></li><li><b>T</b> <code>-</code></li>
-        <li><b>U</b> <code>..-</code></li><li><b>V</b> <code>...-</code></li>
-        <li><b>W</b> <code>.--</code></li><li><b>X</b> <code>-..-</code></li>
-        <li><b>Y</b> <code>-.--</code></li><li><b>Z</b> <code>--..</code></li>
-      </ul>
-      <p class="decoder-note">One liberty taken: real Morse marks a letter break with silence, not a short tone. A gap would leave holes in the bar field, so a stub column stands in for it here.</p>
       <p class="reading-back"><a href="index.html">Back to the main page</a></p>
     </section>
   </main>
