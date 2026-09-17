@@ -25,8 +25,14 @@ export const TARGETS = [
 // is a reasonable way to learn the alphabet, but it is not required.
 export const FINAL = 'I SEE YOU';
 
+// Names a section the front page does not build until it is asked for. Unlike
+// the two above it is not hidden anywhere to be found: the decoder page says
+// the word outright, so the work is encoding it rather than spotting it.
+export const HIDDEN_SECTION = 'RADIO';
+
 const found = new Set();
 let finalSolved = false;
+let sectionSolved = false;
 
 export function solved() {
   return new Set(found);
@@ -37,6 +43,11 @@ export function record(text) {
   if (word === FINAL) {
     if (finalSolved) return false;
     finalSolved = true;
+    return true;
+  }
+  if (word === HIDDEN_SECTION) {
+    if (sectionSolved) return false;
+    sectionSolved = true;
     return true;
   }
   if (!TARGETS.includes(word) || found.has(word)) return false;
@@ -50,4 +61,8 @@ export function allFound() {
 
 export function finalFound() {
   return finalSolved;
+}
+
+export function sectionFound() {
+  return sectionSolved;
 }

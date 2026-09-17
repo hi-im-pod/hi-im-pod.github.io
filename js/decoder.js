@@ -1,5 +1,8 @@
 import { renderFooter, renderDividers } from './shared.js';
-import { TARGETS, FINAL, solved, record, allFound, finalFound } from './progress.js';
+import {
+  TARGETS, FINAL, HIDDEN_SECTION,
+  solved, record, allFound, finalFound, sectionFound,
+} from './progress.js';
 
 const MORSE = {
   'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
@@ -73,6 +76,14 @@ function renderProgress() {
   slot.innerHTML = done ? FINAL : mask(FINAL);
   slot.parentElement.classList.toggle('is-found', done);
   document.getElementById('progress-reward').hidden = !done;
+
+  // The radio's name is printed on the page in plain text, so masking it would
+  // be theatre. It shows as its shape only to match the slot above it.
+  const radio = sectionFound();
+  const radioSlot = document.getElementById('radio-word');
+  radioSlot.innerHTML = radio ? HIDDEN_SECTION : mask(HIDDEN_SECTION);
+  radioSlot.parentElement.classList.toggle('is-found', radio);
+  document.getElementById('radio-reward').hidden = !radio;
 }
 
 function render() {

@@ -325,12 +325,12 @@
 .blank-gap { display: inline-block; width: 0.6em; }
 /* The unsolved cipher is the page's open question, so it is set larger than
    the checklist above it rather than as one more row. */
-#final-slot {
+#final-slot, #radio-slot {
   font-size: 1.15rem;
   letter-spacing: 0.22em;
   color: var(--color-text-primary);
 }
-#final-slot.is-found { color: var(--color-signal); }
+#final-slot.is-found, #radio-slot.is-found { color: var(--color-signal); }
 .progress-reward {
   max-width: var(--content-width);
   padding: var(--space-2) var(--space-3);

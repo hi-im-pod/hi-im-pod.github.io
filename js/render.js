@@ -9,6 +9,31 @@ import { profile, experience, education, researchInterests, projects } from './c
 // the browser has no reason to reach for the Korean face we bundle.
 const ko = text => `<span lang="ko">${text}</span>`;
 
+// The radio is not part of the page until someone asks for it by name on the
+// decoder. Decoder progress lives in memory and dies on navigation, by design,
+// so the key cannot be a stored flag: it travels in the URL instead, which is
+// the one channel that survives the trip without anything being written down.
+//
+// Taken out of the DOM rather than hidden, because a divider with no width
+// would build a zero-pixel canvas and the nav would keep a link to nothing.
+// Like arrival.html, this is a game and not a lock: the markup ships either
+// way and anyone reading the source can see how it opens.
+function gateRadio() {
+  if (location.hash === '#radio') {
+    // The browser tried to scroll here before this ran and found nothing.
+    requestAnimationFrame(() => {
+      document.getElementById('radio')?.scrollIntoView({ block: 'start' });
+    });
+    return true;
+  }
+
+  document.getElementById('radio')?.remove();
+  document.getElementById('radio-controls')?.remove();
+  document.querySelector('[data-signal="RADIO"]')?.remove();
+  document.querySelector('a[href="#radio"]')?.remove();
+  return false;
+}
+
 // --- section renderers ---
 
 function renderHero() {
@@ -111,8 +136,9 @@ function init() {
   renderProjects();
   renderContact();
   renderFooter();
+  const radio = gateRadio();
   renderDividers();
-  initRadio();
+  if (radio) initRadio();
 
   const heroWaveformEl = document.querySelector('[data-waveform-hero]');
   if (heroWaveformEl) {
