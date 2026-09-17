@@ -41,8 +41,15 @@ function symbolStrip() {
     .join(' ');
 }
 
+// Boxes are drawn with CSS rather than typed as a glyph. The obvious
+// character for this, U+25AF, sits outside the latin subsets we bundle, so it
+// fell through to whatever the visitor's system happened to offer, and on a
+// machine without it that is a tofu box.
 function mask(word) {
-  return word.split('').map(c => (c === ' ' ? ' ' : '▯')).join('');
+  return word
+    .split('')
+    .map(c => (c === ' ' ? '<span class="blank-gap"></span>' : '<span class="blank"></span>'))
+    .join('');
 }
 
 function renderProgress() {

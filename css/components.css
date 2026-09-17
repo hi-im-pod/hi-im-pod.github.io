@@ -312,6 +312,17 @@
   letter-spacing: 0.12em;
 }
 .progress-list li.is-found { color: var(--color-signal); }
+.blank {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.85em;
+  margin-right: 0.12em;
+  border: 1px solid currentColor;
+  border-radius: 1px;
+  opacity: 0.55;
+  vertical-align: baseline;
+}
+.blank-gap { display: inline-block; width: 0.6em; }
 .progress-reward {
   max-width: var(--content-width);
   padding: var(--space-2) var(--space-3);
