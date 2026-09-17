@@ -6,9 +6,7 @@
   <title>Ethics, Garrett Ennis</title>
   <meta name="description" content="How Garrett Ennis approaches offensive security research, and what this site does with visitor data, which is nothing." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2312131A%22/><path d=%22M20 55 L40 55 L48 35 L58 70 L68 55 L80 55%22 stroke=%22%232FD9C4%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -94,13 +92,18 @@
         page and it is empty again. It would have been easier to store it, and storing it would have
         made the claim above untrue.</p>
 
+      <h3>No third parties</h3>
+      <p class="ethics-note">Every file this site loads comes from this site. The typefaces are served
+        from here rather than from Google Fonts, which is the usual quiet exception on a page that
+        claims to collect nothing. Archivo and IBM Plex are both under the SIL Open Font License, so
+        hosting them is simply a matter of doing it. There is no CDN, no embedded video, no comment
+        widget, and no tag manager.</p>
+
       <h3>What I cannot promise</h3>
-      <p class="ethics-note">GitHub serves these files, and GitHub sees the requests, including your IP
-        address. Their logging is their business and outside my control. The fonts load from Google
-        Fonts, which means Google sees a request from your browser too. Both are avoidable by
-        self-hosting the fonts and moving the hosting, and neither is currently done. Saying a site
-        collects nothing while quietly relying on two third parties would be the kind of half-truth
-        this page exists to avoid.</p>
+      <p class="ethics-note">GitHub serves these files, so GitHub sees the requests, including your IP
+        address. Their logging is their business and outside my control, and moving the hosting would
+        only change whose logs you are in. That is the one dependency left, and I would rather name it
+        than let "this site collects nothing" quietly stand in for "almost nothing".</p>
 
       <p class="reading-back"><a href="index.html">Back to the main page</a></p>
     </section>

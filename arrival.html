@@ -7,9 +7,7 @@
   <meta name="description" content="A demonstration of what a web page learns about a visitor without asking. Nothing on this page is stored or sent." />
   <meta name="robots" content="noindex" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2312131A%22/><path d=%22M20 55 L40 55 L48 35 L58 70 L68 55 L80 55%22 stroke=%22%232FD9C4%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
@@ -38,10 +36,11 @@
 
       <p class="fp-disclaimer">Nothing below is stored, logged, or transmitted. There is no analytics
         script, no cookie, and no localStorage. Every value was computed in your own browser and
-        disappears when you close the tab. The page does fetch its fonts from Google, so that request
-        exists and Google sees it, and GitHub serves these files and sees your address. Those two are
-        the honest exceptions, and both are covered in the <a href="ethics.html">ethics note</a>.
-        Beyond them, open the network panel while this page loads: nothing about you leaves it.</p>
+        disappears when you close the tab. Nothing loads from a third party either: the fonts are
+        served from this site rather than from Google. Open the network panel while this page loads
+        and you will see requests for this page's own files and nothing else. The one exception I
+        cannot remove is GitHub, which serves the files and therefore sees your address. That, and why
+        any of this exists, is in the <a href="ethics.html">ethics note</a>.</p>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="ARRIVAL"></div>
