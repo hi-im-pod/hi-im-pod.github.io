@@ -386,11 +386,29 @@
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-text-muted);
-  opacity: 0.75;
 }
-/* The nav-style margin on .site-footer a is for the link row above. Inside a
-   sentence it pushes the full stop away from the word it belongs to. */
-.footer-hint a { margin: 0; }
+/* These sentences are the way in to the decoder, and readers were walking past
+   them. Two things were wrong. The links were the same colour as the prose
+   around them with no underline, so nothing said they were links at all, and
+   the opacity on this paragraph dropped them to 3.69:1, under the 4.5:1 body
+   text needs. The opacity is gone rather than overridden, because opacity
+   applies to the whole subtree and a child cannot climb back out of it.
+
+   The underline is not decoration. Colour on its own is the one cue a
+   colour-blind reader may not get, so the links have to be marked some other
+   way too.
+
+   The nav-style margin on .site-footer a is for the link row above; inside a
+   sentence it pushes the full stop away from the word it belongs to. It needs
+   the descendant selector: `.footer-hint a` ties `.site-footer a` at (0,1,1)
+   and loses on source order, which is why an earlier attempt at this did
+   nothing and the gap stayed. */
+.site-footer .footer-hint a {
+  margin: 0;
+  color: var(--color-pink);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
 .reading-list {
   list-style: none;
   margin: 0;
@@ -628,8 +646,8 @@
   max-width: var(--max-width);
   margin: 0 auto var(--space-4);
 }
-.site-footer a { color: var(--color-text-muted); margin: 0 var(--space-1); }
-.site-footer a:hover { color: var(--color-signal); }
+.site-footer a { color: var(--color-pink); margin: 0 var(--space-1); }
+.site-footer a:hover { color: var(--color-signal); text-decoration: underline; }
 
 @media (max-width: 36rem) {
   /* Seven links wrap to three rows here. Sticky, that is ~13% of a phone
