@@ -10,7 +10,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { profile, experience, researchInterests, projects } from '../js/content.js';
+import { profile, experience, education, researchInterests, projects } from '../js/content.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const START = '<!-- noscript:start -->';
@@ -44,6 +44,11 @@ ${experience.map(job => `      <h3>${esc(job.role)}, ${esc(job.org)}</h3>
 ${job.bullets.map(b => `        <li>${esc(b)}</li>`).join('\n')}
       </ul>`).join('\n')}
 
+      <h2>Education</h2>
+${education.map(e => `      <h3>${esc(e.degree)}, ${esc(e.org)}</h3>
+      <p>${esc(e.period)}</p>
+      <p>${esc(e.detail)}</p>`).join('\n')}
+
       <h2>Research interests</h2>
 ${researchInterests.map(item => `      <h3>${esc(item.title)}</h3>
       <p>${esc(item.description)}</p>`).join('\n')}
@@ -55,6 +60,7 @@ ${projects.map(p => `      <h3>${esc(p.title)}</h3>
       <p>${esc(p.tags.join(', '))}${p.illustrative ? '. Illustrative example, not real client work.' : ''}</p>`).join('\n')}
 
       <h2>Contact</h2>
+      <p>${esc(profile.lookingFor)}</p>
       <p>Based in ${esc(profile.location)}, with a home base in ${esc(profile.homeBase)}.</p>
       <ul>
         <li>Email: <a href="mailto:${esc(profile.email)}">${esc(profile.email)}</a></li>
@@ -76,7 +82,7 @@ ${researchInterests.map(item => {
     const papers = item.reading ?? [];
     return `      <h2>${esc(item.title)}</h2>
       <p>${esc(item.description)}</p>
-${papers.length
+${item.position ? `      <blockquote><p>${esc(item.position)}</p></blockquote>\n` : ''}${papers.length
       ? `      <ul>
 ${papers.map(p => `        <li><a href="${esc(p.url)}">${esc(p.title)}</a><br>${esc(p.authors.replace(/\.$/, ''))}. ${esc(p.venue)}, ${esc(p.year)}.</li>`).join('\n')}
       </ul>`

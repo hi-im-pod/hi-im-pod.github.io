@@ -209,6 +209,24 @@
   margin-bottom: var(--space-3);
 }
 .reading-back { margin-top: var(--space-2); }
+
+.reading-position {
+  max-width: var(--content-width);
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-left: 2px solid var(--color-pink);
+  background: var(--color-surface);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--color-text-primary);
+}
+
+.footer-hint {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  opacity: 0.75;
+}
 .reading-list {
   list-style: none;
   margin: 0;
@@ -313,7 +331,9 @@
 .site-footer a:hover { color: var(--color-signal); }
 
 @media (max-width: 36rem) {
-  .site-nav { padding: var(--space-1) var(--space-2); }
+  /* Seven links wrap to three rows here. Sticky, that is ~13% of a phone
+     screen occupied permanently, so let it scroll away instead. */
+  .site-nav { position: static; padding: var(--space-1) var(--space-2); }
   .site-nav__brand { font-size: 0.9rem; }
   .site-nav__links { gap: var(--space-2); font-size: 0.75rem; }
 }

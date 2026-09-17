@@ -1,7 +1,7 @@
 import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
 import { renderFooter, renderDividers } from './shared.js';
-import { profile, experience, researchInterests, projects } from './content.js';
+import { profile, experience, education, researchInterests, projects } from './content.js';
 
 // --- section renderers ---
 
@@ -31,6 +31,17 @@ function renderExperience() {
       <ul>
         ${job.bullets.map(bullet => `<li>${bullet}</li>`).join('')}
       </ul>
+    </li>
+  `).join('');
+}
+
+function renderEducation() {
+  const list = document.getElementById('education-list');
+  list.innerHTML = education.map(item => `
+    <li class="timeline-item">
+      <time>${item.period}</time>
+      <h3>${item.degree}, ${item.org}</h3>
+      <p>${item.detail}</p>
     </li>
   `).join('');
 }
@@ -75,6 +86,7 @@ function renderProjects() {
 
 function renderContact() {
   document.getElementById('contact-content').innerHTML = `
+    <p>${profile.lookingFor}</p>
     <p>Based in ${profile.location}, with a home base in ${profile.homeBase}. The fastest way to reach me is email.</p>
     <div class="hero-actions">
       <a class="btn" href="mailto:${profile.email}">Email me</a>
@@ -88,6 +100,7 @@ function init() {
   renderHero();
   renderAbout();
   renderExperience();
+  renderEducation();
   renderResearch();
   renderProjects();
   renderContact();

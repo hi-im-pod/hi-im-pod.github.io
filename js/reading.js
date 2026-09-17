@@ -16,10 +16,15 @@ function renderReading() {
       </ul>`
       : '<p class="reading-meta">Nothing listed yet.</p>';
 
+    const position = item.position
+      ? `<blockquote class="reading-position">${item.position}</blockquote>`
+      : '';
+
     return `
     <div class="reading-group" id="${item.id}">
       <h2>${item.title}</h2>
       <p class="reading-group__note">${item.description}</p>
+      ${position}
       ${list}
     </div>
   `;

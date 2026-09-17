@@ -11,9 +11,14 @@ export const profile = {
     github: 'https://github.com/hi-im-pod',
   },
   resumeHref: 'assets/Garrett_Ennis_CV_General.pdf',
+  lookingFor:
+    'I am looking for research collaborations and opportunities to present ' +
+    'at conferences. If you work on AI-assisted defense, detection ' +
+    'engineering, or SOC automation, I would like to hear from you.',
   about:
-    'I am an AI security researcher at the SecAI Lab at Sungkyunkwan ' +
-    'University (SKKU), and a security engineer by background. My work ' +
+    'I am a master’s student and researcher at the SecAI Lab at ' +
+    'Sungkyunkwan University (SKKU), and a security engineer by ' +
+    'background. My work ' +
     'covers both sides of one problem: how AI assistance changes what an ' +
     'attacker can do at scale, and what a defender needs in order to keep ' +
     'pace. Before moving into research, I designed SOC architectures and ' +
@@ -71,6 +76,21 @@ export const experience = [
   },
 ];
 
+export const education = [
+  {
+    degree: 'M.S. student',
+    org: 'Sungkyunkwan University (SKKU)',
+    period: '2026–Present',
+    detail: 'SecAI Lab. Research on AI-assisted defense and SOC automation.',
+  },
+  {
+    degree: 'B.S. Computer Networks and Cybersecurity',
+    org: 'University of Maryland Global Campus',
+    period: '2021',
+    detail: 'GPA 3.455 of 4.0. Minor in East Asian Studies.',
+  },
+];
+
 // Every entry in `reading` is peer reviewed and was checked against the
 // publisher's own proceedings page. No preprints.
 export const researchInterests = [
@@ -79,7 +99,36 @@ export const researchInterests = [
     title: 'AI-augmented adversarial attack and defense',
     description:
       'How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.',
+    position:
+      'Most of the attention here goes to attack demonstrations. I think the ' +
+      'benchmarks matter more. Cybench, NYU CTF Bench, and AgentDojo turn ' +
+      '"could an agent do this" into a number, and a number is what lets a ' +
+      'defender argue about coverage instead of intuition. I am more ' +
+      'optimistic than most about which side gains from this. The same ' +
+      'automation that produces an exploit also produces the detection for ' +
+      'it, and the defender gets to run it against their own environment first.',
     reading: [
+      {
+        title: 'Cybench: A Framework for Evaluating Cybersecurity Capabilities and Risks of Language Models',
+        authors: 'Zhang et al.',
+        venue: 'ICLR',
+        year: 2025,
+        url: 'https://proceedings.iclr.cc/paper_files/paper/2025/hash/3e9412a9c1d93810ef3ef7825115016b-Abstract-Conference.html',
+      },
+      {
+        title: 'AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents',
+        authors: 'Debenedetti et al.',
+        venue: 'NeurIPS Datasets and Benchmarks',
+        year: 2024,
+        url: 'https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html',
+      },
+      {
+        title: 'NYU CTF Bench: A Scalable Open-Source Benchmark Dataset for Evaluating LLMs in Offensive Security',
+        authors: 'Shao et al.',
+        venue: 'NeurIPS Datasets and Benchmarks',
+        year: 2024,
+        url: 'https://proceedings.neurips.cc/paper_files/paper/2024/hash/69d97a6493fbf016fff0a751f253ad18-Abstract-Datasets_and_Benchmarks_Track.html',
+      },
       {
         title: 'PentestGPT: Evaluating and Harnessing Large Language Models for Automated Penetration Testing',
         authors: 'Deng et al.',
@@ -108,7 +157,22 @@ export const researchInterests = [
     title: 'SOC optimization',
     description:
       'Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.',
+    position:
+      'Both surveys reach the conclusion I reached in production: alert ' +
+      'volume, not detection logic, is the binding constraint. That is where ' +
+      'I think AI earns its place first, filtering noise rather than trying ' +
+      'to replace the analyst. Rule generation is the other half of the ' +
+      'problem. If writing a detection gets cheap, coverage expands, and the ' +
+      'filtering has to improve at the same rate or the analyst ends up worse ' +
+      'off than before.',
     reading: [
+      {
+        title: 'From Texts to Rules: Generating Sigma Rules with Large Language Models from Cyber Threat Reports',
+        authors: 'Cai, Qiu, Li, Cheng, and Chen',
+        venue: 'USENIX Security',
+        year: 2026,
+        url: 'https://www.usenix.org/conference/usenixsecurity26/presentation/cai',
+      },
       {
         title: 'Alert Fatigue in Security Operations Centres: Research Challenges and Opportunities',
         authors: 'Tariq, Baruwal Chhetri, Nepal, and Paris',
@@ -137,7 +201,22 @@ export const researchInterests = [
     title: 'Threat hunting and adversary intelligence',
     description:
       'Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.',
+    position:
+      'Provenance-based detection answers the attribution question and ' +
+      'creates a volume question. HOLMES, UNICORN, and MAGIC each produce a ' +
+      'graph that an analyst still has to read. The Tea Leaves result is the ' +
+      'uncomfortable one, because threat intelligence feeds agree with each ' +
+      'other less than most teams assume. Given the choice, I would rather ' +
+      'expand rule coverage and filter hard than trust any single feed’s ' +
+      'precision.',
     reading: [
+      {
+        title: 'MAGIC: Detecting Advanced Persistent Threats via Masked Graph Representation Learning',
+        authors: 'Jia et al.',
+        venue: 'USENIX Security',
+        year: 2024,
+        url: 'https://www.usenix.org/conference/usenixsecurity24/presentation/jia-zian',
+      },
       {
         title: 'HOLMES: Real-Time APT Detection through Correlation of Suspicious Information Flows',
         authors: 'Milajerdi et al.',

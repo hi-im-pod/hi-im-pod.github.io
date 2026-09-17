@@ -11,6 +11,7 @@ export function renderFooter() {
       <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
       <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
     </p>
+    <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them.</p>
   `;
 }
 
