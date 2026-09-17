@@ -32,6 +32,7 @@
       <a href="#research">Research</a>
       <a href="reading.html">Reading</a>
       <a href="#projects">Projects</a>
+      <a href="#radio">Radio</a>
       <a href="#contact">Contact</a>
     </div>
   </nav>
@@ -176,6 +177,23 @@
       <div id="projects-list" class="tile-grid"></div>
     </section>
 
+    <div class="divider" data-waveform-divider data-signal="RADIO"></div>
+
+    <section id="radio" class="section">
+      <h2>Radio</h2>
+      <p class="radio-intro" id="radio-intro"></p>
+
+      <ul class="radio-list" id="radio-list"></ul>
+
+      <p class="radio-status" id="radio-status" hidden></p>
+
+      <!-- Kept hidden, and empty, until someone presses play. The iframe is
+           only created at that point, so no request goes to Google before it. -->
+      <div class="radio-stage" id="radio-stage" hidden>
+        <div id="radio-player"></div>
+      </div>
+    </section>
+
     <div class="divider" data-waveform-divider data-signal="CONTACT"></div>
 
     <section id="contact" class="section">
@@ -183,6 +201,22 @@
       <div id="contact-content"></div>
     </section>
   </main>
+
+  <div class="radio-controls" id="radio-controls" hidden>
+    <p class="radio-now" id="radio-now"></p>
+    <div class="radio-buttons">
+      <!-- Words, not transport glyphs: U+23EE and U+23ED sit outside the font
+           subsets this site bundles, so they would fall through to whatever the
+           visitor happened to have, or to a tofu box. -->
+      <button type="button" id="radio-prev">Back</button>
+      <button type="button" id="radio-toggle">Play</button>
+      <button type="button" id="radio-next">Skip</button>
+      <label class="radio-volume">
+        <span>Volume</span>
+        <input type="range" id="radio-volume" min="0" max="100" step="1">
+      </label>
+    </div>
+  </div>
 
   <footer id="site-footer" class="site-footer"></footer>
 

@@ -79,6 +79,11 @@
         pixel, no cookie, no localStorage, no sessionStorage, and no server-side log I can read, because
         the site is static files on GitHub Pages and I do not operate the server.</p>
 
+      <p class="ethics-note">There is one exception, and it only happens if you ask for it. The radio on
+        the front page plays through YouTube, and pressing play hands your visit to Google. Nothing
+        about it runs until you press play. The section below sets out exactly what changes when you
+        do.</p>
+
       <h3>The one page that looks like an exception</h3>
       <p class="ethics-note">There is a page on this site that reads your browser and tells you what it
         found. It is a demonstration of how much a page learns without asking. Every value is computed
@@ -92,12 +97,43 @@
         page and it is empty again. It would have been easier to store it, and storing it would have
         made the claim above untrue.</p>
 
-      <h3>No third parties</h3>
+      <h3>No third parties, until you press play</h3>
       <p class="ethics-note">Every file this site loads comes from this site. The typefaces are served
         from here rather than from Google Fonts, which is the usual quiet exception on a page that
         claims to collect nothing. Archivo and IBM Plex are both under the SIL Open Font License, so
-        hosting them is simply a matter of doing it. There is no CDN, no embedded video, no comment
-        widget, and no tag manager.</p>
+        hosting them is simply a matter of doing it. There is no CDN, no comment widget, and no tag
+        manager.</p>
+
+      <h3>The radio</h3>
+      <p class="ethics-note">The radio is an embedded YouTube player, and an embed is the thing this
+        page would otherwise tell you to be wary of. So it is built to load nothing until you choose
+        it. On a normal visit the page holds a list of track names and no player at all: no iframe, no
+        script from Google, no request leaving this site. Open the network panel and read the front
+        page top to bottom and it stays as empty as every other page here.</p>
+
+      <p class="ethics-note">Pressing play changes that, and it is worth being exact about how. The
+        player script loads, the iframe is created, and your browser contacts
+        <code>youtube-nocookie.com</code>, <code>youtube.com</code>, <code>google.com</code>,
+        <code>googlevideo.com</code>, <code>gstatic.com</code>, <code>ytimg.com</code>,
+        <code>ggpht.com</code> and <code>googleapis.com</code>. Google therefore learns your IP
+        address, your user agent, and which video you played, and if you are signed in it knows who you
+        are. I use the privacy-enhanced domain, which keeps the advertising hosts out of that list and
+        holds cookies back until playback starts. It reduces the exposure. It does not remove it, and I
+        would rather say so than let the word <em>nocookie</em> do work it cannot do.</p>
+
+      <p class="ethics-note">The alternative was to host the music here, which would have meant serving
+        other people's recordings without the right to, on a public repository, until somebody filed a
+        notice and the whole site came down. Embedding is the arrangement the rights holders actually
+        agreed to. Putting it behind a deliberate press is the part I can control.</p>
+
+      <h3>How the bars follow the music</h3>
+      <p class="ethics-note">They do not listen to it. A page cannot read the audio out of a
+        cross-origin frame, and should not be able to: sound is content, and a page that could read it
+        could read the pictures too. So each track is analysed here, once, before it is ever published.
+        What ships is a contour, a few dozen kilobytes of numbers describing how loud each part of the
+        frequency range is over time. The bars replay that contour in step with the player's own clock.
+        No audio from your session is captured, analysed, or sent anywhere, and nothing asks your
+        browser for a microphone or for your screen.</p>
 
       <h3>What I cannot promise</h3>
       <p class="ethics-note">GitHub serves these files, so GitHub sees the requests, including your IP

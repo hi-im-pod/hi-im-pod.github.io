@@ -1,6 +1,7 @@
 import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
 import { renderFooter, renderDividers } from './shared.js';
+import { initRadio } from './radio.js';
 import { profile, experience, education, researchInterests, projects } from './content.js';
 
 // Korean strings get their own element so the language is declared rather than
@@ -111,6 +112,7 @@ function init() {
   renderContact();
   renderFooter();
   renderDividers();
+  initRadio();
 
   const heroWaveformEl = document.querySelector('[data-waveform-hero]');
   if (heroWaveformEl) {

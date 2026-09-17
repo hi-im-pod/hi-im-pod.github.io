@@ -44,6 +44,17 @@ function bounce(i, t) {
   return Math.max(0, Math.min(1, primary + detail));
 }
 
+// When the radio is playing, the bars take their level from the music instead
+// of from the sines. The source returns 0..1 per bar, or null when there is
+// nothing to play, and the tier bands clamp whatever comes back. That clamp is
+// why real audio cannot corrupt a message: any value in 0..1 lands inside its
+// own band, so the Morse reads the same whether the input is a sine wave or a
+// kick drum.
+let levelSource = null;
+export function setLevelSource(fn) {
+  levelSource = fn;
+}
+
 // Deterministic pseudo-random in 0..1, so layouts stay stable across reloads.
 function noise(seed) {
   const n = Math.sin(seed) * 43758.5453;
@@ -241,7 +252,9 @@ export function createWaveform(container, { animated = false, height = 60, paral
       // Reduced motion and the still first frame sit at the top of the band,
       // where the tiers are furthest apart and easiest to tell apart.
       if (!animated || reduceMotion || hi === lo) return hi;
-      return lo + Math.round((hi - lo) * bounce(i, t));
+      const level = levelSource?.(i, barCount, t);
+      const u = level == null ? bounce(i, t) : Math.max(0, Math.min(1, level));
+      return lo + Math.round((hi - lo) * u);
     }
 
     // No message to carry: a DJ meter with a main peak and a smaller bump.
