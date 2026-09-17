@@ -180,6 +180,23 @@
 }
 .card--link:hover .card__cue { color: var(--color-pink); }
 
+.noscript-content {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3);
+}
+.noscript-content h1 { font-size: var(--fs-h2); }
+.noscript-content h2 { font-size: var(--fs-h3); margin-top: var(--space-4); color: var(--color-pink); }
+.noscript-content h3 { font-size: 1rem; margin-top: var(--space-3); margin-bottom: 0.15rem; }
+.noscript-content ul { margin: var(--space-1) 0 0; padding-left: 1.1rem; color: var(--color-text-muted); }
+.noscript-content li { margin-bottom: 0.35rem; }
+.noscript-note {
+  border: 1px solid var(--color-pink);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+  color: var(--color-text-primary);
+}
+
 .page-title { font-size: var(--fs-h2); }
 .section--page-head { padding-bottom: var(--space-4); }
 
