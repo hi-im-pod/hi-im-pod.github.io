@@ -59,6 +59,45 @@ function addSparkleField(container, count = 7) {
   container.appendChild(field);
 }
 
+// One shared animation loop for every animated bar field, and it only draws
+// the ones actually on screen. Without the visibility gate the cost grows with
+// the number of dividers; with it, the cost is whatever is in the viewport.
+const animatedRegistry = new Map(); // container -> { draw, visible }
+let frameRequest = null;
+let visibility = null;
+
+function observeVisibility(container) {
+  if (!visibility) {
+    visibility = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        const instance = animatedRegistry.get(entry.target);
+        if (instance) instance.visible = entry.isIntersecting;
+      }
+      syncLoop();
+    }, { rootMargin: '120px' });
+  }
+  visibility.observe(container);
+}
+
+function syncLoop() {
+  const anyVisible = [...animatedRegistry.values()].some(i => i.visible);
+  if (anyVisible && frameRequest === null) {
+    frameRequest = requestAnimationFrame(runFrame);
+  } else if (!anyVisible && frameRequest !== null) {
+    cancelAnimationFrame(frameRequest);
+    frameRequest = null;
+  }
+}
+
+function runFrame(t) {
+  let drawn = 0;
+  for (const instance of animatedRegistry.values()) {
+    if (instance.visible) { instance.draw(t); drawn++; }
+  }
+  window.__activeWaveforms = drawn;
+  frameRequest = drawn > 0 ? requestAnimationFrame(runFrame) : null;
+}
+
 const parallaxTargets = [];
 let parallaxListenerAttached = false;
 
@@ -106,6 +145,57 @@ export function createWaveform(container, { animated = false, height = 60, paral
   const barCount = encodedLevels ? encodedLevels.length : (animated ? 28 : 16);
   let barGradient = signalColor;
 
+  // Geometry only changes on resize, so work it out once instead of per frame.
+  let geom = null;
+  const bed = document.createElement('canvas');
+  const bedCtx = bed.getContext('2d');
+
+  function measure(width) {
+    const fieldHeight = reflection ? height * 0.72 : height;
+    const pitch = width / barCount;
+    const barWidth = Math.max(2, pitch * 0.8);
+    const segHeight = segPitch * 0.7;
+    return {
+      width,
+      fieldHeight,
+      pitch,
+      barWidth,
+      segHeight,
+      segRows: Math.max(3, Math.floor(fieldHeight / segPitch)),
+      reflectRows: reflection ? Math.floor((height - fieldHeight) / segPitch) : 0,
+      radius: Math.min(1.5, segHeight / 2, barWidth / 2),
+    };
+  }
+
+  function paintSegment(target, x, y) {
+    if (target.roundRect) {
+      target.beginPath();
+      target.roundRect(x, y, geom.barWidth, geom.segHeight, geom.radius);
+      target.fill();
+    } else {
+      target.fillRect(x, y, geom.barWidth, geom.segHeight);
+    }
+  }
+
+  // The unlit bed never changes, so render it once and blit it each frame.
+  // It is over half the rectangles in a frame, and redrawing it was the
+  // single largest cost once every divider started animating.
+  function buildBed() {
+    bed.width = geom.width * dpr;
+    bed.height = height * dpr;
+    bedCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    bedCtx.clearRect(0, 0, geom.width, height);
+    bedCtx.fillStyle = barGradient;
+    bedCtx.globalAlpha = 0.09;
+    for (let i = 0; i < barCount; i++) {
+      const x = i * geom.pitch + (geom.pitch - geom.barWidth) / 2;
+      for (let row = 0; row < geom.segRows; row++) {
+        paintSegment(bedCtx, x, geom.fieldHeight - (row + 1) * segPitch);
+      }
+    }
+    bedCtx.globalAlpha = 1;
+  }
+
   function resize() {
     const width = container.clientWidth;
     canvas.width = width * dpr;
@@ -118,6 +208,9 @@ export function createWaveform(container, { animated = false, height = 60, paral
     gradient.addColorStop(0.5, lavenderColor);
     gradient.addColorStop(1, signalColor);
     barGradient = gradient;
+
+    geom = measure(width);
+    buildBed();
   }
 
   // fraction (0..1) of max bar height for bar i of n. With a signal to
@@ -138,11 +231,13 @@ export function createWaveform(container, { animated = false, height = 60, paral
       level = 0.16 + 0.68 * mainPeak + secondaryPeak;
     }
 
-    if (animated && !reduceMotion && !isRest) {
-      // Encoded bars pulse gently enough that dots stay short and dashes tall.
-      const amplitude = encodedLevels ? 0.07 : 0.14;
-      const wobble = amplitude * Math.sin(t / 260 + i * 0.85)
-        + (amplitude / 2) * Math.sin(t / 130 + i * 1.7);
+    // Encoded columns never move. Their height is the message, and the
+    // decoder page tells readers a dot is 3 to 4 segments and a dash 7 to 8.
+    // Wobbling the height pushed dots up into dash range and turned
+    // EXPERIENCE into EXPEWIENCE. Motion comes from the sweep instead.
+    if (animated && !reduceMotion && !isRest && !encodedLevels) {
+      const wobble = 0.14 * Math.sin(t / 260 + i * 0.85)
+        + 0.07 * Math.sin(t / 130 + i * 1.7);
       level += wobble;
     }
 
@@ -153,55 +248,56 @@ export function createWaveform(container, { animated = false, height = 60, paral
   // segments, and the level decides how many light up. Keeps the field solid
   // the way a real visualiser is, while the lit height still carries Morse.
   function draw(t) {
-    const width = container.clientWidth;
+    const { width, fieldHeight, pitch, segRows, reflectRows } = geom;
     ctx.clearRect(0, 0, width, height);
-
-    const fieldHeight = reflection ? height * 0.72 : height;
-    const pitch = width / barCount;
-    const barWidth = Math.max(2, pitch * 0.8);
-    const segHeight = segPitch * 0.7;
-    const segRows = Math.max(3, Math.floor(fieldHeight / segPitch));
-    const reflectRows = reflection
-      ? Math.floor((height - fieldHeight) / segPitch)
-      : 0;
-    const radius = Math.min(1.5, segHeight / 2, barWidth / 2);
-
-    function segment(x, y) {
-      if (ctx.roundRect) {
-        ctx.beginPath();
-        ctx.roundRect(x, y, barWidth, segHeight, radius);
-        ctx.fill();
-      } else {
-        ctx.fillRect(x, y, barWidth, segHeight);
-      }
-    }
-
+    ctx.drawImage(bed, 0, 0, width, height);
     ctx.fillStyle = barGradient;
 
     for (let i = 0; i < barCount; i++) {
-      const x = i * pitch + (pitch - barWidth) / 2;
+      const x = i * pitch + (pitch - geom.barWidth) / 2;
       const litRows = Math.max(1, Math.round(barLevel(i, barCount, t) * segRows));
 
-      // unlit bed
-      ctx.globalAlpha = 0.09;
-      for (let row = 0; row < segRows; row++) {
-        segment(x, fieldHeight - (row + 1) * segPitch);
-      }
-
-      // lit segments
       ctx.globalAlpha = 1;
       for (let row = 0; row < litRows; row++) {
-        segment(x, fieldHeight - (row + 1) * segPitch);
+        paintSegment(ctx, x, fieldHeight - (row + 1) * segPitch);
       }
 
       // mirrored reflection, fading as it drops away from the baseline
       for (let row = 0; row < Math.min(litRows, reflectRows); row++) {
         ctx.globalAlpha = 0.28 * (1 - row / reflectRows);
-        segment(x, fieldHeight + row * segPitch + (segPitch - segHeight));
+        paintSegment(ctx, x, fieldHeight + row * segPitch + (segPitch - geom.segHeight));
       }
     }
 
+    if (animated && !reduceMotion) drawSweep(t);
     ctx.globalAlpha = 1;
+  }
+
+  // A band of extra brightness travelling left to right. It lights columns
+  // that are already drawn rather than changing their height, so the encoded
+  // message stays exactly as the decoder page describes it.
+  const SWEEP_WIDTH = 0.13;
+  function drawSweep(t) {
+    const { fieldHeight, pitch, segRows } = geom;
+    const head = ((t / 2600) % 1.5) - 0.25;
+
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.fillStyle = barGradient;
+
+    for (let i = 0; i < barCount; i++) {
+      const position = barCount > 1 ? i / (barCount - 1) : 0;
+      const distance = Math.abs(position - head);
+      if (distance > SWEEP_WIDTH) continue;
+
+      ctx.globalAlpha = 0.6 * (1 - distance / SWEEP_WIDTH) ** 2;
+      const x = i * pitch + (pitch - geom.barWidth) / 2;
+      const litRows = Math.max(1, Math.round(barLevel(i, barCount, 0) * segRows));
+      for (let row = 0; row < litRows; row++) {
+        paintSegment(ctx, x, fieldHeight - (row + 1) * segPitch);
+      }
+    }
+
+    ctx.globalCompositeOperation = 'source-over';
   }
 
   resize();
@@ -209,11 +305,8 @@ export function createWaveform(container, { animated = false, height = 60, paral
   window.addEventListener('resize', () => { resize(); draw(0); });
 
   if (animated && !reduceMotion) {
-    function loop(t) {
-      draw(t);
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
+    animatedRegistry.set(container, { draw, visible: false });
+    observeVisibility(container);
   }
 
   if (parallax && !reduceMotion) {

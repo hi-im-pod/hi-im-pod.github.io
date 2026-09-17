@@ -25,7 +25,9 @@ function onDecoderPage() {
 export function renderDividers() {
   document.querySelectorAll('[data-waveform-divider]').forEach(el => {
     createWaveform(el, {
-      animated: false,
+      animated: true,
+      // `parallax` defaults to !animated, so it has to be set back on here.
+      parallax: true,
       height: 90,
       signal: el.dataset.signal,
       reflection: true,
