@@ -58,7 +58,8 @@ export const experience = [
     bullets: [
       'Helped enterprises and government contractors reach and maintain NIST 800-171 and CMMC compliance.',
       'Designed and implemented enterprise SOC architectures for commercial and government contractor clients.',
-      'Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity through structured normalization validation.',
+      'Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity and reduced noise through structured normalization validation.',
+      'Wrote and tuned SIEM detection rules across endpoint, firewall, and cloud telemetry to expand attack coverage.',
       'Managed the cybersecurity tool stack for the proactive services department.',
     ],
   },
@@ -68,9 +69,10 @@ export const experience = [
     start: '2021',
     end: '2022',
     bullets: [
-      'Internal web application penetration tester for Walmart.',
-      'Scoped and ran assessments as the final stage of the application development cycle.',
-      'Tested web and mobile applications for authorization, authentication, and sanitization flaws.',
+      'Conducted enterprise application penetration testing for web and mobile platforms.',
+      'Scoped and ran assessments as the final gate in the application development cycle.',
+      'Developed structured threat models and collaborated with engineering teams to integrate secure SDLC controls.',
+      'Evaluated authentication, authorization, and input sanitization implementations in high-sensitivity environments.',
     ],
   },
   {
