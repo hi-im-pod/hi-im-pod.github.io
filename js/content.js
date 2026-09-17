@@ -42,25 +42,35 @@ export const experience = [
   {
     role: 'Lead Security Engineer',
     org: 'SysArc',
-    start: '2022',
+    start: '2024',
     end: '2026',
     bullets: [
-      'Designed and implemented enterprise SOC architectures supporting multiple commercial and government contractor clients.',
-      'Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity and reduced noise through structured normalization validation.',
+      'Led the security engineering and incident response team.',
       'Directed threat hunting initiatives and cloud security operations across Azure and Microsoft 365 environments.',
-      'Implemented NIST 800-171 and CMMC-aligned frameworks for regulated environments.',
       'Delivered executive-level reporting and strategic security posture assessments.',
     ],
   },
   {
-    role: 'Cybersecurity Engineer III (Penetration Testing)',
+    role: 'Security Engineer',
+    org: 'SysArc',
+    start: '2022',
+    end: '2024',
+    bullets: [
+      'Helped enterprises and government contractors reach and maintain NIST 800-171 and CMMC compliance.',
+      'Designed and implemented enterprise SOC architectures for commercial and government contractor clients.',
+      'Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity through structured normalization validation.',
+      'Managed the cybersecurity tool stack for the proactive services department.',
+    ],
+  },
+  {
+    role: 'Software Engineer III, Cybersecurity (Pentest)',
     org: 'Walmart Global Tech',
     start: '2021',
     end: '2022',
     bullets: [
-      'Conducted enterprise application penetration testing for web and mobile platforms.',
-      'Developed structured threat models and collaborated with engineering teams to integrate secure SDLC controls.',
-      'Evaluated authentication and authorization implementations in high-sensitivity environments.',
+      'Internal web application penetration tester for Walmart.',
+      'Scoped and ran assessments as the final stage of the application development cycle.',
+      'Tested web and mobile applications for authorization, authentication, and sanitization flaws.',
     ],
   },
   {
@@ -69,8 +79,8 @@ export const experience = [
     start: '2019',
     end: '2021',
     bullets: [
-      'Managed distributed infrastructure spanning 900+ branch locations.',
-      'Engineered hybrid WAN and VPN routing architectures supporting large-scale enterprise operations.',
+      'Administered more than 1,000 Cradlepoint routers across hundreds of remote locations.',
+      'Designed and integrated a Cisco network backbone.',
       'Conducted recurring security assessments and rapid incident response adjustments.',
     ],
   },
@@ -78,16 +88,22 @@ export const experience = [
 
 export const education = [
   {
-    degree: 'M.S. Computer Science and Engineering',
+    degree: 'M.S. Computer Science and Engineering (AI)',
     org: 'Sungkyunkwan University (SKKU)',
-    period: '2026–2028 (expected)',
+    period: 'Sep 2026 – May 2028 (expected)',
     detail: 'SecAI Lab. Research on AI-assisted defense and SOC automation.',
   },
   {
     degree: 'B.S. Computer Networks and Cybersecurity',
     org: 'University of Maryland Global Campus',
-    period: '2021',
+    period: '2020–2021',
     detail: 'GPA 3.455 of 4.0. Minor in East Asian Studies.',
+  },
+  {
+    degree: 'Associate degrees, Cyber Security and Computer Networking',
+    org: 'Anne Arundel Community College',
+    period: '2018–2020',
+    detail: 'Dual degrees. Concentration in computer and information systems security and information assurance.',
   },
 ];
 

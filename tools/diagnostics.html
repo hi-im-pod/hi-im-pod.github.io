@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motion diagnostics</title>
+<style>
+  body { margin: 0; padding: 1.25rem; background: #12131A; color: #E8E6F0;
+         font: 15px/1.6 ui-sans-serif, system-ui, sans-serif; }
+  h1 { font-size: 1.1rem; margin: 0 0 1rem; }
+  table { border-collapse: collapse; width: 100%; max-width: 40rem; }
+  td { padding: 0.5rem 0.5rem 0.5rem 0; border-bottom: 1px solid #2A2D3E; vertical-align: top; }
+  td:first-child { color: #8B8CA3; width: 45%; }
+  .yes { color: #2FD9C4; font-weight: 600; }
+  .no { color: #FF9FD6; font-weight: 600; }
+  .verdict { margin-top: 1.25rem; padding: 0.85rem; border-radius: 4px;
+             border: 1px solid #FF9FD6; max-width: 40rem; }
+  .verdict.ok { border-color: #2FD9C4; }
+  code { font-family: ui-monospace, monospace; font-size: 0.85em; color: #B79CFF; }
+</style>
+</head>
+<body>
+<h1>Motion diagnostics</h1>
+<table id="out"></table>
+<div class="verdict" id="verdict">Measuring…</div>
+
+<script>
+const rows = [];
+const add = (k, v, cls) => rows.push(
+  `<tr><td>${k}</td><td${cls ? ` class="${cls}"` : ''}>${v}</td></tr>`);
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+add('prefers-reduced-motion', reduced ? 'reduce (motion suppressed)' : 'no-preference (motion allowed)',
+    reduced ? 'no' : 'yes');
+add('device pixel ratio', String(devicePixelRatio || 1));
+add('viewport', `${innerWidth} x ${innerHeight}`);
+add('browser', navigator.userAgent.replace(/</g, '&lt;'));
+
+// Is requestAnimationFrame actually running at a sane rate?
+let frames = 0;
+const t0 = performance.now();
+(function tick() { frames++; if (performance.now() - t0 < 1000) requestAnimationFrame(tick); else done(); })();
+
+function done() {
+  const fps = Math.round(frames / ((performance.now() - t0) / 1000));
+  add('animation frames per second', String(fps), fps >= 30 ? 'yes' : 'no');
+
+  // Confirm the site's own hero canvas changes over time, in an iframe.
+  const f = document.createElement('iframe');
+  f.src = '../index.html';
+  f.style.cssText = 'position:fixed;left:-9999px;width:1200px;height:900px;border:0';
+  document.body.appendChild(f);
+
+  f.onload = () => setTimeout(() => {
+    let verdict, ok = false;
+    try {
+      const c = f.contentDocument.querySelector('[data-waveform-hero] canvas');
+      if (!c) throw new Error('hero canvas not found');
+      const snap = () => c.toDataURL();
+      const a = snap();
+      setTimeout(() => {
+        const b = snap();
+        const moving = a !== b;
+        add('hero bars changing', moving ? 'yes, frames differ' : 'no, frame is frozen', moving ? 'yes' : 'no');
+        document.getElementById('out').innerHTML = rows.join('');
+
+        if (reduced) {
+          verdict = 'Your system asks for reduced motion, so the site is deliberately holding the bars still. ' +
+            'On Windows 11: Settings &gt; Accessibility &gt; Visual effects &gt; Animation effects. Turn it on, ' +
+            'then reload. On macOS: System Settings &gt; Accessibility &gt; Display &gt; Reduce motion, turn it off. ' +
+            'On Android: Settings &gt; Accessibility &gt; Remove animations.';
+        } else if (!moving) {
+          verdict = 'Motion is allowed but the bars are not changing. That points at the page rather than your settings. ' +
+            'Send me this screen.';
+        } else if (fps < 30) {
+          verdict = 'The bars are animating, but only at ' + fps + ' frames per second. Something is throttling the tab, ' +
+            'often battery saver or a background tab. It will look like a stutter rather than a glide.';
+          ok = true;
+        } else {
+          verdict = 'Motion is allowed, frames are healthy, and the hero bars are changing. The animation is running. ' +
+            'It is a subtle one: the bars shift by roughly one to three LED segments so the hidden message stays readable.';
+          ok = true;
+        }
+        const v = document.getElementById('verdict');
+        v.innerHTML = verdict;
+        if (ok) v.className = 'verdict ok';
+      }, 1200);
+    } catch (e) {
+      add('hero bars changing', 'could not measure: ' + e.message, 'no');
+      document.getElementById('out').innerHTML = rows.join('');
+      document.getElementById('verdict').textContent = 'Could not read the hero canvas. Send me this screen.';
+    }
+  }, 1500);
+
+  document.getElementById('out').innerHTML = rows.join('');
+}
+</script>
+</body>
+</html>
