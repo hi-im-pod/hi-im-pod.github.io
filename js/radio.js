@@ -13,7 +13,7 @@
 // analyse each track offline and play the contour back in step with the
 // player's own clock.
 
-import { setLevelSource } from './waveform.js';
+import { setLevelSource, setFreeRange } from './waveform.js';
 import { playlist, radioIntro } from './playlist.js';
 
 const API_SRC = 'https://www.youtube.com/iframe_api';
@@ -267,6 +267,18 @@ export function initRadio() {
   document.getElementById('radio-toggle').addEventListener('click', toggle);
   document.getElementById('radio-prev').addEventListener('click', () => skip(-1));
   document.getElementById('radio-next').addEventListener('click', () => skip(1));
+
+  // Held in memory like everything else here, so it is locked again on the next
+  // page and on reload. Nothing about a visit is written down.
+  let unlocked = false;
+  const lock = document.getElementById('radio-lock');
+  lock.addEventListener('click', () => {
+    unlocked = !unlocked;
+    setFreeRange(unlocked);
+    lock.textContent = unlocked ? 'Lock bars' : 'Unlock bars';
+    lock.setAttribute('aria-pressed', String(unlocked));
+    document.getElementById('radio-lock-note').hidden = !unlocked;
+  });
 
   const vol = document.getElementById('radio-volume');
   vol.value = volume;

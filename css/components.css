@@ -602,6 +602,18 @@
   color: var(--color-text-muted);
 }
 .radio-volume input { width: 6rem; accent-color: var(--color-pink); }
+#radio-lock[aria-pressed="true"] {
+  border-color: var(--color-signal);
+  color: var(--color-signal);
+}
+.radio-lock-note {
+  margin: 0;
+  max-width: 18rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
 
 @media (max-width: 36rem) {
   .radio-controls { left: var(--space-2); right: var(--space-2); bottom: var(--space-2); }
