@@ -323,6 +323,14 @@
   vertical-align: baseline;
 }
 .blank-gap { display: inline-block; width: 0.6em; }
+/* The unsolved cipher is the page's open question, so it is set larger than
+   the checklist above it rather than as one more row. */
+#final-slot {
+  font-size: 1.15rem;
+  letter-spacing: 0.22em;
+  color: var(--color-text-primary);
+}
+#final-slot.is-found { color: var(--color-signal); }
 .progress-reward {
   max-width: var(--content-width);
   padding: var(--space-2) var(--space-3);
@@ -380,6 +388,9 @@
   color: var(--color-text-muted);
   opacity: 0.75;
 }
+/* The nav-style margin on .site-footer a is for the link row above. Inside a
+   sentence it pushes the full stop away from the word it belongs to. */
+.footer-hint a { margin: 0; }
 .reading-list {
   list-style: none;
   margin: 0;
@@ -485,6 +496,14 @@
   padding: var(--space-4) var(--space-3);
   text-align: center;
   color: var(--color-text-muted);
+}
+/* The one field with no heading under it. Every other bar cluster on the site
+   names the section it introduces; this one has nothing to introduce, which is
+   the only clue it needs. */
+.footer-signal {
+  position: relative;
+  max-width: var(--max-width);
+  margin: 0 auto var(--space-4);
 }
 .site-footer a { color: var(--color-text-muted); margin: 0 var(--space-1); }
 .site-footer a:hover { color: var(--color-signal); }

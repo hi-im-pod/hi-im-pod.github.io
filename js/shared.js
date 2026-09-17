@@ -2,9 +2,12 @@
 // cannot drift apart between index.html and reading.html.
 import { profile } from './content.js';
 import { createWaveform } from './waveform.js';
+import { FINAL } from './progress.js';
 
 export function renderFooter() {
-  document.getElementById('site-footer').innerHTML = `
+  const footer = document.getElementById('site-footer');
+  footer.innerHTML = `
+    <div class="footer-signal"></div>
     <p>${profile.name}</p>
     <p>
       <a href="mailto:${profile.email}">Email</a>
@@ -14,6 +17,17 @@ export function renderFooter() {
     </p>
     ${footerHints()}
   `;
+
+  // Built here rather than left for renderDividers, so it does not depend on
+  // which of the two a page happens to call first. Same geometry as every
+  // other field, because the tier bands need all 15 rows.
+  createWaveform(footer.querySelector('.footer-signal'), {
+    animated: true,
+    parallax: false,
+    height: 170,
+    signal: FINAL,
+    reflection: true,
+  });
 }
 
 // Each hint is dropped on the page it points at, so nothing self-links.
@@ -26,6 +40,11 @@ function footerHints() {
   }
   if (!path.endsWith('diagnostics.html')) {
     hints.push('Bars sitting still? <a href="diagnostics.html">Check your browser</a>.');
+  }
+  // Said on the decoder page itself, where someone is already reading bars and
+  // the field sits a few centimetres below this line.
+  if (path.endsWith('decoder.html')) {
+    hints.push('This one names no section.');
   }
 
   return hints.length ? `<p class="footer-hint">${hints.join(' ')}</p>` : '';

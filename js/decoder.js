@@ -1,5 +1,5 @@
 import { renderFooter, renderDividers } from './shared.js';
-import { TARGETS, solved, record, allFound } from './progress.js';
+import { TARGETS, FINAL, solved, record, allFound, finalFound } from './progress.js';
 
 const MORSE = {
   'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
@@ -64,7 +64,15 @@ function renderProgress() {
   `).join('');
 
   document.getElementById('progress-count').textContent = `${have.size} of ${TARGETS.length}`;
-  document.getElementById('progress-reward').hidden = !allFound();
+  document.getElementById('checklist-done').hidden = !allFound();
+
+  // The eighth message is shown as a shape until it is read: the number of
+  // words and the length of each, which is what a cryptogram gives you.
+  const done = finalFound();
+  const slot = document.getElementById('final-word');
+  slot.innerHTML = done ? FINAL : mask(FINAL);
+  slot.parentElement.classList.toggle('is-found', done);
+  document.getElementById('progress-reward').hidden = !done;
 }
 
 function render() {
