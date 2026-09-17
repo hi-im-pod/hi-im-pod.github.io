@@ -78,9 +78,9 @@ export const experience = [
 
 export const education = [
   {
-    degree: 'M.S. student',
+    degree: 'M.S. Computer Science and Engineering',
     org: 'Sungkyunkwan University (SKKU)',
-    period: '2026–Present',
+    period: '2026–2028 (expected)',
     detail: 'SecAI Lab. Research on AI-assisted defense and SOC automation.',
   },
   {
