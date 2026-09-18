@@ -50,7 +50,28 @@
         <p class="noscript-note">This page reads your browser with JavaScript, which is turned off. That
           means it has learned almost nothing about you, which rather makes the point.</p>
       </noscript>
-      <div id="fp-content" class="fp-grid"></div>
+
+      <!-- This notice is the page's normal state, and the script replaces it with the
+           panels on its last line. If the script never runs, the notice stays. It has to
+           be plain markup rather than something JavaScript shows, because the case it
+           exists for is JavaScript not running. -->
+      <div id="fp-content" class="fp-grid">
+        <div class="fp-panel fp-blocked">
+          <h2>Nothing was measured</h2>
+          <p class="fp-value">Your content blocker stopped the script</p>
+          <p class="fp-prose">If you are reading this, the panels that belong here never ran. The likely reason is
+            a content blocker: the script that fills this page is called <code>fingerprint.js</code>,
+            and blocking things by that name is exactly what those lists are for. uBlock Origin and
+            most privacy filters catch it.</p>
+          <p class="fp-prose">Your blocker is not wrong. This page really does read your browser, and
+            a tool that stops pages doing that without asking has done its job. The difference is only
+            that this one shows you the results instead of keeping them, and it still sends nothing
+            anywhere.</p>
+          <p class="fp-prose">To see what your browser gives away, pause the blocker for this site and
+            reload. To keep it on, nothing is lost: the rest of the site works, and the point of the
+            page is arguably better made by your blocker than by my panels.</p>
+        </div>
+      </div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="ENOUGH"></div>

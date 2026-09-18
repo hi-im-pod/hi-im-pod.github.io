@@ -370,6 +370,24 @@
   color: var(--color-pink);
 }
 .fp-prose { max-width: var(--content-width); margin-bottom: 0; }
+.fp-prose + .fp-prose { margin-top: var(--space-2); }
+
+/* Shown when the script that fills this page never ran, which on a page called
+   fingerprint.js usually means a content blocker caught it. The entrance is CSS
+   rather than JavaScript for the obvious reason: the case it announces is
+   JavaScript not running. */
+.fp-blocked {
+  border-color: var(--color-pink);
+  animation: fp-blocked-in 420ms ease-out both;
+}
+.fp-blocked .fp-value { color: var(--color-pink); }
+@keyframes fp-blocked-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fp-blocked { animation: none; }
+}
 .fp-signature { padding: 0; margin: var(--space-2) 0 var(--space-3); }
 .fp-disclaimer {
   max-width: var(--content-width);
