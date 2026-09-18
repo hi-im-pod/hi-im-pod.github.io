@@ -7,17 +7,21 @@
 // It is a game, not a lock. Every message also sits in a data-signal attribute
 // for anyone who opens the DOM.
 
-// The seven fields on the main page each name the section below them. They are
-// a way to check your reading, not a puzzle: you already know the answer before
-// you start, which is what makes them useful for practice.
+// The seven fields on the main page, in the order they appear.
+//
+// Only the header says what you would expect. The rest used to spell the
+// heading they sit above, which meant the answer was written underneath in
+// plain English and reading one confirmed something you already knew. Each now
+// names its section sideways instead: a synonym, or the word that trade would
+// use. Nothing gives them away from position alone.
 export const TARGETS = [
   'GARRETT ENNIS',
-  'ABOUT',
-  'EXPERIENCE',
-  'EDUCATION',
-  'RESEARCH',
-  'PROJECTS',
-  'CONTACT',
+  'WHOAMI',      // About
+  'UPTIME',      // Experience
+  'TUTELAGE',    // Education
+  'INQUIRY',     // Research
+  'ARTIFACTS',   // Projects
+  'HANDSHAKE',   // Contact
 ];
 
 // This one is the puzzle. It names no section, sits in the footer of every
