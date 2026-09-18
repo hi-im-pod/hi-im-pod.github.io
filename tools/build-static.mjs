@@ -51,8 +51,10 @@ const PAGES = {
 
 let stale = 0;
 let written = 0;
+let broken = 0;
 
 for (const [page, regions] of Object.entries(PAGES)) {
+  let missing = 0;
   const path = join(root, page);
   const original = readFileSync(path, 'utf8');
   // Each file's line endings are preserved: git reports the whole file as
@@ -67,11 +69,22 @@ for (const [page, regions] of Object.entries(PAGES)) {
     const to = next.indexOf(end);
     if (from < 0 || to < 0) {
       console.error(`${page}: no markers for ${name}. Expected ${start} ... ${end}`);
-      process.exitCode = 1;
+      missing++;
       continue;
     }
     const body = html().replace(/\r?\n/g, eol);
     next = next.slice(0, from + start.length) + body + next.slice(to);
+  }
+
+  // Reported before the unchanged/stale check, and never as "unchanged". A page
+  // whose markers are gone produces bytes identical to the ones already on disk,
+  // so it looked untouched and the run still summarised as up to date while
+  // exiting non-zero. A missing marker is the exact failure this tool exists to
+  // name, so it cannot be the one thing the summary stays quiet about.
+  if (missing) {
+    console.error(`BROKEN     ${page}: ${missing} region(s) have no markers, nothing written for them`);
+    broken += missing;
+    continue;
   }
 
   if (next === original) {
@@ -88,11 +101,15 @@ for (const [page, regions] of Object.entries(PAGES)) {
   written++;
 }
 
-if (check) {
-  console.log(stale
-    ? `\n${stale} file(s) out of date. Run: node tools/build-static.mjs`
-    : '\ngenerated markup is up to date');
-  if (stale) process.exitCode = 1;
+const problems = [];
+if (broken) problems.push(`${broken} region(s) have no markers`);
+if (stale) problems.push(`${stale} file(s) out of date, run: node tools/build-static.mjs`);
+
+if (problems.length) {
+  console.error(`\n${problems.join('\n')}`);
+  process.exitCode = 1;
+} else if (check) {
+  console.log('\ngenerated markup is up to date');
 } else if (!written) {
   console.log('\nnothing to do');
 }

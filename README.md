@@ -48,9 +48,10 @@ non-JavaScript crawler got.
 
 ## Notes
 
-The section dividers are not decoration. Each one spells the name of the section
-below it in Morse, encoded in the bar heights. `decoder.html` explains how to
-read them.
+The section dividers are not decoration. Each spells a word in Morse, encoded in
+the bar heights. None of them is the heading it sits above, so there is nothing
+to be guessed from where a field sits: they name their section sideways.
+`decoder.html` explains how to read them and tracks what you have found.
 
 Fonts are self-hosted under the SIL Open Font License 1.1. See
 `assets/fonts/README.txt`. The site makes no third-party requests.
