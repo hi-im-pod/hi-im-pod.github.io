@@ -2,12 +2,7 @@ import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
 import { renderFooter, renderDividers } from './shared.js';
 import { initRadio } from './radio.js';
-import { profile, experience, education, researchInterests, projects } from './content.js';
-
-// Korean strings get their own element so the language is declared rather than
-// guessed. Without it a screen reader reads Hangul with an English voice, and
-// the browser has no reason to reach for the Korean face we bundle.
-const ko = text => `<span lang="ko">${text}</span>`;
+import * as t from './templates.js';
 
 // The radio is not part of the page until someone asks for it by name on the
 // decoder. Decoder progress lives in memory and dies on navigation, by design,
@@ -34,107 +29,30 @@ function gateRadio() {
   return false;
 }
 
-// --- section renderers ---
+// The same strings tools/build-static.mjs writes into the HTML. Re-applying
+// them costs nothing when the markup is already there, and it keeps one code
+// path for both: if content.js changes without the generator being re-run, the
+// browser still shows the current data.
+const SECTIONS = {
+  'hero-content': t.hero,
+  'about-content': t.about,
+  'experience-list': t.experienceList,
+  'education-list': t.educationList,
+  'research-list': t.researchList,
+  'projects-list': t.projectsList,
+  'contact-content': t.contact,
+};
 
-function renderHero() {
-  const container = document.getElementById('hero-content');
-  container.innerHTML = `
-    <p class="eyebrow-line">${profile.role}</p>
-    <h1>${profile.name}</h1>
-    <p class="tagline">${profile.tagline}</p>
-    <div class="hero-actions">
-      <a class="btn" href="${profile.resumeHref}" download>Download résumé</a>
-      <a class="btn" href="#contact">Get in touch</a>
-    </div>
-  `;
-}
-
-function renderAbout() {
-  document.getElementById('about-content').innerHTML = `<p>${profile.about}</p>`;
-}
-
-function renderExperience() {
-  const list = document.getElementById('experience-list');
-  list.innerHTML = experience.map(job => `
-    <li class="timeline-item">
-      <time datetime="${job.start}">${job.start}–${job.end}</time>
-      <h3>${job.role}, ${job.org}</h3>
-      <ul>
-        ${job.bullets.map(bullet => `<li>${bullet}</li>`).join('')}
-      </ul>
-    </li>
-  `).join('');
-}
-
-function renderEducation() {
-  const list = document.getElementById('education-list');
-  list.innerHTML = education.map(item => `
-    <li class="timeline-item">
-      <time>${item.period}</time>
-      <h3>${item.degree}, ${item.org}${item.orgKorean ? ` ${ko(item.orgKorean)}` : ''}</h3>
-      <p>${item.detail}</p>
-    </li>
-  `).join('');
-}
-
-function renderResearch() {
-  const list = document.getElementById('research-list');
-  list.innerHTML = researchInterests.map(item => {
-    // An interest with no papers yet is a plain card, not a link to an
-    // empty group. Adding one must not take the rest of the page with it.
-    const papers = item.reading ?? [];
-    if (!papers.length) {
-      return `
-    <div class="card">
-      <h3>${item.title}</h3>
-      <p>${item.description}</p>
-    </div>
-  `;
-    }
-    return `
-    <a class="card card--link" href="reading.html#${item.id}">
-      <h3>${item.title}</h3>
-      <p>${item.description}</p>
-      <span class="card__cue">${papers.length} ${papers.length === 1 ? 'paper' : 'papers'}</span>
-    </a>
-  `;
-  }).join('');
-}
-
-function renderProjects() {
-  const list = document.getElementById('projects-list');
-  list.innerHTML = projects.map(project => `
-    <div class="tile">
-      <h3>${project.title}</h3>
-      <p>${project.description}</p>
-      <div class="tile__tags">
-        ${project.tags.map(tag => `<span class="tile__tag">${tag}</span>`).join('')}
-      </div>
-      ${project.illustrative ? '<p class="tile__note">Illustrative example, not real client work.</p>' : ''}
-    </div>
-  `).join('');
-}
-
-function renderContact() {
-  document.getElementById('contact-content').innerHTML = `
-    <p>${profile.lookingFor}</p>
-    <p>Based in ${profile.city} ${ko(`(${profile.cityKorean})`)}, ${profile.country}, with a home base in ${profile.homeBase}. The fastest way to reach me is email.</p>
-    <div class="hero-actions">
-      <a class="btn" href="mailto:${profile.email}">Email me</a>
-      <a class="btn" href="${profile.resumeHref}" download>Download résumé</a>
-    </div>
-  `;
+function renderSections() {
+  for (const [id, html] of Object.entries(SECTIONS)) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html();
+  }
 }
 
 // --- init ---
 function init() {
-  renderHero();
-  renderAbout();
-  renderExperience();
-  renderEducation();
-  renderResearch();
-  renderProjects();
-  renderContact();
+  renderSections();
   renderFooter();
   const radio = gateRadio();
   renderDividers();

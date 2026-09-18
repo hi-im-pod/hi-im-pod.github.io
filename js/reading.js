@@ -1,34 +1,9 @@
 import { renderFooter, renderDividers } from './shared.js';
-import { researchInterests } from './content.js';
+import { reading } from './templates.js';
 
 function renderReading() {
   const container = document.getElementById('reading-content');
-  container.innerHTML = researchInterests.map(item => {
-    const papers = item.reading ?? [];
-    const list = papers.length
-      ? `<ul class="reading-list">
-        ${papers.map(paper => `
-          <li>
-            <a href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>
-            <span class="reading-meta">${paper.authors.replace(/\.$/, '')}. ${paper.venue}, ${paper.year}.</span>
-          </li>
-        `).join('')}
-      </ul>`
-      : '<p class="reading-meta">Nothing listed yet.</p>';
-
-    const position = item.position
-      ? `<blockquote class="reading-position">${item.position}</blockquote>`
-      : '';
-
-    return `
-    <div class="reading-group" id="${item.id}">
-      <h2>${item.title}</h2>
-      <p class="reading-group__note">${item.description}</p>
-      ${position}
-      ${list}
-    </div>
-  `;
-  }).join('');
+  if (container) container.innerHTML = reading();
 }
 
 // The anchors these links target do not exist until the render above runs, and

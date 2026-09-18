@@ -1,22 +1,17 @@
 // Pieces both pages need. Kept here so the footer and the divider settings
 // cannot drift apart between index.html and reading.html.
-import { profile } from './content.js';
 import { createWaveform } from './waveform.js';
+import { footer as footerHtml } from './templates.js';
 import { FINAL } from './progress.js';
 
 export function renderFooter() {
   const footer = document.getElementById('site-footer');
-  footer.innerHTML = `
-    <div class="footer-signal"></div>
-    <p>${profile.name}</p>
-    <p>
-      <a href="mailto:${profile.email}">Email</a>
-      <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
-      <a href="ethics.html">Ethics</a>
-    </p>
-    ${footerHints()}
-  `;
+  if (!footer) return;
+
+  // The same markup the build tool already wrote into this element. Rewriting
+  // it keeps one code path, and matters when content.js has moved on from what
+  // was generated.
+  footer.innerHTML = footerHtml(location.pathname);
 
   // Built here rather than left for renderDividers, so it does not depend on
   // which of the two a page happens to call first. Same geometry as every
@@ -28,26 +23,6 @@ export function renderFooter() {
     signal: FINAL,
     reflection: true,
   });
-}
-
-// Each hint is dropped on the page it points at, so nothing self-links.
-function footerHints() {
-  const path = location.pathname;
-  const hints = [];
-
-  if (!path.endsWith('decoder.html')) {
-    hints.push('The meters are not decorative. A certain Mr. Morse could read them, and <a href="decoder.html">so can you</a>.');
-  }
-  if (!path.endsWith('diagnostics.html')) {
-    hints.push('Bars sitting still? <a href="diagnostics.html">Check your browser</a>.');
-  }
-  // Said on the decoder page itself, where someone is already reading bars and
-  // the field sits a few centimetres below this line.
-  if (path.endsWith('decoder.html')) {
-    hints.push('This one names no section.');
-  }
-
-  return hints.length ? `<p class="footer-hint">${hints.join(' ')}</p>` : '';
 }
 
 export function renderDividers() {

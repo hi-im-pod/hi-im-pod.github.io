@@ -18,7 +18,8 @@ npx http-server -p 8788 -c-1
 | Path | What it holds |
 | --- | --- |
 | `js/content.js` | Every piece of text on the site. Change content here, not in the markup. |
-| `js/render.js` | Builds the front page from that content. |
+| `js/templates.js` | That content as HTML. Used by the browser and by the build tool, so the two cannot disagree. |
+| `js/render.js` | Applies the templates to the front page and wires up the rest. |
 | `js/waveform.js` | The bar fields, including the Morse encoding. |
 | `css/` | Design tokens, base, layout, components, and the generated font sheet. |
 | `tools/` | Two generators, described below. |
@@ -33,9 +34,17 @@ and pulls only the Korean chunks covering the characters actually used, cutting
 each one to those glyphs. Re-run it after adding Korean text. Needs
 `pip install fonttools brotli`.
 
-`tools/build-noscript.mjs` regenerates the no-JavaScript fallback inside
-`index.html` and `reading.html` from `js/content.js`. Run it after editing
-content. Pass `--check` to verify the two are in sync without writing.
+`tools/build-static.mjs` writes the site's content into the HTML files as real
+markup, from the same templates in `js/templates.js` that the browser uses. Run
+it after editing `js/content.js` or `js/playlist.js`. Pass `--check` to verify
+nothing is stale without writing.
+
+The pages carry their own content rather than waiting for a script because
+`<noscript>` only fires when scripting is *disabled*, not when a script is
+blocked or fails. A content blocker that stops one file leaves scripting on, so
+the noscript fallback stays hidden. Before this existed, `index.html` in that
+state came to 68 characters, and so did the view a link unfurler or a
+non-JavaScript crawler got.
 
 ## Notes
 

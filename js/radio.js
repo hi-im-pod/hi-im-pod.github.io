@@ -255,8 +255,9 @@ export function initRadio() {
   const root = document.getElementById('radio');
   if (!root || !playlist.length) return;
 
+  // Both already carry this from the build; rewriting them keeps one code path
+  // and swaps the static track list for the interactive one.
   document.getElementById('radio-intro').textContent = radioIntro;
-
   document.getElementById('radio-list').innerHTML = playlist.map((t, i) => `
     <li>
       <button type="button" data-track="${i}">

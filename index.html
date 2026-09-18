@@ -11,16 +11,6 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
-  <noscript>
-    <style>
-      /* The sections below are filled in by JS, so without it they are empty
-         headings. Hide them and show the plain-text fallback instead.
-         !important because .section--hero sets display:flex and would
-         otherwise outrank an element selector. */
-      main > section, main > .divider { display: none !important; }
-      .noscript-content { display: block; }
-    </style>
-  </noscript>
 </head>
 <body>
   <nav id="site-nav" class="site-nav">
@@ -39,106 +29,22 @@
 
   <main>
     <noscript>
-      <!-- noscript:start -->
-      <div class="noscript-content">
-      <p class="noscript-note">This page builds its layout and visuals with JavaScript, which is turned off in your browser. Below is the same information as plain text. Turn JavaScript on for the full version.</p>
-
-      <h1>Garrett Ennis</h1>
-      <p>AI Security Researcher / Security Engineer</p>
-      <p>Optimizing AI-assisted defenders by building the attackers they have to face.</p>
-
-      <h2>About</h2>
-      <p>I am a master’s student and researcher at the SecAI Lab at Sungkyunkwan University (SKKU), and a security engineer by background. My work covers both sides of one problem: how AI assistance changes what an attacker can do at scale, and what a defender needs in order to keep pace. Before moving into research, I designed SOC architectures and SIEM ingestion pipelines for regulated environments. The limiting factor there was rarely detection logic. It was alert volume that no team could triage, which is the constraint my research starts from.</p>
-
-      <h2>Experience</h2>
-      <h3>AI Security Researcher, SecAI Lab, SKKU</h3>
-      <p>2026&ndash;Present</p>
-      <ul>
-        <li>Study how AI assistance changes adversary capability, and what detection has to do once reconnaissance and evasion are cheap to automate.</li>
-        <li>Evaluate where AI assistance lowers analyst load in a security operations center (SOC), and where it moves the bottleneck instead of removing it.</li>
-        <li>Research in progress, with no published results yet.</li>
-      </ul>
-      <h3>Lead Security Engineer, SysArc</h3>
-      <p>2024&ndash;2026</p>
-      <ul>
-        <li>Led the security engineering and incident response team.</li>
-        <li>Directed threat hunting initiatives and cloud security operations across Azure and Microsoft 365 environments.</li>
-        <li>Delivered executive-level reporting and strategic security posture assessments.</li>
-      </ul>
-      <h3>Security Engineer, SysArc</h3>
-      <p>2022&ndash;2024</p>
-      <ul>
-        <li>Helped enterprises and government contractors reach and maintain NIST 800-171 and CMMC compliance.</li>
-        <li>Designed and implemented enterprise SOC architectures for commercial and government contractor clients.</li>
-        <li>Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity and reduced noise through structured normalization validation.</li>
-        <li>Wrote and tuned SIEM detection rules across endpoint, firewall, and cloud telemetry to expand attack coverage.</li>
-        <li>Managed the cybersecurity tool stack for the proactive services department.</li>
-      </ul>
-      <h3>Software Engineer III, Cybersecurity (Pentest), Walmart Global Tech</h3>
-      <p>2021&ndash;2022</p>
-      <ul>
-        <li>Conducted enterprise application penetration testing for web and mobile platforms.</li>
-        <li>Scoped and ran assessments as the final gate in the application development cycle.</li>
-        <li>Developed structured threat models and collaborated with engineering teams to integrate secure SDLC controls.</li>
-        <li>Evaluated authentication, authorization, and input sanitization implementations in high-sensitivity environments.</li>
-      </ul>
-      <h3>Network Administrator, Blue Heron Systems</h3>
-      <p>2019&ndash;2021</p>
-      <ul>
-        <li>Administered more than 1,000 Cradlepoint routers across hundreds of remote locations.</li>
-        <li>Designed and integrated a Cisco network backbone.</li>
-        <li>Conducted recurring security assessments and rapid incident response adjustments.</li>
-      </ul>
-
-      <h2>Education</h2>
-      <h3>M.S. Computer Science and Engineering (AI), Sungkyunkwan University (SKKU) <span lang="ko">성균관대학교</span></h3>
-      <p>Sep 2026 – May 2028 (expected)</p>
-      <p>SecAI Lab. Research on AI-assisted defense and SOC automation.</p>
-      <h3>B.S. Computer Networks and Cybersecurity, University of Maryland Global Campus</h3>
-      <p>2020–2021</p>
-      <p>GPA 3.455 of 4.0. Minor in East Asian Studies.</p>
-      <h3>Associate degrees, Cyber Security and Computer Networking, Anne Arundel Community College</h3>
-      <p>2018–2020</p>
-      <p>Dual degrees. Concentration in computer and information systems security and information assurance.</p>
-
-      <h2>Research interests</h2>
-      <h3>AI-augmented adversarial attack and defense</h3>
-      <p>How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.</p>
-      <h3>SOC optimization</h3>
-      <p>Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.</p>
-      <h3>Threat hunting and adversary intelligence</h3>
-      <p>Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.</p>
-      <p><a href="reading.html">Reading list for these areas</a></p>
-
-      <h2>Projects</h2>
-      <h3>SIEM alert-fidelity pipeline</h3>
-      <p>A generalized normalization pipeline that validates structured fields before correlation, which cuts false-positive volume in high-telemetry environments.</p>
-      <p>SIEM, Detection Engineering, Python. Illustrative example, not real client work.</p>
-      <h3>Cloud identity threat model</h3>
-      <p>A threat-modeling walkthrough for Azure and Microsoft 365 identity flows. It maps privilege-escalation paths and ranks them by what an attacker gains.</p>
-      <p>Azure, Threat Modeling, M365. Illustrative example, not real client work.</p>
-      <h3>APT infrastructure tracking pattern</h3>
-      <p>A method for correlating adversary infrastructure indicators over time, so hunting starts from infrastructure reuse rather than single indicators.</p>
-      <p>Threat Intel, OPSEC. Illustrative example, not real client work.</p>
-
-      <h2>Contact</h2>
-      <p>I am looking for research collaborations and opportunities to present at conferences. If you work on AI-assisted defense, detection engineering, or SOC automation, I would like to hear from you.</p>
-      <p>Based in Suwon <span lang="ko">(수원)</span>, South Korea, with a home base in Maryland, USA.</p>
-      <ul>
-        <li>Email: <a href="mailto:williamgarrettennis@gmail.com">williamgarrettennis@gmail.com</a></li>
-        <li>LinkedIn: <a href="https://www.linkedin.com/in/garrett-ennis-security/">https://www.linkedin.com/in/garrett-ennis-security/</a></li>
-        <li>GitHub: <a href="https://github.com/hi-im-pod">https://github.com/hi-im-pod</a></li>
-        <li><a href="assets/Garrett_Ennis_CV_General.pdf">Download r&eacute;sum&eacute;</a></li>
-      </ul>
-    </div>
-      <!-- noscript:end -->
+      <p class="noscript-note">The content below is plain HTML and reads fine without JavaScript. What needs it is the motion: the meter bars, the decoder, and the radio.</p>
     </noscript>
 
     <section id="hero" class="section section--hero">
       <div class="hero-sparkles" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span><span></span>
       </div>
-      <div id="hero-content" class="hero-content"></div>
+      <div id="hero-content" class="hero-content"><!-- gen:hero-content -->
+    <p class="eyebrow-line">AI Security Researcher / Security Engineer</p>
+    <h1>Garrett Ennis</h1>
+    <p class="tagline">Optimizing AI-assisted defenders by building the attackers they have to face.</p>
+    <div class="hero-actions">
+      <a class="btn" href="assets/Garrett_Ennis_CV_General.pdf" download>Download résumé</a>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+  <!-- /gen:hero-content --></div>
       <div class="hero-waveform" data-waveform-hero data-signal="GARRETT ENNIS"></div>
     </section>
 
@@ -146,44 +52,152 @@
 
     <section id="about" class="section">
       <h2>About</h2>
-      <div id="about-content"></div>
+      <div id="about-content"><!-- gen:about-content --><p>I am a master’s student and researcher at the SecAI Lab at Sungkyunkwan University (SKKU), and a security engineer by background. My work covers both sides of one problem: how AI assistance changes what an attacker can do at scale, and what a defender needs in order to keep pace. Before moving into research, I designed SOC architectures and SIEM ingestion pipelines for regulated environments. The limiting factor there was rarely detection logic. It was alert volume that no team could triage, which is the constraint my research starts from.</p><!-- /gen:about-content --></div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="EXPERIENCE"></div>
 
     <section id="experience" class="section">
       <h2>Experience</h2>
-      <ol id="experience-list" class="timeline"></ol>
+      <ol id="experience-list" class="timeline"><!-- gen:experience-list -->
+    <li class="timeline-item">
+      <time datetime="2026">2026–Present</time>
+      <h3>AI Security Researcher, SecAI Lab, SKKU</h3>
+      <ul>
+        <li>Study how AI assistance changes adversary capability, and what detection has to do once reconnaissance and evasion are cheap to automate.</li><li>Evaluate where AI assistance lowers analyst load in a security operations center (SOC), and where it moves the bottleneck instead of removing it.</li><li>Research in progress, with no published results yet.</li>
+      </ul>
+    </li>
+  
+    <li class="timeline-item">
+      <time datetime="2024">2024–2026</time>
+      <h3>Lead Security Engineer, SysArc</h3>
+      <ul>
+        <li>Led the security engineering and incident response team.</li><li>Directed threat hunting initiatives and cloud security operations across Azure and Microsoft 365 environments.</li><li>Delivered executive-level reporting and strategic security posture assessments.</li>
+      </ul>
+    </li>
+  
+    <li class="timeline-item">
+      <time datetime="2022">2022–2024</time>
+      <h3>Security Engineer, SysArc</h3>
+      <ul>
+        <li>Helped enterprises and government contractors reach and maintain NIST 800-171 and CMMC compliance.</li><li>Designed and implemented enterprise SOC architectures for commercial and government contractor clients.</li><li>Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity and reduced noise through structured normalization validation.</li><li>Wrote and tuned SIEM detection rules across endpoint, firewall, and cloud telemetry to expand attack coverage.</li><li>Managed the cybersecurity tool stack for the proactive services department.</li>
+      </ul>
+    </li>
+  
+    <li class="timeline-item">
+      <time datetime="2021">2021–2022</time>
+      <h3>Software Engineer III, Cybersecurity (Pentest), Walmart Global Tech</h3>
+      <ul>
+        <li>Conducted enterprise application penetration testing for web and mobile platforms.</li><li>Scoped and ran assessments as the final gate in the application development cycle.</li><li>Developed structured threat models and collaborated with engineering teams to integrate secure SDLC controls.</li><li>Evaluated authentication, authorization, and input sanitization implementations in high-sensitivity environments.</li>
+      </ul>
+    </li>
+  
+    <li class="timeline-item">
+      <time datetime="2019">2019–2021</time>
+      <h3>Network Administrator, Blue Heron Systems</h3>
+      <ul>
+        <li>Administered more than 1,000 Cradlepoint routers across hundreds of remote locations.</li><li>Designed and integrated a Cisco network backbone.</li><li>Conducted recurring security assessments and rapid incident response adjustments.</li>
+      </ul>
+    </li>
+  <!-- /gen:experience-list --></ol>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="EDUCATION"></div>
 
     <section id="education" class="section">
       <h2>Education</h2>
-      <ol id="education-list" class="timeline"></ol>
+      <ol id="education-list" class="timeline"><!-- gen:education-list -->
+    <li class="timeline-item">
+      <time>Sep 2026 – May 2028 (expected)</time>
+      <h3>M.S. Computer Science and Engineering (AI), Sungkyunkwan University (SKKU) <span lang="ko">성균관대학교</span></h3>
+      <p>SecAI Lab. Research on AI-assisted defense and SOC automation.</p>
+    </li>
+  
+    <li class="timeline-item">
+      <time>2020–2021</time>
+      <h3>B.S. Computer Networks and Cybersecurity, University of Maryland Global Campus</h3>
+      <p>GPA 3.455 of 4.0. Minor in East Asian Studies.</p>
+    </li>
+  
+    <li class="timeline-item">
+      <time>2018–2020</time>
+      <h3>Associate degrees, Cyber Security and Computer Networking, Anne Arundel Community College</h3>
+      <p>Dual degrees. Concentration in computer and information systems security and information assurance.</p>
+    </li>
+  <!-- /gen:education-list --></ol>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="RESEARCH"></div>
 
     <section id="research" class="section">
       <h2>Research interests</h2>
-      <div id="research-list" class="card-grid"></div>
+      <div id="research-list" class="card-grid"><!-- gen:research-list -->
+    <a class="card card--link" href="reading.html#ai-adversarial">
+      <h3>AI-augmented adversarial attack and defense</h3>
+      <p>How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.</p>
+      <span class="card__cue">6 papers</span>
+    </a>
+  
+    <a class="card card--link" href="reading.html#soc">
+      <h3>SOC optimization</h3>
+      <p>Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.</p>
+      <span class="card__cue">4 papers</span>
+    </a>
+  
+    <a class="card card--link" href="reading.html#threat-hunting">
+      <h3>Threat hunting and adversary intelligence</h3>
+      <p>Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.</p>
+      <span class="card__cue">5 papers</span>
+    </a>
+  <!-- /gen:research-list --></div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="PROJECTS"></div>
 
     <section id="projects" class="section">
       <h2>Projects</h2>
-      <div id="projects-list" class="tile-grid"></div>
+      <div id="projects-list" class="tile-grid"><!-- gen:projects-list -->
+    <div class="tile">
+      <h3>SIEM alert-fidelity pipeline</h3>
+      <p>A generalized normalization pipeline that validates structured fields before correlation, which cuts false-positive volume in high-telemetry environments.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">SIEM</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">Python</span>
+      </div>
+      <p class="tile__note">Illustrative example, not real client work.</p>
+    </div>
+  
+    <div class="tile">
+      <h3>Cloud identity threat model</h3>
+      <p>A threat-modeling walkthrough for Azure and Microsoft 365 identity flows. It maps privilege-escalation paths and ranks them by what an attacker gains.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">Azure</span><span class="tile__tag">Threat Modeling</span><span class="tile__tag">M365</span>
+      </div>
+      <p class="tile__note">Illustrative example, not real client work.</p>
+    </div>
+  
+    <div class="tile">
+      <h3>APT infrastructure tracking pattern</h3>
+      <p>A method for correlating adversary infrastructure indicators over time, so hunting starts from infrastructure reuse rather than single indicators.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">Threat Intel</span><span class="tile__tag">OPSEC</span>
+      </div>
+      <p class="tile__note">Illustrative example, not real client work.</p>
+    </div>
+  <!-- /gen:projects-list --></div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="RADIO"></div>
 
     <section id="radio" class="section">
       <h2>Radio</h2>
-      <p class="radio-intro" id="radio-intro"></p>
+      <p class="radio-intro" id="radio-intro"><!-- gen:radio-intro -->Tracks play from YouTube, so nothing loads from Google until you press play. The bar fields across the site follow whatever is playing.<!-- /gen:radio-intro --></p>
 
-      <ul class="radio-list" id="radio-list"></ul>
+      <ul class="radio-list" id="radio-list"><!-- gen:radio-list -->
+      <li>
+        <span class="radio-track-title">WannaCry</span>
+        <span class="radio-track-artist">Ninajirachi & Porter Robinson</span>
+      </li>
+    <!-- /gen:radio-list --></ul>
 
       <p class="radio-status" id="radio-status" hidden></p>
 
@@ -198,7 +212,14 @@
 
     <section id="contact" class="section">
       <h2>Contact</h2>
-      <div id="contact-content"></div>
+      <div id="contact-content"><!-- gen:contact-content -->
+    <p>I am looking for research collaborations and opportunities to present at conferences. If you work on AI-assisted defense, detection engineering, or SOC automation, I would like to hear from you.</p>
+    <p>Based in Suwon <span lang="ko">(수원)</span>, South Korea, with a home base in Maryland, USA. The fastest way to reach me is email.</p>
+    <div class="hero-actions">
+      <a class="btn" href="mailto:williamgarrettennis@gmail.com">Email me</a>
+      <a class="btn" href="assets/Garrett_Ennis_CV_General.pdf" download>Download résumé</a>
+    </div>
+  <!-- /gen:contact-content --></div>
     </section>
   </main>
 
@@ -222,7 +243,17 @@
     </p>
   </div>
 
-  <footer id="site-footer" class="site-footer"></footer>
+  <footer id="site-footer" class="site-footer"><!-- gen:site-footer -->
+    <div class="footer-signal" data-signal="I SEE YOU"></div>
+    <p>Garrett Ennis</p>
+    <p>
+      <a href="mailto:williamgarrettennis@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/garrett-ennis-security/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/hi-im-pod" target="_blank" rel="noopener">GitHub</a>
+      <a href="ethics.html">Ethics</a>
+    </p>
+    <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them, and <a href="decoder.html">so can you</a>. Bars sitting still? <a href="diagnostics.html">Check your browser</a>.</p>
+  <!-- /gen:site-footer --></footer>
 
   <script type="module" src="js/render.js"></script>
 </body>

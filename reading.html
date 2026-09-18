@@ -11,12 +11,6 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
-  <noscript>
-    <style>
-      main > section, main > .divider { display: none !important; }
-      .noscript-content { display: block; }
-    </style>
-  </noscript>
 </head>
 <body>
   <nav id="site-nav" class="site-nav">
@@ -33,49 +27,7 @@
 
   <main>
     <noscript>
-      <!-- noscript:start -->
-      <div class="noscript-content">
-      <p class="noscript-note">This page builds its layout and visuals with JavaScript, which is turned off in your browser. Below is the same information as plain text. Turn JavaScript on for the full version.</p>
-
-      <h1>Reading</h1>
-      <p>Published work behind each research interest. Every entry is peer reviewed, at a conference or in a journal. No preprints.</p>
-
-      <h2>AI-augmented adversarial attack and defense</h2>
-      <p>How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.</p>
-      <blockquote><p>Most of the attention here goes to attack demonstrations. I think the benchmarks matter more. Cybench, NYU CTF Bench, and AgentDojo turn "could an agent do this" into a number, and a number is what lets a defender argue about coverage instead of intuition. I am more optimistic than most about which side gains from this. The same automation that produces an exploit also produces the detection for it, and the defender gets to run it against their own environment first.</p></blockquote>
-      <ul>
-        <li><a href="https://proceedings.iclr.cc/paper_files/paper/2025/hash/3e9412a9c1d93810ef3ef7825115016b-Abstract-Conference.html">Cybench: A Framework for Evaluating Cybersecurity Capabilities and Risks of Language Models</a><br>Zhang et al. ICLR, 2025.</li>
-        <li><a href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html">AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents</a><br>Debenedetti et al. NeurIPS Datasets and Benchmarks, 2024.</li>
-        <li><a href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/69d97a6493fbf016fff0a751f253ad18-Abstract-Datasets_and_Benchmarks_Track.html">NYU CTF Bench: A Scalable Open-Source Benchmark Dataset for Evaluating LLMs in Offensive Security</a><br>Shao et al. NeurIPS Datasets and Benchmarks, 2024.</li>
-        <li><a href="https://www.usenix.org/conference/usenixsecurity24/presentation/deng">PentestGPT: Evaluating and Harnessing Large Language Models for Automated Penetration Testing</a><br>Deng et al. USENIX Security, 2024.</li>
-        <li><a href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/fd6613131889a4b656206c50a8bd7790-Abstract-Conference.html">Jailbroken: How Does LLM Safety Training Fail?</a><br>Wei, Haghtalab, and Steinhardt. NeurIPS, 2023.</li>
-        <li><a href="https://doi.org/10.1145/3605764.3623985">Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection</a><br>Greshake et al. AISec at ACM CCS, 2023.</li>
-      </ul>
-
-      <h2>SOC optimization</h2>
-      <p>Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.</p>
-      <blockquote><p>Both surveys reach the conclusion I reached in production: alert volume, not detection logic, is the binding constraint. That is where I think AI earns its place first, filtering noise rather than trying to replace the analyst. Rule generation is the other half of the problem. If writing a detection gets cheap, coverage expands, and the filtering has to improve at the same rate or the analyst ends up worse off than before.</p></blockquote>
-      <ul>
-        <li><a href="https://www.usenix.org/conference/usenixsecurity26/presentation/cai">From Texts to Rules: Generating Sigma Rules with Large Language Models from Cyber Threat Reports</a><br>Cai, Qiu, Li, Cheng, and Chen. USENIX Security, 2026.</li>
-        <li><a href="https://doi.org/10.1145/3723158">Alert Fatigue in Security Operations Centres: Research Challenges and Opportunities</a><br>Tariq, Baruwal Chhetri, Nepal, and Paris. ACM Computing Surveys 57(9), 2025.</li>
-        <li><a href="https://doi.org/10.1145/3695462">Alert Prioritisation in Security Operations Centres: A Systematic Survey on Criteria and Methods</a><br>Jalalvand, Baruwal Chhetri, Nepal, and Paris. ACM Computing Surveys 57(2), 2024.</li>
-        <li><a href="https://www.usenix.org/conference/soups2015/proceedings/presentation/sundaramurthy">A Human Capital Model for Mitigating Security Analyst Burnout</a><br>Sundaramurthy et al. SOUPS, 2015.</li>
-      </ul>
-
-      <h2>Threat hunting and adversary intelligence</h2>
-      <p>Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.</p>
-      <blockquote><p>Provenance-based detection answers the attribution question and creates a volume question. HOLMES, UNICORN, and MAGIC each produce a graph that an analyst still has to read. The Tea Leaves result is the uncomfortable one, because threat intelligence feeds agree with each other less than most teams assume. Given the choice, I would rather expand rule coverage and filter hard than trust any single feed’s precision.</p></blockquote>
-      <ul>
-        <li><a href="https://www.usenix.org/conference/usenixsecurity24/presentation/jia-zian">MAGIC: Detecting Advanced Persistent Threats via Masked Graph Representation Learning</a><br>Jia et al. USENIX Security, 2024.</li>
-        <li><a href="https://ieeexplore.ieee.org/document/8835390/">HOLMES: Real-Time APT Detection through Correlation of Suspicious Information Flows</a><br>Milajerdi et al. IEEE Symposium on Security and Privacy, 2019.</li>
-        <li><a href="https://www.ndss-symposium.org/ndss-paper/unicorn-runtime-provenance-based-detector-for-advanced-persistent-threats/">UNICORN: Runtime Provenance-Based Detector for Advanced Persistent Threats</a><br>Han, Pasquier, Bates, Mickens, and Seltzer. NDSS, 2020.</li>
-        <li><a href="https://www.usenix.org/conference/usenixsecurity21/presentation/alsaheel">ATLAS: A Sequence-based Learning Approach for Attack Investigation</a><br>Alsaheel et al. USENIX Security, 2021.</li>
-        <li><a href="https://www.usenix.org/conference/usenixsecurity19/presentation/li">Reading the Tea Leaves: A Comparative Analysis of Threat Intelligence</a><br>Li et al. USENIX Security, 2019.</li>
-      </ul>
-
-      <p><a href="index.html">Back to the main page</a></p>
-    </div>
-      <!-- noscript:end -->
+      <p class="noscript-note">The content below is plain HTML and reads fine without JavaScript. What needs it is the motion: the meter bars, the decoder, and the radio.</p>
     </noscript>
 
     <section class="section section--page-head">
@@ -86,12 +38,124 @@
     <div class="divider" data-waveform-divider data-signal="READING"></div>
 
     <section class="section">
-      <div id="reading-content"></div>
+      <div id="reading-content"><!-- gen:reading-content -->
+    <div class="reading-group" id="ai-adversarial">
+      <h2>AI-augmented adversarial attack and defense</h2>
+      <p class="reading-group__note">How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.</p>
+      <blockquote class="reading-position">Most of the attention here goes to attack demonstrations. I think the benchmarks matter more. Cybench, NYU CTF Bench, and AgentDojo turn "could an agent do this" into a number, and a number is what lets a defender argue about coverage instead of intuition. I am more optimistic than most about which side gains from this. The same automation that produces an exploit also produces the detection for it, and the defender gets to run it against their own environment first.</blockquote>
+      <ul class="reading-list">
+        
+          <li>
+            <a href="https://proceedings.iclr.cc/paper_files/paper/2025/hash/3e9412a9c1d93810ef3ef7825115016b-Abstract-Conference.html" target="_blank" rel="noopener">Cybench: A Framework for Evaluating Cybersecurity Capabilities and Risks of Language Models</a>
+            <span class="reading-meta">Zhang et al. ICLR, 2025.</span>
+          </li>
+        
+          <li>
+            <a href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html" target="_blank" rel="noopener">AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents</a>
+            <span class="reading-meta">Debenedetti et al. NeurIPS Datasets and Benchmarks, 2024.</span>
+          </li>
+        
+          <li>
+            <a href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/69d97a6493fbf016fff0a751f253ad18-Abstract-Datasets_and_Benchmarks_Track.html" target="_blank" rel="noopener">NYU CTF Bench: A Scalable Open-Source Benchmark Dataset for Evaluating LLMs in Offensive Security</a>
+            <span class="reading-meta">Shao et al. NeurIPS Datasets and Benchmarks, 2024.</span>
+          </li>
+        
+          <li>
+            <a href="https://www.usenix.org/conference/usenixsecurity24/presentation/deng" target="_blank" rel="noopener">PentestGPT: Evaluating and Harnessing Large Language Models for Automated Penetration Testing</a>
+            <span class="reading-meta">Deng et al. USENIX Security, 2024.</span>
+          </li>
+        
+          <li>
+            <a href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/fd6613131889a4b656206c50a8bd7790-Abstract-Conference.html" target="_blank" rel="noopener">Jailbroken: How Does LLM Safety Training Fail?</a>
+            <span class="reading-meta">Wei, Haghtalab, and Steinhardt. NeurIPS, 2023.</span>
+          </li>
+        
+          <li>
+            <a href="https://doi.org/10.1145/3605764.3623985" target="_blank" rel="noopener">Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection</a>
+            <span class="reading-meta">Greshake et al. AISec at ACM CCS, 2023.</span>
+          </li>
+        
+      </ul>
+    </div>
+  
+    <div class="reading-group" id="soc">
+      <h2>SOC optimization</h2>
+      <p class="reading-group__note">Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.</p>
+      <blockquote class="reading-position">Both surveys reach the conclusion I reached in production: alert volume, not detection logic, is the binding constraint. That is where I think AI earns its place first, filtering noise rather than trying to replace the analyst. Rule generation is the other half of the problem. If writing a detection gets cheap, coverage expands, and the filtering has to improve at the same rate or the analyst ends up worse off than before.</blockquote>
+      <ul class="reading-list">
+        
+          <li>
+            <a href="https://www.usenix.org/conference/usenixsecurity26/presentation/cai" target="_blank" rel="noopener">From Texts to Rules: Generating Sigma Rules with Large Language Models from Cyber Threat Reports</a>
+            <span class="reading-meta">Cai, Qiu, Li, Cheng, and Chen. USENIX Security, 2026.</span>
+          </li>
+        
+          <li>
+            <a href="https://doi.org/10.1145/3723158" target="_blank" rel="noopener">Alert Fatigue in Security Operations Centres: Research Challenges and Opportunities</a>
+            <span class="reading-meta">Tariq, Baruwal Chhetri, Nepal, and Paris. ACM Computing Surveys 57(9), 2025.</span>
+          </li>
+        
+          <li>
+            <a href="https://doi.org/10.1145/3695462" target="_blank" rel="noopener">Alert Prioritisation in Security Operations Centres: A Systematic Survey on Criteria and Methods</a>
+            <span class="reading-meta">Jalalvand, Baruwal Chhetri, Nepal, and Paris. ACM Computing Surveys 57(2), 2024.</span>
+          </li>
+        
+          <li>
+            <a href="https://www.usenix.org/conference/soups2015/proceedings/presentation/sundaramurthy" target="_blank" rel="noopener">A Human Capital Model for Mitigating Security Analyst Burnout</a>
+            <span class="reading-meta">Sundaramurthy et al. SOUPS, 2015.</span>
+          </li>
+        
+      </ul>
+    </div>
+  
+    <div class="reading-group" id="threat-hunting">
+      <h2>Threat hunting and adversary intelligence</h2>
+      <p class="reading-group__note">Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.</p>
+      <blockquote class="reading-position">Provenance-based detection answers the attribution question and creates a volume question. HOLMES, UNICORN, and MAGIC each produce a graph that an analyst still has to read. The Tea Leaves result is the uncomfortable one, because threat intelligence feeds agree with each other less than most teams assume. Given the choice, I would rather expand rule coverage and filter hard than trust any single feed’s precision.</blockquote>
+      <ul class="reading-list">
+        
+          <li>
+            <a href="https://www.usenix.org/conference/usenixsecurity24/presentation/jia-zian" target="_blank" rel="noopener">MAGIC: Detecting Advanced Persistent Threats via Masked Graph Representation Learning</a>
+            <span class="reading-meta">Jia et al. USENIX Security, 2024.</span>
+          </li>
+        
+          <li>
+            <a href="https://ieeexplore.ieee.org/document/8835390/" target="_blank" rel="noopener">HOLMES: Real-Time APT Detection through Correlation of Suspicious Information Flows</a>
+            <span class="reading-meta">Milajerdi et al. IEEE Symposium on Security and Privacy, 2019.</span>
+          </li>
+        
+          <li>
+            <a href="https://www.ndss-symposium.org/ndss-paper/unicorn-runtime-provenance-based-detector-for-advanced-persistent-threats/" target="_blank" rel="noopener">UNICORN: Runtime Provenance-Based Detector for Advanced Persistent Threats</a>
+            <span class="reading-meta">Han, Pasquier, Bates, Mickens, and Seltzer. NDSS, 2020.</span>
+          </li>
+        
+          <li>
+            <a href="https://www.usenix.org/conference/usenixsecurity21/presentation/alsaheel" target="_blank" rel="noopener">ATLAS: A Sequence-based Learning Approach for Attack Investigation</a>
+            <span class="reading-meta">Alsaheel et al. USENIX Security, 2021.</span>
+          </li>
+        
+          <li>
+            <a href="https://www.usenix.org/conference/usenixsecurity19/presentation/li" target="_blank" rel="noopener">Reading the Tea Leaves: A Comparative Analysis of Threat Intelligence</a>
+            <span class="reading-meta">Li et al. USENIX Security, 2019.</span>
+          </li>
+        
+      </ul>
+    </div>
+  <!-- /gen:reading-content --></div>
       <p class="reading-back"><a href="index.html#research">Back to research interests</a></p>
     </section>
   </main>
 
-  <footer id="site-footer" class="site-footer"></footer>
+  <footer id="site-footer" class="site-footer"><!-- gen:site-footer -->
+    <div class="footer-signal" data-signal="I SEE YOU"></div>
+    <p>Garrett Ennis</p>
+    <p>
+      <a href="mailto:williamgarrettennis@gmail.com">Email</a>
+      <a href="https://www.linkedin.com/in/garrett-ennis-security/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/hi-im-pod" target="_blank" rel="noopener">GitHub</a>
+      <a href="ethics.html">Ethics</a>
+    </p>
+    <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them, and <a href="decoder.html">so can you</a>. Bars sitting still? <a href="diagnostics.html">Check your browser</a>.</p>
+  <!-- /gen:site-footer --></footer>
 
   <script type="module" src="js/reading.js"></script>
 </body>
