@@ -22,7 +22,8 @@ npx http-server -p 8788 -c-1
 | `js/render.js` | Applies the templates to the front page and wires up the rest. |
 | `js/waveform.js` | The bar fields, including the Morse encoding. |
 | `css/` | Design tokens, base, layout, components, and the generated font sheet. |
-| `tools/` | Two generators, described below. |
+| `js/playlist.js` | The radio's tracks and their running order. |
+| `tools/` | Four generators, described below. |
 
 ## Generators
 
@@ -46,6 +47,10 @@ the noscript fallback stays hidden. Before this existed, `index.html` in that
 state came to 68 characters, and so did the view a link unfurler or a
 non-JavaScript crawler got.
 
+`tools/build-social-card.mjs` renders `assets/social-card.png`, the image a link
+preview shows, from the site's own type and bar field. Needs playwright and the
+site served locally. Only needed when the name, tagline or palette changes.
+
 `tools/rank-tracks.mjs` ranks the radio's tracks by how much of each one sits
 near silence, and says whether `js/playlist.js` is in that order. The running
 order puts the liveliest material first, because the bars are the point. It
@@ -60,3 +65,27 @@ to be guessed from where a field sits: they name their section sideways.
 
 Fonts are self-hosted under the SIL Open Font License 1.1. See
 `assets/fonts/README.txt`. The site makes no third-party requests.
+
+## Writing up a project
+
+`work.html` carries the reasoning behind each project rather than a rebuild of
+it, because the systems are covered by agreements and a demo in non-standard
+tooling would prove less than the decisions do.
+
+Each entry in `projects` in `js/content.js` has four fields, and a project only
+appears on the page once all four are written. Until then its tile on the front
+page stays a plain card, so a half-finished write-up cannot ship:
+
+| Field | What it holds |
+| --- | --- |
+| `constraint` | What made it hard. Name the number if there is one. |
+| `decision` | What was chosen. One sentence, active voice. |
+| `rejected` | The option not taken, and why it was wrong *here* rather than wrong in general. |
+| `measure` | How anyone would know it worked. A metric, not a feeling. |
+
+Any field can be a string or an array of strings, which renders as separate
+paragraphs. `rejected` is the one that carries the piece: describing what was
+built is available to anyone, and naming the obvious approach and why it failed
+in that environment is not.
+
+Run `node tools/build-static.mjs` after editing.
