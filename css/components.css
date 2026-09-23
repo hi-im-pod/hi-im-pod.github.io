@@ -703,3 +703,6 @@
   margin-bottom: var(--space-1);
 }
 .work-beat p { margin: 0; }
+/* A beat can run to several paragraphs, and without this they close up into
+   one block that is hard to scan. */
+.work-beat p + p { margin-top: var(--space-2); }

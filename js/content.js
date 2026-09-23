@@ -297,14 +297,52 @@ export const researchInterests = [
 export const projects = [
   {
     id: 'siem-fidelity',
-    title: 'SIEM alert-fidelity pipeline',
+    title: 'Multi-tenant SIEM architecture',
     description:
-      'A generalized normalization pipeline that validates structured fields before correlation, which cuts false-positive volume in high-telemetry environments.',
-    tags: ['SIEM', 'Detection Engineering', 'Python'],
-    constraint: '',
-    decision: '',
-    rejected: '',
-    measure: '',
+      'Three SIEM platforms across more than 30 government-contractor clients, each chosen for the estate it had to monitor, all feeding one alert queue.',
+    tags: ['SIEM', 'Detection Engineering', 'GCC High', 'Kafka'],
+    constraint: [
+      'An MSSP with more than 30 SOC customers, all government contractors under CMMC. '
+      + 'The estates had almost nothing in common: different services, different architectures, '
+      + 'different sites, and devices we did not own. A conventional SOC structure assumes one '
+      + 'estate, and there were thirty.',
+      'GCC High added a limit of its own. Its management APIs lag the commercial tenant and use '
+      + 'different URLs and parameters, so tooling that works against commercial Microsoft does '
+      + 'not necessarily work there at all.',
+    ],
+    decision: [
+      'Three platforms, chosen per client rather than one standard, behind a single alert surface.',
+      'Sentinel took the GCC High cloud workloads, ingesting through log forwarding, Event Hubs, '
+      + 'Defender, and connectors I built for Microsoft XDR, with Azure Arc and the Azure Monitor '
+      + 'Agent extending reach to machines outside the tenant. On-premises servers and firewalls '
+      + 'went through a local Kafka platform that normalised before writing to an analytics bucket, '
+      + 'with syslog split to its own.',
+      'AlienVault took the clients outside full FedRAMP scope who were not running SentinelOne. '
+      + 'That one is almost entirely agent-based, with API integrations to Azure, FortiGate and '
+      + 'whichever EDR the client had, and on-premises sensors forwarding network and firewall data '
+      + 'over HTTPS.',
+      'SentinelOne took the clients already using it for EDR. I wrote parsers and translators into '
+      + 'its parsing engine in regex and JSON, covering whatever applications a client asked for, '
+      + 'fed from endpoint agents and a Scalyr agent on a hardened central server. Everything was '
+      + 'normalised before it reached the data lake.',
+      'Detection was written per platform, as analytics and fusion rules in Sentinel and STAR rules '
+      + 'against the SentinelOne lake. One API then polled all three for alerts in near real time '
+      + 'and pushed them into the SOC dashboard in our PSA tool, so an analyst worked a single queue.',
+    ],
+    rejected: [
+      'Standardising on one SIEM and fitting every client to it. That is cheaper to run and it was '
+      + 'the wrong answer here, because the estates differed in exactly the ways that decide the '
+      + 'tool.',
+      'A cloud-native GCC High tenant, a site of on-premises firewalls with no cloud presence, and '
+      + 'a client with SentinelOne already deployed are three different ingestion problems. '
+      + 'Retrofitting one platform across all three means paying for the mismatch in every '
+      + 'environment instead of choosing once per client. Architecture, tooling and scope should '
+      + 'follow the environment rather than the other way round.',
+    ],
+    measure: [
+      'Whether the platform was invisible at the dashboard. Analysts worked one queue, and if the '
+      + 'choice of SIEM behind an alert changed how they triaged it, the design had failed.',
+    ],
   },
   {
     id: 'cloud-identity',

@@ -73,7 +73,10 @@ export const researchList = () => researchInterests.map(item => {
 // A project with all four beats written has something to link to. One without
 // stays a plain tile, the same way a research interest with no papers does, so
 // a half-written page never ships.
-const writtenUp = p => Boolean(p.constraint && p.decision && p.rejected && p.measure);
+// A beat is a string, or an array of them when it needs more than one
+// paragraph. Both count as written; an empty array does not.
+const filled = v => (Array.isArray(v) ? v.length > 0 && v.every(Boolean) : Boolean(v));
+const writtenUp = p => [p.constraint, p.decision, p.rejected, p.measure].every(filled);
 export const projectsWithWriteUp = () => projects.filter(writtenUp);
 
 export const projectsList = () => projects.map(project => {
@@ -125,7 +128,7 @@ export const work = () => {
       ${BEATS.map(([key, label]) => `
       <div class="work-beat">
         <h3>${label}</h3>
-        <p>${p[key]}</p>
+        ${[p[key]].flat().map(para => `<p>${para}</p>`).join('')}
       </div>`).join('')}
     </div>
   `).join('');
