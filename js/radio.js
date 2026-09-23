@@ -261,14 +261,31 @@ function status(text) {
 // that the contour and the video actually agree on how long the track is. A
 // visualiser built from a different master than the one playing drifts further
 // out of step the longer it runs, and nothing on screen would say why.
+// Installed once as a getter rather than reassigned on each paint. As a plain
+// object it was a snapshot taken at the last state change, so currentTime sat
+// frozen at whatever it read when playback began and any drift measured from
+// it was a comparison of two stale numbers. Reading it now samples the player.
+let statePublished = false;
 function publishState() {
-  window.__radio = {
+  if (statePublished) return;
+  statePublished = true;
+  Object.defineProperty(window, '__radio', { configurable: true, get: snapshot });
+}
+
+function snapshot() {
+  return {
     playing,
     index: current,
     count: playlist.length,
     track: playlist[current]?.title ?? null,
     videoSeconds: player?.getDuration?.() ?? null,
     envelopeSeconds: live ? live.frames / live.fps : null,
+    // Where playback is, and where the contour thinks it is. The gap between
+    // them is what a viewer sees as the bars being out of time with the music,
+    // so it is worth being able to read rather than guess at. It grows when
+    // someone scrubs and closes again on the next re-anchor.
+    currentTime: player?.getCurrentTime?.() ?? null,
+    contourTime: live ? elapsed() : null,
     // Whether YouTube is holding the whole list, which is what buffers the
     // next track ahead of the seam.
     queued: player?.getPlaylist?.()?.length ?? 0,
