@@ -154,8 +154,9 @@ function createPlayer(index) {
           player.setLoop(true);
           resolve();
         },
-        onStateChange: e => {
-          playing = e.data === window.YT.PlayerState.PLAYING;
+        onStateChange: () => {
+          // Reacts at once, but the tick is what keeps this honest.
+          playing = isPlaying();
           if (player.getCurrentTime) setAnchor(player.getCurrentTime());
           syncToPlaylist();
           paint();
@@ -193,10 +194,27 @@ function syncToPlaylist() {
 
 // Re-anchor a few times a second. Between these the local clock carries the
 // contour, which is what keeps it smooth across a 60fps redraw.
+// Is the player actually playing, asked of the player rather than remembered
+// from an event.
+function isPlaying() {
+  return player?.getPlayerState?.() === window.YT?.PlayerState?.PLAYING;
+}
+
+// The tick re-reads the state instead of trusting the flag onStateChange left
+// behind. A single missed PLAYING event used to strand that flag at false for
+// the rest of the session: the contour then stopped advancing while the music
+// carried on, so the bars sat frozen and drifted further from the track every
+// second. It happened on the deployed site and not locally, which is the kind
+// of difference a cached event will produce and a polled reading will not.
 function startTracking() {
   setInterval(() => {
-    if (!playing || !player?.getCurrentTime) return;
-    setAnchor(player.getCurrentTime());
+    if (!player?.getCurrentTime) return;
+    const now = isPlaying();
+    if (now !== playing) {
+      playing = now;
+      paint();
+    }
+    if (playing) setAnchor(player.getCurrentTime());
     syncToPlaylist();
   }, 250);
 }
@@ -286,6 +304,9 @@ function snapshot() {
     // someone scrubs and closes again on the next re-anchor.
     currentTime: player?.getCurrentTime?.() ?? null,
     contourTime: live ? elapsed() : null,
+    // What YouTube says, next to what we think. They disagreeing is the shape
+    // of the bug that froze the contour, so it is worth being able to see.
+    playerState: player?.getPlayerState?.() ?? null,
     // Whether YouTube is holding the whole list, which is what buffers the
     // next track ahead of the seam.
     queued: player?.getPlaylist?.()?.length ?? 0,
