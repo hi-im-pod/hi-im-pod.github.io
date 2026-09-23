@@ -144,19 +144,24 @@ function createPlayer(index) {
       events: {
         onReady: () => {
           player.setVolume(volume);
-          player.playVideo();
+          // Hand YouTube the whole list rather than one video at a time.
+          // Waiting for ENDED and then calling loadVideoById meant the next
+          // track only started downloading once the last one had stopped,
+          // which is audible as a gap. A loaded playlist is buffered ahead, so
+          // the change is a cut. setLoop sends the last entry back to the
+          // first without any code of ours running at the seam.
+          player.loadPlaylist({ playlist: playlist.map(t => t.id), index });
+          player.setLoop(true);
           resolve();
         },
         onStateChange: e => {
-          const YT = window.YT.PlayerState;
-          playing = e.data === YT.PLAYING;
-          if (playing) setAnchor(player.getCurrentTime());
-          else if (player.getCurrentTime) setAnchor(player.getCurrentTime());
-          if (e.data === YT.ENDED) skip(1);
+          playing = e.data === window.YT.PlayerState.PLAYING;
+          if (player.getCurrentTime) setAnchor(player.getCurrentTime());
+          syncToPlaylist();
           paint();
         },
         onError: () => {
-          status('That track would not play. Trying the next one.');
+          status('That track would not play. Skipping it.');
           skip(1);
         },
       },
@@ -164,11 +169,35 @@ function createPlayer(index) {
   });
 }
 
+// YouTube owns the position now, so the page follows it rather than deciding
+// it. Called on every state change and on the tracking tick, because a natural
+// advance between tracks does not always arrive as a state change first.
+function syncToPlaylist() {
+  const i = player?.getPlaylistIndex?.();
+  if (typeof i !== 'number' || i < 0 || i === current) return;
+
+  current = i;
+  live = null;
+  setAnchor(0);
+  status('');
+
+  const track = playlist[current];
+  loadEnvelope(track?.envelope).then(env => {
+    // A slow contour must not land on a track that has since moved on.
+    if (player?.getPlaylistIndex?.() === current) live = env;
+  });
+  // Fetch the following one now, so the next seam has its contour in hand.
+  loadEnvelope(playlist[(current + 1) % playlist.length]?.envelope);
+  paint();
+}
+
 // Re-anchor a few times a second. Between these the local clock carries the
 // contour, which is what keeps it smooth across a 60fps redraw.
 function startTracking() {
   setInterval(() => {
-    if (playing && player?.getCurrentTime) setAnchor(player.getCurrentTime());
+    if (!playing || !player?.getCurrentTime) return;
+    setAnchor(player.getCurrentTime());
+    syncToPlaylist();
   }, 250);
 }
 
@@ -177,6 +206,14 @@ function startTracking() {
 async function play(index) {
   const track = playlist[index];
   if (!track) return;
+
+  // Already running: move within the loaded playlist rather than replacing it,
+  // which would throw away everything buffered ahead.
+  if (player?.playVideoAt) {
+    player.playVideoAt(index);
+    return;
+  }
+
   current = index;
   live = null;
   status('Loading the player from YouTube…');
@@ -188,17 +225,14 @@ async function play(index) {
     return;
   }
 
-  if (!player) {
-    await createPlayer(index);
-    startTracking();
-  } else {
-    player.loadVideoById(track.id);
-  }
+  await createPlayer(index);
+  startTracking();
 
   document.getElementById('radio-stage').hidden = false;
   document.getElementById('radio-controls').hidden = false;
   status('');
   live = await loadEnvelope(track.envelope);
+  loadEnvelope(playlist[(index + 1) % playlist.length]?.envelope);
   paint();
 }
 
@@ -208,9 +242,11 @@ function toggle() {
   else player.playVideo();
 }
 
+// Wrapping is worked out here rather than left to nextVideo, so Back from the
+// first track reaches the last instead of stopping.
 function skip(by) {
-  const next = (current + by + playlist.length) % playlist.length;
-  play(next);
+  if (!player) return play(0);
+  player.playVideoAt((current + by + playlist.length) % playlist.length);
 }
 
 // --- rendering ------------------------------------------------------------
@@ -228,9 +264,19 @@ function status(text) {
 function publishState() {
   window.__radio = {
     playing,
+    index: current,
+    count: playlist.length,
     track: playlist[current]?.title ?? null,
     videoSeconds: player?.getDuration?.() ?? null,
     envelopeSeconds: live ? live.frames / live.fps : null,
+    // Whether YouTube is holding the whole list, which is what buffers the
+    // next track ahead of the seam.
+    queued: player?.getPlaylist?.()?.length ?? 0,
+    // Reaches a point in the current track. Diagnostics and the tests use it to
+    // sit on the last few seconds and watch the change between tracks, which
+    // otherwise means waiting most of four minutes to observe. It offers no
+    // more than the player's own scrubber already does.
+    seek: seconds => player?.seekTo?.(seconds, true),
   };
 }
 

@@ -22,6 +22,24 @@ export const playlist = [
     artist: 'Ninajirachi & Porter Robinson',
     envelope: 'assets/envelopes/wannacry.bin',
   },
+  {
+    id: 'HU1EdQKQV3M',
+    title: 'iPod Touch (Madeon Remix)',
+    artist: 'Ninajirachi',
+    envelope: 'assets/envelopes/ipod-touch.bin',
+  },
+  {
+    id: 'Bj_5qfFBn8Q',
+    title: 'The Peace (Frost Children Remix)',
+    artist: 'underscores',
+    envelope: 'assets/envelopes/the-peace.bin',
+  },
+  {
+    id: 'x4ErS1hKABk',
+    title: 'Hard Refresh (DJ Dave Remix)',
+    artist: 'DJ Dave',
+    envelope: 'assets/envelopes/hard-refresh.bin',
+  },
 ];
 
 // Shown above the track list. Says what the radio is, in one line.
