@@ -46,6 +46,11 @@ the noscript fallback stays hidden. Before this existed, `index.html` in that
 state came to 68 characters, and so did the view a link unfurler or a
 non-JavaScript crawler got.
 
+`tools/rank-tracks.mjs` ranks the radio's tracks by how much of each one sits
+near silence, and says whether `js/playlist.js` is in that order. The running
+order puts the liveliest material first, because the bars are the point. It
+reads the committed contours, so it needs no audio.
+
 ## Notes
 
 The section dividers are not decoration. Each spells a word in Morse, encoded in
