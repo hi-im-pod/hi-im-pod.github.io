@@ -155,8 +155,8 @@ function createPlayer(index) {
           resolve();
         },
         onStateChange: () => {
-          // Reacts at once, but the tick is what keeps this honest.
-          playing = isPlaying();
+          // Re-anchors and picks up a track change straight away. It does not
+          // touch `playing`: the tick owns that, from the clock.
           if (player.getCurrentTime) setAnchor(player.getCurrentTime());
           syncToPlaylist();
           paint();
@@ -194,27 +194,33 @@ function syncToPlaylist() {
 
 // Re-anchor a few times a second. Between these the local clock carries the
 // contour, which is what keeps it smooth across a 60fps redraw.
-// Is the player actually playing, asked of the player rather than remembered
-// from an event.
-function isPlaying() {
-  return player?.getPlayerState?.() === window.YT?.PlayerState?.PLAYING;
-}
+// Whether the track is moving, which is the only question the contour needs
+// answered and the one YouTube answers unreliably.
+//
+// Neither the event nor the player's own state can carry this. onStateChange
+// strands the flag at false for the whole session if one PLAYING event is
+// missed, and getPlayerState() is worse: on the deployed site it reports
+// UNSTARTED for the entire track while getCurrentTime() climbs past eight
+// seconds. It reports PLAYING for the identical build on localhost. So the
+// clock is the source of truth: if the position moved since the last tick, the
+// music is playing.
+let lastTick = null;
 
-// The tick re-reads the state instead of trusting the flag onStateChange left
-// behind. A single missed PLAYING event used to strand that flag at false for
-// the rest of the session: the contour then stopped advancing while the music
-// carried on, so the bars sat frozen and drifted further from the track every
-// second. It happened on the deployed site and not locally, which is the kind
-// of difference a cached event will produce and a polled reading will not.
 function startTracking() {
   setInterval(() => {
     if (!player?.getCurrentTime) return;
-    const now = isPlaying();
-    if (now !== playing) {
-      playing = now;
+    const at = player.getCurrentTime();
+
+    // A quarter second of playback moves this by about 0.25, so the threshold
+    // only has to clear floating-point noise.
+    const moving = lastTick !== null && Math.abs(at - lastTick) > 0.01;
+    lastTick = at;
+
+    if (moving !== playing) {
+      playing = moving;
       paint();
     }
-    if (playing) setAnchor(player.getCurrentTime());
+    if (playing) setAnchor(at);
     syncToPlaylist();
   }, 250);
 }
