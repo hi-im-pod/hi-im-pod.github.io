@@ -340,8 +340,16 @@ export const projects = [
       + 'follow the environment rather than the other way round.',
     ],
     measure: [
-      'Whether the platform was invisible at the dashboard. Analysts worked one queue, and if the '
-      + 'choice of SIEM behind an alert changed how they triaged it, the design had failed.',
+      'Alert latency from source to dashboard, and how long a new client took to stand up.',
+      'SentinelOne and AlienVault delivered under a minute. GCC High Sentinel delivered under '
+      + 'five. That gap is the constraint above showing up in the numbers rather than a tuning '
+      + 'failure, and no version of this design closes it.',
+      'A new client was onboarded in under a week, gated by their own IT team rather than by us. '
+      + 'That figure is the real test of choosing per client: a bespoke architecture is only '
+      + 'affordable if standing one up is routine, so every deployment was scripted and staged in '
+      + 'advance, maintenance scripts included.',
+      'Underneath both, one criterion. An analyst worked a single queue, and if the platform '
+      + 'behind an alert changed how they triaged it, the architecture had failed.',
     ],
   },
   {
