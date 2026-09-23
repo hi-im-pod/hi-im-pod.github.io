@@ -44,6 +44,10 @@ const PAGES = {
     'reading-content': t.reading,
     'site-footer': () => t.footer('reading.html'),
   },
+  'work.html': {
+    'work-content': t.work,
+    'site-footer': () => t.footer('work.html'),
+  },
   'decoder.html': { 'site-footer': () => t.footer('decoder.html') },
   'arrival.html': { 'site-footer': () => t.footer('arrival.html') },
   'ethics.html': { 'site-footer': () => t.footer('ethics.html') },

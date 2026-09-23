@@ -276,26 +276,56 @@ export const researchInterests = [
   },
 ];
 
+// Each project is an approach rather than an artifact, because the systems
+// themselves are confidential and a rebuilt toy would prove less than the
+// reasoning does.
+//
+// The four fields below are the write-up. Fill all four and the project gets a
+// section on work.html, with its tile on the front page linking there. Leave
+// them empty and the tile stays a plain card, so nothing half-written ships.
+//
+//   constraint  What made this hard. Volume, budget, data quality, politics,
+//               a deadline, a compliance boundary. Name the number if there is
+//               one: "14,000 alerts a day against two analysts".
+//   decision    What you chose. One sentence, in the active voice.
+//   rejected    The option you did not take, and why it was wrong HERE rather
+//               than wrong in general. This is the beat that shows judgement;
+//               the rest is description.
+//   measure     How you would know it worked. A metric, not a feeling:
+//               false-positive rate, time to triage, coverage against ATT&CK,
+//               how long the rule survived contact with the estate.
 export const projects = [
   {
+    id: 'siem-fidelity',
     title: 'SIEM alert-fidelity pipeline',
     description:
       'A generalized normalization pipeline that validates structured fields before correlation, which cuts false-positive volume in high-telemetry environments.',
     tags: ['SIEM', 'Detection Engineering', 'Python'],
-    illustrative: true,
+    constraint: '',
+    decision: '',
+    rejected: '',
+    measure: '',
   },
   {
+    id: 'cloud-identity',
     title: 'Cloud identity threat model',
     description:
       'A threat-modeling walkthrough for Azure and Microsoft 365 identity flows. It maps privilege-escalation paths and ranks them by what an attacker gains.',
     tags: ['Azure', 'Threat Modeling', 'M365'],
-    illustrative: true,
+    constraint: '',
+    decision: '',
+    rejected: '',
+    measure: '',
   },
   {
+    id: 'apt-infrastructure',
     title: 'APT infrastructure tracking pattern',
     description:
       'A method for correlating adversary infrastructure indicators over time, so hunting starts from infrastructure reuse rather than single indicators.',
     tags: ['Threat Intel', 'OPSEC'],
-    illustrative: true,
+    constraint: '',
+    decision: '',
+    rejected: '',
+    measure: '',
   },
 ];
