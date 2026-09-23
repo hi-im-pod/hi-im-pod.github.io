@@ -29,9 +29,8 @@
   <main>
     <section class="section section--page-head">
       <h1 class="page-title">Ethics</h1>
-      <p class="section-lede">My research builds attacks in order to improve defences. That is a
-        position that needs stating rather than assuming, so here it is, along with what this site
-        does with your data.</p>
+      <p class="section-lede">My research builds attacks in order to improve defences. Here is what that
+        means, and what this site does with your data.</p>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="ETHICS"></div>
@@ -41,33 +40,31 @@
 
       <h3>Why build the attacker</h3>
       <p class="ethics-note">A defence that has never been attacked is an assumption. Adversarial
-        evaluation is how a detection claim becomes a measurement, and it is standard practice in the
-        security venues I work toward. When I describe building attackers, I mean building them in a
-        lab, against systems I am authorised to test, to find out what a defender would actually have
-        missed.</p>
+        evaluation is how a detection claim becomes a measurement, and it is standard practice at the
+        venues I work toward. Building attackers means building them in a lab, against systems I am
+        authorised to test.</p>
 
       <h3>Scope and authorisation</h3>
-      <p class="ethics-note">Offensive work happens only against systems I own, systems belonging to
-        my lab, or systems where the owner has authorised the testing in writing. The penetration
-        testing in my professional history was contracted work with a defined scope. No technique on
-        this site is demonstrated against anyone else's infrastructure.</p>
+      <p class="ethics-note">Offensive work happens only against systems I own, my lab's systems, or
+        systems whose owner authorised the testing in writing. The penetration testing in my history was
+        contracted, with a defined scope. Nothing here is demonstrated against anyone else's
+        infrastructure.</p>
 
       <h3>Disclosure</h3>
-      <p class="ethics-note">If my work finds a vulnerability in software other people run, I report it
-        to the vendor or maintainer first and give them reasonable time to fix it before saying anything
-        publicly. Where a coordinated disclosure policy exists, I follow it. If we disagree about the
-        timeline, I would rather be late than be the reason something gets exploited.</p>
+      <p class="ethics-note">If I find a vulnerability in software other people run, the vendor hears
+        first and gets reasonable time to fix it. Where a coordinated disclosure policy exists, I follow
+        it. If we disagree on timing, I would rather be late than be the reason something gets
+        exploited.</p>
 
       <h3>What I publish</h3>
-      <p class="ethics-note">I publish methods, measurements, and detections. I do not publish working
-        exploits for unpatched software, and I do not publish tooling whose main use is harming people
-        who did not consent. The line is not always obvious, and I would rather discuss a specific case
-        than pretend a general rule settles it.</p>
+      <p class="ethics-note">I publish methods, measurements, and detections. Not working exploits for
+        unpatched software, and not tooling whose main use is harming people who did not consent. The
+        line is not always obvious, and I would rather discuss a case than pretend a rule settles it.</p>
 
       <h3>What is on this site</h3>
       <p class="ethics-note">The project descriptions are illustrative and say so. They describe
-        approaches, not client systems, and contain no customer data, no real findings, and no detail
-        from work covered by an agreement.</p>
+        approaches, not client systems: no customer data, no real findings, nothing covered by an
+        agreement.</p>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="DATA"></div>
@@ -75,71 +72,64 @@
     <section class="section">
       <h2>What this site does with your data</h2>
 
-      <p class="ethics-note fp-disclaimer">Nothing. There is no analytics, no tag manager, no tracking
-        pixel, no cookie, no localStorage, no sessionStorage, and no server-side log I can read, because
-        the site is static files on GitHub Pages and I do not operate the server.</p>
+      <p class="ethics-note fp-disclaimer">Nothing. No analytics, no tag manager, no tracking pixel, no
+        cookie, no localStorage, no sessionStorage, and no server log I can read: the site is static
+        files on GitHub Pages and I do not run the server.</p>
 
-      <p class="ethics-note">There is one exception, and it only happens if you ask for it. The radio on
-        the front page plays through YouTube, and pressing play hands your visit to Google. Nothing
-        about it runs until you press play. The section below sets out exactly what changes when you
-        do.</p>
+      <p class="ethics-note">One exception, and only if you ask for it. The radio plays through YouTube,
+        so pressing play hands your visit to Google. Nothing about it runs until you do, and the radio
+        section below says exactly what changes.</p>
 
       <h3>The one page that looks like an exception</h3>
-      <p class="ethics-note">There is a page on this site that reads your browser and tells you what it
-        found. It is a demonstration of how much a page learns without asking. Every value is computed
-        in your browser, displayed to you, and then forgotten when you close the tab. None of it is
-        sent anywhere, including to me. Open the network panel in developer tools while that page loads
-        and you will see it stay empty.</p>
+      <p class="ethics-note">One page reads your browser and shows you what it found, to demonstrate how
+        much a page learns without asking. Every value is computed in your browser and forgotten when you
+        close the tab. None of it is sent anywhere, including to me. Open the network panel while that
+        page loads and it stays empty.</p>
 
       <h3>Decoder progress</h3>
-      <p class="ethics-note">The decoder tracks which hidden messages you have solved. That list is
-        held in memory for as long as the tab is open and is never written to your device. Reload the
-        page and it is empty again. It would have been easier to store it, and storing it would have
-        made the claim above untrue.</p>
+      <p class="ethics-note">The decoder tracks which messages you have solved. That list is held in
+        memory and never written to your device. Reload and it is empty. Storing it would have been
+        easier, and would have made the claim above untrue.</p>
 
       <h3>No third parties, until you press play</h3>
       <p class="ethics-note">Every file this site loads comes from this site. The typefaces are served
-        from here rather than from Google Fonts, which is the usual quiet exception on a page that
-        claims to collect nothing. Archivo and IBM Plex are both under the SIL Open Font License, so
-        hosting them is simply a matter of doing it. There is no CDN, no comment widget, and no tag
-        manager.</p>
+        from here rather than Google Fonts, the usual quiet exception on a page claiming to collect
+        nothing. Archivo and IBM Plex are both under the SIL Open Font License, so self-hosting is only a
+        matter of doing it. No CDN, no comment widget, no tag manager.</p>
 
       <h3>The radio</h3>
-      <p class="ethics-note">The radio is an embedded YouTube player, and an embed is the thing this
-        page would otherwise tell you to be wary of. So it is built to load nothing until you choose
-        it. On a normal visit the page holds a list of track names and no player at all: no iframe, no
-        script from Google, no request leaving this site. Open the network panel and read the front
-        page top to bottom and it stays as empty as every other page here.</p>
+      <p class="ethics-note">The radio is an embedded YouTube player, which is the thing this page would
+        otherwise tell you to be wary of. So it loads nothing until you choose it. On a normal visit the
+        front page holds track names and no player: no iframe, no script from Google, no request leaving
+        this site.</p>
 
-      <p class="ethics-note">Pressing play changes that, and it is worth being exact about how. The
-        player script loads, the iframe is created, and your browser contacts
+      <p class="ethics-note">Pressing play loads the player script, creates the iframe, and contacts
         <code>youtube-nocookie.com</code>, <code>youtube.com</code>, <code>google.com</code>,
         <code>googlevideo.com</code>, <code>gstatic.com</code>, <code>ytimg.com</code>,
-        <code>ggpht.com</code> and <code>googleapis.com</code>. Google therefore learns your IP
-        address, your user agent, and which video you played, and if you are signed in it knows who you
-        are. I use the privacy-enhanced domain, which keeps the advertising hosts out of that list and
-        holds cookies back until playback starts. It reduces the exposure. It does not remove it, and I
-        would rather say so than let the word <em>nocookie</em> do work it cannot do.</p>
+        <code>ggpht.com</code> and <code>googleapis.com</code>. Google learns your IP address, your user
+        agent, and which video you played. If you are signed in, it knows who you are. The
+        privacy-enhanced domain keeps the advertising hosts off that list and holds cookies back until
+        playback starts. It reduces the exposure without removing it, which is worth saying rather than
+        letting the word <em>nocookie</em> do work it cannot.</p>
 
-      <p class="ethics-note">The alternative was to host the music here, which would have meant serving
-        other people's recordings without the right to, on a public repository, until somebody filed a
-        notice and the whole site came down. Embedding is the arrangement the rights holders actually
-        agreed to. Putting it behind a deliberate press is the part I can control.</p>
+      <p class="ethics-note">Hosting the music here would have meant serving other people's recordings
+        without the right to, on a public repository, until a notice took the whole site down. Embedding
+        is the arrangement the rights holders agreed to. Putting it behind a deliberate press is the part
+        I control.</p>
 
       <h3>How the bars follow the music</h3>
-      <p class="ethics-note">They do not listen to it. A page cannot read the audio out of a
-        cross-origin frame, and should not be able to: sound is content, and a page that could read it
-        could read the pictures too. So each track is analysed here, once, before it is ever published.
-        What ships is a contour, a few dozen kilobytes of numbers describing how loud each part of the
-        frequency range is over time. The bars replay that contour in step with the player's own clock.
-        No audio from your session is captured, analysed, or sent anywhere, and nothing asks your
-        browser for a microphone or for your screen.</p>
+      <p class="ethics-note">They do not listen to it. A page cannot read audio out of a cross-origin
+        frame, and should not: sound is content, and anything that could read it could read the pictures
+        too. Each track is analysed here once, before publishing, and what ships is a contour of a few
+        dozen kilobytes describing loudness across the frequency range. The bars replay it against the
+        player's clock. Nothing from your session is captured, and nothing asks for your microphone or
+        your screen.</p>
 
       <h3>What I cannot promise</h3>
       <p class="ethics-note">GitHub serves these files, so GitHub sees the requests, including your IP
-        address. Their logging is their business and outside my control, and moving the hosting would
-        only change whose logs you are in. That is the one dependency left, and I would rather name it
-        than let "this site collects nothing" quietly stand in for "almost nothing".</p>
+        address. Their logging is outside my control, and moving the hosting would only change whose logs
+        you are in. That is the one dependency left, and naming it beats letting "collects nothing" stand
+        in for "almost nothing".</p>
 
       <p class="reading-back"><a href="index.html">Back to the main page</a></p>
     </section>
