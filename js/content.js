@@ -111,7 +111,7 @@ export const education = [
     degree: 'B.S. Computer Networks and Cybersecurity',
     org: 'University of Maryland Global Campus',
     period: '2020–2021',
-    detail: 'GPA 3.455 of 4.0. Minor in East Asian Studies.',
+    detail: 'Completed after transferring credits from Anne Arundel Community College. Minor in East Asian Studies.',
   },
   {
     degree: 'Associate degrees, Cyber Security and Computer Networking',
