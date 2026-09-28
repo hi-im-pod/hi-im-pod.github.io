@@ -38,7 +38,7 @@ export const hero = () => `
     <p class="tagline">${esc(profile.tagline)}</p>
     <div class="hero-actions">
       <a class="btn btn--primary" href="#contact">Get in touch</a>
-      <a class="text-link" href="resume.html">Résumé</a>
+      <a class="btn" href="resume.html">Résumé</a>
     </div>
   `;
 
@@ -178,7 +178,7 @@ export const contact = () => `
     </dl>
     <div class="hero-actions">
       <a class="btn" href="${esc(profile.resumeHref)}" download>Download résumé (PDF)</a>
-      <a class="text-link" href="resume.html">Read it as a web page</a>
+      <a class="btn" href="resume.html">Read it as a web page</a>
     </div>
   `;
 
@@ -367,7 +367,8 @@ export const personJsonLd = () => {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: profile.name,
-    jobTitle: current.role,
+    // Left out, not a thrown build, if no role is marked Present between jobs.
+    jobTitle: current?.role,
     affiliation: {
       '@type': 'Organization',
       name: 'SecAI Lab',

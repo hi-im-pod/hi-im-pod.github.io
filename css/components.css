@@ -559,19 +559,6 @@
   box-shadow: 0 0 20px -6px var(--color-pink-glow);
 }
 
-/* A secondary action that reads as a link, not a second button competing with
-   the primary one. The vertical padding matches .btn so the tap target is the
-   same height, and align-self keeps the text on the button's centre line. */
-.text-link {
-  align-self: center;
-  padding: 0.65rem 0;
-  color: var(--color-text-muted);
-  text-decoration: underline;
-  text-decoration-color: var(--color-pink);
-  text-underline-offset: 0.25em;
-}
-.text-link:hover { color: var(--color-text-primary); }
-
 .contact-routes { margin: 0 0 var(--space-3); }
 .contact-routes > div { margin-bottom: var(--space-2); }
 .contact-routes dt {
