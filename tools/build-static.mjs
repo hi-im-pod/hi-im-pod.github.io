@@ -29,6 +29,9 @@ const check = process.argv.includes('--check');
 // is also the id of the element it fills.
 const PAGES = {
   'index.html': {
+    // In <head>, and written here only. The browser does not re-apply it:
+    // crawlers read the static file, and nothing on the page reads it back.
+    'person-jsonld': t.personJsonLd,
     'site-nav': () => t.nav('index.html'),
     'hero-content': t.hero,
     'about-content': t.about,

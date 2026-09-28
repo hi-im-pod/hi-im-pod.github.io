@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- arrival.html is left out on purpose. It is the reward for decoding the
+     footer message, so it stays something to find rather than something a
+     search result hands over. The page itself also carries noindex.
+
+     No lastmod: nothing here updates it automatically, and a date that goes
+     stale is worse than none, since search engines stop trusting it. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://hi-im-pod.github.io/</loc></url>
+  <url><loc>https://hi-im-pod.github.io/work.html</loc></url>
+  <url><loc>https://hi-im-pod.github.io/reading.html</loc></url>
+  <url><loc>https://hi-im-pod.github.io/resume.html</loc></url>
+  <url><loc>https://hi-im-pod.github.io/ethics.html</loc></url>
+  <url><loc>https://hi-im-pod.github.io/decoder.html</loc></url>
+  <url><loc>https://hi-im-pod.github.io/diagnostics.html</loc></url>
+</urlset>

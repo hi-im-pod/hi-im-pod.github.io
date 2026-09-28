@@ -342,3 +342,52 @@ export const footer = page => `
     </p>
     ${footerHints(page)}
   `;
+
+// Structured data for search engines, on index.html only: one Person per site,
+// on the page that is about him. Built from the same fields as the page so the
+// two cannot disagree. It carries only what the page already shows, which is
+// why neither email address is in it.
+//
+// Schools count as alumniOf once finished, so the expected degree is left out.
+// SKKU is here as the lab's university instead, since he is still enrolled.
+//
+// This is script content, not HTML, so esc() is the wrong tool: entities are
+// not decoded inside a script and the JSON would carry them literally. The one
+// thing that can break out of a script element is a closing tag, so every <
+// goes out as the six characters \u003c, which JSON reads back as the same
+// character.
+//
+// Absolute URLs, because a crawler reads this without the page's address to
+// resolve against. They match og:url and the canonical links in each <head>.
+const SITE_URL = 'https://hi-im-pod.github.io';
+
+export const personJsonLd = () => {
+  const current = experience.find(job => job.end === 'Present');
+  const person = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: profile.name,
+    jobTitle: current.role,
+    affiliation: {
+      '@type': 'Organization',
+      name: 'SecAI Lab',
+      parentOrganization: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Sungkyunkwan University',
+        alternateName: 'SKKU',
+      },
+    },
+    alumniOf: education
+      .filter(item => !item.period.includes('expected'))
+      .map(item => ({ '@type': 'CollegeOrUniversity', name: item.org })),
+    url: `${SITE_URL}/`,
+    image: `${SITE_URL}/assets/garrett-400.jpg`,
+    sameAs: [profile.links.github, profile.links.linkedin],
+  };
+  const json = JSON.stringify(person, null, 2).replace(/</g, '\\u003c');
+  return `
+  <script type="application/ld+json" id="person-jsonld">
+${json.replace(/^/gm, '  ')}
+  </script>
+  `;
+};

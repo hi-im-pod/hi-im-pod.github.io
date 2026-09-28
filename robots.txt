@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hi-im-pod.github.io/sitemap.xml
