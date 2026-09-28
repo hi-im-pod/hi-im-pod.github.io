@@ -1,13 +1,26 @@
 # hi-im-pod.github.io
 
-Personal site for Garrett Ennis, a master's student and researcher at the SecAI
-Lab at Sungkyunkwan University. Published at
-[hi-im-pod.github.io](https://hi-im-pod.github.io).
+Personal site of Garrett Ennis, AI security researcher at the SecAI Lab at
+Sungkyunkwan University, and security engineer.
 
-## Running it
+Live at [hi-im-pod.github.io](https://hi-im-pod.github.io).
 
-Static HTML, CSS, and ES modules. There is no build step. The modules need a
-real origin, so open it through a server rather than from the filesystem:
+## What is on it
+
+- **Research and experience.** Background, education, research interests, and a
+  reading list of peer-reviewed papers.
+- **How I work.** The reasoning behind past projects: the constraint, the
+  decision, the alternative I turned down, and the result.
+- **Morse meters.** Every bar field spells a word in Morse. The decoder page
+  teaches the code and tracks what you find.
+- **Radio.** Four tracks that drive the bar fields in time with the music.
+- **Privacy.** Every file loads from this site, fonts included. The ethics page
+  lists exactly what the radio contacts once a visitor presses play.
+
+## Run it
+
+The site is static HTML, CSS and ES modules. Modules load over HTTP, so serve
+the folder and open http://localhost:8788:
 
 ```
 npx http-server -p 8788 -c-1
@@ -15,77 +28,60 @@ npx http-server -p 8788 -c-1
 
 ## Layout
 
-| Path | What it holds |
+| Path | Contents |
 | --- | --- |
-| `js/content.js` | Every piece of text on the site. Change content here, not in the markup. |
-| `js/templates.js` | That content as HTML. Used by the browser and by the build tool, so the two cannot disagree. |
-| `js/render.js` | Applies the templates to the front page and wires up the rest. |
-| `js/waveform.js` | The bar fields, including the Morse encoding. |
-| `css/` | Design tokens, base, layout, components, and the generated font sheet. |
-| `js/playlist.js` | The radio's tracks and their running order. |
-| `tools/` | Four generators, described below. |
+| `js/content.js` | All site text. Edit content here. |
+| `js/templates.js` | The HTML for that content, shared by the browser and the build tool. |
+| `js/render.js` | Renders the front page and wires up its features. |
+| `js/waveform.js` | The bar fields and their Morse encoding. |
+| `js/playlist.js` | Radio tracks and their running order. |
+| `css/` | Design tokens, base styles, layout, components, and the font sheet. |
+| `tools/` | Build tools, described below. |
 
-## Generators
+## Tools
 
-Both write files that are committed, so a clone needs neither to serve the site.
+Each tool writes committed files, so a fresh clone serves as-is.
 
-`tools/fetch-fonts.mjs` downloads the webfonts and writes `css/fonts.css`, so
-that opening a page sends no request to Google. It scans the source for Hangul
-and pulls only the Korean chunks covering the characters actually used, cutting
-each one to those glyphs. Re-run it after adding Korean text. Needs
-`pip install fonttools brotli`.
+- **`build-static.mjs`** writes the site content into each HTML file as real
+  markup, so every page reads fully in any browser, crawler or link preview.
+  Run it after editing `js/content.js` or `js/playlist.js`. Add `--check` to
+  confirm the files match the source.
+- **`build-envelope.mjs`** converts a track into the contour that drives the bar
+  fields. The audio stays on your machine and only the contour is committed.
+  Requires ffmpeg.
+- **`rank-tracks.mjs`** orders the radio by activity, liveliest track first,
+  working from the committed contours.
+- **`fetch-fonts.mjs`** downloads the webfonts and writes `css/fonts.css`. It
+  subsets the Korean face to the Hangul characters in use. Requires
+  `pip install fonttools brotli`.
+- **`build-social-card.mjs`** renders `assets/social-card.png`, the link preview
+  image. Run it with playwright installed and the site served, after changing
+  the name, tagline or palette.
 
-`tools/build-static.mjs` writes the site's content into the HTML files as real
-markup, from the same templates in `js/templates.js` that the browser uses. Run
-it after editing `js/content.js` or `js/playlist.js`. Pass `--check` to verify
-nothing is stale without writing.
+## Add a track
 
-The pages carry their own content rather than waiting for a script because
-`<noscript>` only fires when scripting is *disabled*, not when a script is
-blocked or fails. A content blocker that stops one file leaves scripting on, so
-the noscript fallback stays hidden. Before this existed, `index.html` in that
-state came to 68 characters, and so did the view a link unfurler or a
-non-JavaScript crawler got.
+1. Build its contour: `node tools/build-envelope.mjs track.mp3 assets/envelopes/<name>.bin`
+2. Add the YouTube ID, title, artist and contour path to `js/playlist.js`.
+3. Run `node tools/rank-tracks.mjs` and reorder the list to match.
+4. Run `node tools/build-static.mjs`.
 
-`tools/build-social-card.mjs` renders `assets/social-card.png`, the image a link
-preview shows, from the site's own type and bar field. Needs playwright and the
-site served locally. Only needed when the name, tagline or palette changes.
+## Write up a project
 
-`tools/rank-tracks.mjs` ranks the radio's tracks by how much of each one sits
-near silence, and says whether `js/playlist.js` is in that order. The running
-order puts the liveliest material first, because the bars are the point. It
-reads the committed contours, so it needs no audio.
+Each project in `js/content.js` has four fields. A project with all four filled
+appears on `work.html`, and its front-page tile links there.
 
-## Notes
-
-The section dividers are not decoration. Each spells a word in Morse, encoded in
-the bar heights. None of them is the heading it sits above, so there is nothing
-to be guessed from where a field sits: they name their section sideways.
-`decoder.html` explains how to read them and tracks what you have found.
-
-Fonts are self-hosted under the SIL Open Font License 1.1. See
-`assets/fonts/README.txt`. The site makes no third-party requests.
-
-## Writing up a project
-
-`work.html` carries the reasoning behind each project rather than a rebuild of
-it, because the systems are covered by agreements and a demo in non-standard
-tooling would prove less than the decisions do.
-
-Each entry in `projects` in `js/content.js` has four fields, and a project only
-appears on the page once all four are written. Until then its tile on the front
-page stays a plain card, so a half-finished write-up cannot ship:
-
-| Field | What it holds |
+| Field | Contents |
 | --- | --- |
-| `constraint` | What made it hard. Name the number if there is one. |
-| `decision` | What was chosen. One sentence, active voice. |
-| `rejected` | The option not taken, and why it was wrong *here* rather than wrong in general. |
-| `measure` | How anyone would know it worked. A metric, not a feeling. |
+| `constraint` | What made the problem hard. Include the numbers. |
+| `decision` | What was chosen, in one active sentence. |
+| `rejected` | The alternative turned down, and why it failed in this environment. |
+| `measure` | How success was measured, as a metric. |
 
-Any field can be a string or an array of strings, which renders as separate
-paragraphs. `rejected` is the one that carries the piece: describing what was
-built is available to anyone, and naming the obvious approach and why it failed
-in that environment is not.
+Each field takes a string, or an array of strings for several paragraphs.
+`rejected` carries the most weight, because it shows the judgement behind the
+build. Run `node tools/build-static.mjs` after editing.
 
-Run `node tools/build-static.mjs` after editing.
+## Fonts
+
+Archivo and IBM Plex are self-hosted under the SIL Open Font License 1.1. See
+`assets/fonts/README.txt`.
