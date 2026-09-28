@@ -18,7 +18,7 @@ export const profile = {
   // and collaboration. Everything else, recruiters included, goes to the
   // personal address so it stays out of the school inbox.
   email: {
-    research: 'redrobe@g.skku.edu',
+    research: 'redrobe9@g.skku.edu',
     general: 'williamgarrettennis@gmail.com',
   },
   links: {
