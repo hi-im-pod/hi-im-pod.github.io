@@ -15,6 +15,7 @@
 
 import { setLevelSource, setFreeRange } from './waveform.js';
 import { playlist, radioIntro } from './playlist.js';
+import { esc } from './templates.js';
 
 const API_SRC = 'https://www.youtube.com/iframe_api';
 
@@ -351,8 +352,8 @@ export function initRadio() {
   document.getElementById('radio-list').innerHTML = playlist.map((t, i) => `
     <li>
       <button type="button" data-track="${i}">
-        <span class="radio-track-title">${t.title}</span>
-        <span class="radio-track-artist">${t.artist}</span>
+        <span class="radio-track-title">${esc(t.title)}</span>
+        <span class="radio-track-artist">${esc(t.artist)}</span>
       </button>
     </li>
   `).join('');

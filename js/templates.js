@@ -7,45 +7,58 @@
 // content when a script never runs, without a second copy of the markup that
 // could drift out of step with this one.
 //
-// NOTE: values are interpolated without escaping, matching the note at the top
-// of content.js. Never source a field there from user input or an external API.
+// Every value from the data files reaches the page through esc(), in text and
+// in attributes alike. The only markup that is not escaped is the markup
+// written in this file: the tags around each value, ko(), and the links in
+// footerHints(). No field in content.js or playlist.js carries markup. One that
+// ever needs a link or emphasis gets it from a template here, the way the
+// footer hints do, so the data files stay plain text throughout.
 
 import { profile, experience, education, researchInterests, projects } from './content.js';
 import { playlist, radioIntro } from './playlist.js';
 import { FINAL } from './progress.js';
 
+// All five characters, not only the ones that matter in text, so the same call
+// is safe inside a quoted attribute of either kind. A plain value then cannot
+// close its own tag or attribute, whatever it contains. It does not vet a URL's
+// scheme: a javascript: href would still escape cleanly and still run, so
+// links in content.js are checked by whoever adds them.
+const ENTITIES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+export const esc = value => String(value).replace(/[&<>"']/g, ch => ENTITIES[ch]);
+
 // Korean strings get their own element so the language is declared rather than
 // guessed. Without it a screen reader reads Hangul with an English voice, and
 // the browser has no reason to reach for the Korean face we bundle.
-const ko = text => `<span lang="ko">${text}</span>`;
+// Takes markup, not text: callers escape the value first.
+const ko = html => `<span lang="ko">${html}</span>`;
 
 export const hero = () => `
-    <p class="eyebrow-line">${profile.role}</p>
-    <h1>${profile.name}</h1>
-    <p class="tagline">${profile.tagline}</p>
+    <p class="eyebrow-line">${esc(profile.role)}</p>
+    <h1>${esc(profile.name)}</h1>
+    <p class="tagline">${esc(profile.tagline)}</p>
     <div class="hero-actions">
-      <a class="btn" href="${profile.resumeHref}" download>Download résumé</a>
+      <a class="btn" href="${esc(profile.resumeHref)}" download>Download résumé</a>
       <a class="btn" href="#contact">Get in touch</a>
     </div>
   `;
 
-export const about = () => `<p>${profile.about}</p>`;
+export const about = () => `<p>${esc(profile.about)}</p>`;
 
 export const experienceList = () => experience.map(job => `
     <li class="timeline-item">
-      <time datetime="${job.start}">${job.start}–${job.end}</time>
-      <h3>${job.role}, ${job.org}</h3>
+      <time datetime="${esc(job.start)}">${esc(job.start)}–${esc(job.end)}</time>
+      <h3>${esc(job.role)}, ${esc(job.org)}</h3>
       <ul>
-        ${job.bullets.map(bullet => `<li>${bullet}</li>`).join('')}
+        ${job.bullets.map(bullet => `<li>${esc(bullet)}</li>`).join('')}
       </ul>
     </li>
   `).join('');
 
 export const educationList = () => education.map(item => `
     <li class="timeline-item">
-      <time>${item.period}</time>
-      <h3>${item.degree}, ${item.org}${item.orgKorean ? ` ${ko(item.orgKorean)}` : ''}</h3>
-      <p>${item.detail}</p>
+      <time>${esc(item.period)}</time>
+      <h3>${esc(item.degree)}, ${esc(item.org)}${item.orgKorean ? ` ${ko(esc(item.orgKorean))}` : ''}</h3>
+      <p>${esc(item.detail)}</p>
     </li>
   `).join('');
 
@@ -56,15 +69,15 @@ export const researchList = () => researchInterests.map(item => {
   if (!papers.length) {
     return `
     <div class="card">
-      <h3>${item.title}</h3>
-      <p>${item.description}</p>
+      <h3>${esc(item.title)}</h3>
+      <p>${esc(item.description)}</p>
     </div>
   `;
   }
   return `
-    <a class="card card--link" href="reading.html#${item.id}">
-      <h3>${item.title}</h3>
-      <p>${item.description}</p>
+    <a class="card card--link" href="reading.html#${esc(item.id)}">
+      <h3>${esc(item.title)}</h3>
+      <p>${esc(item.description)}</p>
       <span class="card__cue">${papers.length} ${papers.length === 1 ? 'paper' : 'papers'}</span>
     </a>
   `;
@@ -81,10 +94,10 @@ export const projectsWithWriteUp = () => projects.filter(writtenUp);
 
 export const projectsList = () => projects.map(project => {
   const body = `
-      <h3>${project.title}</h3>
-      <p>${project.description}</p>
+      <h3>${esc(project.title)}</h3>
+      <p>${esc(project.description)}</p>
       <div class="tile__tags">
-        ${project.tags.map(tag => `<span class="tile__tag">${tag}</span>`).join('')}
+        ${project.tags.map(tag => `<span class="tile__tag">${esc(tag)}</span>`).join('')}
       </div>`;
 
   if (!writtenUp(project)) {
@@ -95,7 +108,7 @@ export const projectsList = () => projects.map(project => {
   `;
   }
   return `
-    <a class="tile tile--link" href="work.html#${project.id}">${body}
+    <a class="tile tile--link" href="work.html#${esc(project.id)}">${body}
       <span class="tile__cue">How I approached it</span>
     </a>
   `;
@@ -119,27 +132,27 @@ export const work = () => {
   `;
   }
   return ready.map(p => `
-    <div class="work-group" id="${p.id}">
-      <h2>${p.title}</h2>
-      <p class="reading-group__note">${p.description}</p>
+    <div class="work-group" id="${esc(p.id)}">
+      <h2>${esc(p.title)}</h2>
+      <p class="reading-group__note">${esc(p.description)}</p>
       <div class="tile__tags">
-        ${p.tags.map(tag => `<span class="tile__tag">${tag}</span>`).join('')}
+        ${p.tags.map(tag => `<span class="tile__tag">${esc(tag)}</span>`).join('')}
       </div>
       ${BEATS.map(([key, label]) => `
       <div class="work-beat">
         <h3>${label}</h3>
-        ${[p[key]].flat().map(para => `<p>${para}</p>`).join('')}
+        ${[p[key]].flat().map(para => `<p>${esc(para)}</p>`).join('')}
       </div>`).join('')}
     </div>
   `).join('');
 };
 
 export const contact = () => `
-    <p>${profile.lookingFor}</p>
-    <p>Based in ${profile.city} ${ko(`(${profile.cityKorean})`)}, ${profile.country}, with a home base in ${profile.homeBase}. The fastest way to reach me is email.</p>
+    <p>${esc(profile.lookingFor)}</p>
+    <p>Based in ${esc(profile.city)} ${ko(`(${esc(profile.cityKorean)})`)}, ${esc(profile.country)}, with a home base in ${esc(profile.homeBase)}. The fastest way to reach me is email.</p>
     <div class="hero-actions">
-      <a class="btn" href="mailto:${profile.email}">Email me</a>
-      <a class="btn" href="${profile.resumeHref}" download>Download résumé</a>
+      <a class="btn" href="mailto:${esc(profile.email)}">Email me</a>
+      <a class="btn" href="${esc(profile.resumeHref)}" download>Download résumé</a>
     </div>
   `;
 
@@ -149,28 +162,28 @@ export const reading = () => researchInterests.map(item => {
     ? `<ul class="reading-list">
         ${papers.map(paper => `
           <li>
-            <a href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>
-            <span class="reading-meta">${paper.authors.replace(/\.$/, '')}. ${paper.venue}, ${paper.year}.</span>
+            <a href="${esc(paper.url)}" target="_blank" rel="noopener">${esc(paper.title)}</a>
+            <span class="reading-meta">${esc(paper.authors.replace(/\.$/, ''))}. ${esc(paper.venue)}, ${esc(paper.year)}.</span>
           </li>
         `).join('')}
       </ul>`
     : '<p class="reading-meta">Nothing listed yet.</p>';
 
   const position = item.position
-    ? `<blockquote class="reading-position">${item.position}</blockquote>`
+    ? `<blockquote class="reading-position">${esc(item.position)}</blockquote>`
     : '';
 
   return `
-    <div class="reading-group" id="${item.id}">
-      <h2>${item.title}</h2>
-      <p class="reading-group__note">${item.description}</p>
+    <div class="reading-group" id="${esc(item.id)}">
+      <h2>${esc(item.title)}</h2>
+      <p class="reading-group__note">${esc(item.description)}</p>
       ${position}
       ${list}
     </div>
   `;
 }).join('');
 
-export const radioLede = () => radioIntro;
+export const radioLede = () => esc(radioIntro);
 
 // Deliberately not the same markup radio.js builds. That version wraps each
 // track in a button, which does nothing at all without a script to hear it; a
@@ -178,8 +191,8 @@ export const radioLede = () => radioIntro;
 // radio.js replaces it with the interactive version when it runs.
 export const radioTracks = () => playlist.map(track => `
       <li>
-        <span class="radio-track-title">${track.title}</span>
-        <span class="radio-track-artist">${track.artist}</span>
+        <span class="radio-track-title">${esc(track.title)}</span>
+        <span class="radio-track-artist">${esc(track.artist)}</span>
       </li>
     `).join('');
 
@@ -205,12 +218,12 @@ export function footerHints(page) {
 // The bar field is a div here and a canvas once a script fills it. Everything
 // that matters without JavaScript, the name and the links, is plain markup.
 export const footer = page => `
-    <div class="footer-signal" data-signal="${FINAL}"></div>
-    <p>${profile.name}</p>
+    <div class="footer-signal" data-signal="${esc(FINAL)}"></div>
+    <p>${esc(profile.name)}</p>
     <p>
-      <a href="mailto:${profile.email}">Email</a>
-      <a href="${profile.links.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="${profile.links.github}" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:${esc(profile.email)}">Email</a>
+      <a href="${esc(profile.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="${esc(profile.links.github)}" target="_blank" rel="noopener">GitHub</a>
       <a href="ethics.html">Ethics</a>
     </p>
     ${footerHints(page)}

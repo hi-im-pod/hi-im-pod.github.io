@@ -1,12 +1,15 @@
-// NOTE: these values are inserted into the DOM via innerHTML without escaping (see js/render.js). Never source a field here from user input or an external API without HTML-escaping it first.
+// Every field here is plain text. js/templates.js HTML-escapes each value as it
+// builds the page, so a quote, an ampersand or an angle bracket shows as
+// itself. The same escaping means markup written here shows as literal tags.
+// A field that needs a link or emphasis gets it from its template instead.
 export const profile = {
   name: 'Garrett Ennis',
   role: 'AI Security Researcher / Security Engineer',
   tagline: 'Optimizing AI-assisted defenders by building the attackers they have to face.',
   city: 'Suwon',
   // Rendered inside lang="ko" so browsers and screen readers pick the right
-  // font and the right voice for it. Keep these fields plain text: render.js
-  // wraps them, and markup here would be inserted unescaped.
+  // font and the right voice for it. The template adds that element around the
+  // escaped value, so this stays plain text like every other field.
   cityKorean: '수원',
   country: 'South Korea',
   get location() { return `${this.city}, ${this.country}`; },

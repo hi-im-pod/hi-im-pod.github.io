@@ -1,5 +1,6 @@
 import { renderFooter, renderDividers } from './shared.js';
 import { createWaveform } from './waveform.js';
+import { esc } from './templates.js';
 
 // Everything here is read from the browser itself. No request leaves the page,
 // and the location panel a server would be needed for is deliberately absent.
@@ -78,12 +79,16 @@ function signature(parts) {
   return out;
 }
 
+// The value is whatever the browser reported, and a WebGL renderer or a
+// language list is a string this page did not write. It is escaped like any
+// other outside text; the heading and prose are escaped with it so the panel
+// takes plain text throughout.
 function panel(id, value, prose) {
   return `
     <div class="fp-panel">
-      <h2>${id}</h2>
-      <p class="fp-value">${value}</p>
-      <p class="fp-prose">${prose}</p>
+      <h2>${esc(id)}</h2>
+      <p class="fp-value">${esc(value)}</p>
+      <p class="fp-prose">${esc(prose)}</p>
     </div>
   `;
 }

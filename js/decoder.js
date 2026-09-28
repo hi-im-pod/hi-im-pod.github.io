@@ -1,4 +1,5 @@
 import { renderFooter, renderDividers } from './shared.js';
+import { esc } from './templates.js';
 import {
   TARGETS, FINAL, HIDDEN_SECTION,
   solved, record, allFound, finalFound, sectionFound,
@@ -62,7 +63,7 @@ function renderProgress() {
 
   list.innerHTML = TARGETS.map(word => `
     <li class="${have.has(word) ? 'is-found' : ''}">
-      <span class="progress-word">${have.has(word) ? word : mask(word)}</span>
+      <span class="progress-word">${have.has(word) ? esc(word) : mask(word)}</span>
     </li>
   `).join('');
 
@@ -73,7 +74,7 @@ function renderProgress() {
   // words and the length of each, which is what a cryptogram gives you.
   const done = finalFound();
   const slot = document.getElementById('final-word');
-  slot.innerHTML = done ? FINAL : mask(FINAL);
+  slot.innerHTML = done ? esc(FINAL) : mask(FINAL);
   slot.parentElement.classList.toggle('is-found', done);
   document.getElementById('progress-reward').hidden = !done;
 
@@ -81,7 +82,7 @@ function renderProgress() {
   // be theatre. It shows as its shape only to match the slot above it.
   const radio = sectionFound();
   const radioSlot = document.getElementById('radio-word');
-  radioSlot.innerHTML = radio ? HIDDEN_SECTION : mask(HIDDEN_SECTION);
+  radioSlot.innerHTML = radio ? esc(HIDDEN_SECTION) : mask(HIDDEN_SECTION);
   radioSlot.parentElement.classList.toggle('is-found', radio);
   document.getElementById('radio-reward').hidden = !radio;
 }
