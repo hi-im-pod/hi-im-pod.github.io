@@ -196,6 +196,49 @@ export const radioTracks = () => playlist.map(track => `
       </li>
     `).join('');
 
+// One list for every page's nav. The copies used to be written into each HTML
+// file by hand, and they drifted: reading.html and work.html lost Education,
+// and work.html marked Reading as the current page.
+//
+// Radio is listed on index.html only. Anywhere else the link would have to be
+// index.html#radio, which is the key the decoder hands out, so the nav would
+// open the radio for anyone who clicked it. On index.html the bare #radio link
+// is safe because gateRadio in render.js removes it unless the key is present.
+//
+// `current` names the pages that mark an item as the one being read. work.html
+// is the long form of the projects section, so it marks Projects.
+const NAV_ITEMS = [
+  { label: 'About', section: 'about' },
+  { label: 'Experience', section: 'experience' },
+  { label: 'Education', section: 'education' },
+  { label: 'Research', section: 'research' },
+  { label: 'Reading', href: 'reading.html', current: ['reading.html'] },
+  { label: 'Projects', section: 'projects', current: ['work.html'] },
+  { label: 'Radio', section: 'radio', only: 'index.html' },
+  { label: 'Contact', section: 'contact' },
+];
+
+// Takes the page's file name ('index.html', 'work.html') rather than reading
+// location, for the same reason footerHints() does. On index.html the section
+// links stay bare fragments: js/nav.js only picks up links that start with #,
+// and those are the ones it scrolls smoothly and highlights on scroll.
+export function nav(page) {
+  const home = page === 'index.html';
+  const links = NAV_ITEMS
+    .filter(item => !item.only || item.only === page)
+    .map(item => {
+      const href = item.href ?? `${home ? '' : 'index.html'}#${item.section}`;
+      const active = item.current?.includes(page) ? ' class="is-active"' : '';
+      return `\n      <a href="${esc(href)}"${active}>${esc(item.label)}</a>`;
+    })
+    .join('');
+  return `
+    <a href="${home ? '#hero' : 'index.html'}" class="site-nav__brand">${esc(profile.name)}</a>
+    <div class="site-nav__links">${links}
+    </div>
+  `;
+}
+
 // Each hint is dropped on the page it points at, so nothing self-links. Takes
 // the page rather than reading location, so the build tool can ask for any
 // page's footer while generating another.

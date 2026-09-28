@@ -1,4 +1,4 @@
-import { renderFooter, renderDividers } from './shared.js';
+import { renderNav, renderFooter, renderDividers } from './shared.js';
 import { createWaveform } from './waveform.js';
 import { esc } from './templates.js';
 
@@ -189,6 +189,7 @@ async function build() {
 }
 
 function init() {
+  renderNav('arrival.html');
   renderFooter();
   renderDividers();
   build();

@@ -1,4 +1,4 @@
-import { renderFooter, renderDividers } from './shared.js';
+import { renderNav, renderFooter, renderDividers } from './shared.js';
 import { esc } from './templates.js';
 import {
   TARGETS, FINAL, HIDDEN_SECTION,
@@ -110,6 +110,7 @@ function push(kind) {
 }
 
 function init() {
+  renderNav('decoder.html');
   renderFooter();
   renderDividers();
   renderProgress();

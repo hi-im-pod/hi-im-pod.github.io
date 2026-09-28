@@ -1,8 +1,18 @@
 // Pieces both pages need. Kept here so the footer and the divider settings
 // cannot drift apart between index.html and reading.html.
 import { createWaveform } from './waveform.js';
-import { footer as footerHtml } from './templates.js';
+import { footer as footerHtml, nav as navHtml } from './templates.js';
 import { FINAL } from './progress.js';
+
+// Takes the page's file name from the caller instead of reading location.
+// GitHub Pages serves the home page at the site root as well as at index.html,
+// so a name guessed from the path can miss it. The home page would then get the
+// links meant for other pages, which point at index.html#about rather than
+// #about, and js/nav.js would stop scrolling to and highlighting its sections.
+export function renderNav(page) {
+  const nav = document.getElementById('site-nav');
+  if (nav) nav.innerHTML = navHtml(page);
+}
 
 export function renderFooter() {
   const footer = document.getElementById('site-footer');

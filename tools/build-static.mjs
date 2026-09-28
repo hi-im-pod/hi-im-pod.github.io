@@ -29,6 +29,7 @@ const check = process.argv.includes('--check');
 // is also the id of the element it fills.
 const PAGES = {
   'index.html': {
+    'site-nav': () => t.nav('index.html'),
     'hero-content': t.hero,
     'about-content': t.about,
     'experience-list': t.experienceList,
@@ -41,16 +42,27 @@ const PAGES = {
     'site-footer': () => t.footer('index.html'),
   },
   'reading.html': {
+    'site-nav': () => t.nav('reading.html'),
     'reading-content': t.reading,
     'site-footer': () => t.footer('reading.html'),
   },
   'work.html': {
+    'site-nav': () => t.nav('work.html'),
     'work-content': t.work,
     'site-footer': () => t.footer('work.html'),
   },
-  'decoder.html': { 'site-footer': () => t.footer('decoder.html') },
-  'arrival.html': { 'site-footer': () => t.footer('arrival.html') },
-  'ethics.html': { 'site-footer': () => t.footer('ethics.html') },
+  'decoder.html': {
+    'site-nav': () => t.nav('decoder.html'),
+    'site-footer': () => t.footer('decoder.html'),
+  },
+  'arrival.html': {
+    'site-nav': () => t.nav('arrival.html'),
+    'site-footer': () => t.footer('arrival.html'),
+  },
+  'ethics.html': {
+    'site-nav': () => t.nav('ethics.html'),
+    'site-footer': () => t.footer('ethics.html'),
+  },
 };
 
 let stale = 0;

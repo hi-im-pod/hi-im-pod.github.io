@@ -1,4 +1,4 @@
-import { renderFooter, renderDividers } from './shared.js';
+import { renderNav, renderFooter, renderDividers } from './shared.js';
 import { work } from './templates.js';
 
 function renderWork() {
@@ -15,6 +15,7 @@ function scrollToHash() {
 }
 
 function init() {
+  renderNav('work.html');
   renderFooter();
   renderDividers();
   renderWork();

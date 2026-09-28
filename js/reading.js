@@ -1,4 +1,4 @@
-import { renderFooter, renderDividers } from './shared.js';
+import { renderNav, renderFooter, renderDividers } from './shared.js';
 import { reading } from './templates.js';
 
 function renderReading() {
@@ -20,6 +20,7 @@ function scrollToHash() {
 function init() {
   // Chrome first, so a failure while rendering the list still leaves a
   // usable page rather than a bare one.
+  renderNav('reading.html');
   renderFooter();
   renderDividers();
   renderReading();

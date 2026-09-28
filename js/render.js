@@ -1,6 +1,6 @@
 import { createWaveform } from './waveform.js';
 import { initNav } from './nav.js';
-import { renderFooter, renderDividers } from './shared.js';
+import { renderNav, renderFooter, renderDividers } from './shared.js';
 import { initRadio } from './radio.js';
 import * as t from './templates.js';
 
@@ -52,6 +52,9 @@ function renderSections() {
 
 // --- init ---
 function init() {
+  // Before gateRadio, which removes the nav's Radio link. Rendered after it,
+  // the link would come back without the radio it points at.
+  renderNav('index.html');
   renderSections();
   renderFooter();
   const radio = gateRadio();
