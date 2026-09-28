@@ -32,25 +32,54 @@ npx http-server -p 8788 -c-1
 | --- | --- |
 | `js/content.js` | All site text. Edit content here. |
 | `js/templates.js` | The HTML for that content, shared by the browser and the build tool. |
+| `js/resume.js` | Renders `resume.html`. |
 | `js/render.js` | Renders the front page and wires up its features. |
 | `js/waveform.js` | The bar fields and their Morse encoding. |
 | `js/playlist.js` | Radio tracks and their running order. |
 | `css/` | Design tokens, base styles, layout, components, and the font sheet. |
-| `tools/` | Build tools, described below. |
+| `tools/` | Five build tools, described below. |
+| `sitemap.xml`, `robots.txt` | The page list for search engines. |
+
+## Pages
+
+`index.html`, `reading.html`, `work.html` and `resume.html` take their content
+from `js/content.js`. The résumé uses the same experience and education entries
+as the front page, so the two cannot disagree. The other pages are written by
+hand.
+
+Every page except `diagnostics.html`, which runs without the site's scripts,
+gets its nav from `NAV_ITEMS` in `js/templates.js`. Add a link there, not in
+the HTML files, and run `build-static.mjs`. A new page also needs an entry in
+the `PAGES` map in `tools/build-static.mjs` and a line in `sitemap.xml`.
+
+`arrival.html` is left out of the sitemap on purpose and carries `noindex`. It
+is found by decoding the footer message, not by search.
+
+## Escaping
+
+Every value from `js/content.js` and `js/playlist.js` reaches the page through
+`esc()` in `js/templates.js`, in text and in attributes. The only unescaped
+markup is the markup written in `templates.js` itself: the tags around each
+value, `ko()`, and the links in `footerHints()`. No data field holds HTML. If a
+field needs a link or emphasis, add it in the template that renders the field,
+as `footerHints()` does, and keep the data plain text. `esc()` does not check
+URL schemes, so check any link you add to `content.js` yourself.
 
 ## Tools
 
-Each tool writes committed files, so a fresh clone serves as-is.
+There are five. Four write committed files, so a fresh clone serves as-is.
+`rank-tracks.mjs` only reports.
 
-- **`build-static.mjs`** writes the site content into each HTML file as real
-  markup, so every page reads fully in any browser, crawler or link preview.
-  Run it after editing `js/content.js` or `js/playlist.js`. Add `--check` to
-  confirm the files match the source.
+- **`build-static.mjs`** writes the site content, nav and footer into each HTML
+  file as real markup, so every page reads fully in any browser, crawler or
+  link preview. Run it after editing `js/content.js`, `js/playlist.js` or
+  `js/templates.js`. Add `--check` to confirm the files match the source.
 - **`build-envelope.mjs`** converts a track into the contour that drives the bar
   fields. The audio stays on your machine and only the contour is committed.
   Requires ffmpeg.
-- **`rank-tracks.mjs`** orders the radio by activity, liveliest track first,
-  working from the committed contours.
+- **`rank-tracks.mjs`** ranks the radio by activity, liveliest track first,
+  working from the committed contours, and says whether `js/playlist.js` is in
+  that order.
 - **`fetch-fonts.mjs`** downloads the webfonts and writes `css/fonts.css`. It
   subsets the Korean face to the Hangul characters in use. Requires
   `pip install fonttools brotli`.
