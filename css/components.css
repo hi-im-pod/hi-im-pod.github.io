@@ -521,6 +521,38 @@
   text-decoration: none;
   box-shadow: 0 0 24px -4px var(--color-pink-glow);
 }
+/* One filled button per view, so the eye has a single first move. Ink on this
+   pink measures about 9.9:1. Hover falls through to .btn:hover above, whose
+   two selectors outrank this one, so the fill visibly shifts toward signal. */
+.btn--primary {
+  background: var(--color-pink);
+  color: var(--color-ink);
+  box-shadow: 0 0 20px -6px var(--color-pink-glow);
+}
+
+/* A secondary action that reads as a link, not a second button competing with
+   the primary one. The vertical padding matches .btn so the tap target is the
+   same height, and align-self keeps the text on the button's centre line. */
+.text-link {
+  align-self: center;
+  padding: 0.65rem 0;
+  color: var(--color-text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--color-pink);
+  text-underline-offset: 0.25em;
+}
+.text-link:hover { color: var(--color-text-primary); }
+
+.contact-routes { margin: 0 0 var(--space-3); }
+.contact-routes > div { margin-bottom: var(--space-2); }
+.contact-routes dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--color-pink);
+}
+/* An address has no spaces to break at, so a narrow screen may split it
+   anywhere rather than push the page sideways. */
+.contact-routes dd { margin: 0.15rem 0 0; overflow-wrap: anywhere; }
 
 .site-footer {
   border-top: 1px solid var(--color-hairline);

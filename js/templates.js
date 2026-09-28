@@ -37,8 +37,8 @@ export const hero = () => `
     <h1>${esc(profile.name)}</h1>
     <p class="tagline">${esc(profile.tagline)}</p>
     <div class="hero-actions">
-      <a class="btn" href="${esc(profile.resumeHref)}" download>Download résumé</a>
-      <a class="btn" href="#contact">Get in touch</a>
+      <a class="btn btn--primary" href="#contact">Get in touch</a>
+      <a class="text-link" href="resume.html">Résumé</a>
     </div>
   `;
 
@@ -150,12 +150,29 @@ export const work = () => {
   `).join('');
 };
 
+// The subject is percent-encoded before esc() sees it. A space or an ampersand
+// in a mailto query has to be encoded to survive as part of the subject, and
+// esc() only makes the finished URL safe inside the attribute.
+const mailto = (address, subject) =>
+  esc(`mailto:${address}?subject=${encodeURIComponent(subject)}`);
+
+// Each address carries its own label so a visitor can see which inbox a
+// message belongs in before writing it.
 export const contact = () => `
     <p>${esc(profile.lookingFor)}</p>
-    <p>Based in ${esc(profile.city)} ${ko(`(${esc(profile.cityKorean)})`)}, ${esc(profile.country)}, with a home base in ${esc(profile.homeBase)}. The fastest way to reach me is email.</p>
+    <p>Based in ${esc(profile.city)} ${ko(`(${esc(profile.cityKorean)})`)}, ${esc(profile.country)}, with a home base in ${esc(profile.homeBase)}. Send research and collaboration email to my SKKU address, and everything else, including recruiting, to my personal one.</p>
+    <dl class="contact-routes">
+      <div>
+        <dt>Research and collaboration (SKKU)</dt>
+        <dd><a href="${mailto(profile.email.research, 'Research collaboration')}">${esc(profile.email.research)}</a></dd>
+      </div>
+      <div>
+        <dt>Everything else (personal)</dt>
+        <dd><a href="${mailto(profile.email.general, 'Hello from your site')}">${esc(profile.email.general)}</a></dd>
+      </div>
+    </dl>
     <div class="hero-actions">
-      <a class="btn" href="mailto:${esc(profile.email)}">Email me</a>
-      <a class="btn" href="${esc(profile.resumeHref)}" download>Download résumé</a>
+      <a class="btn" href="${esc(profile.resumeHref)}" download>Download résumé (PDF)</a>
     </div>
   `;
 
@@ -267,7 +284,7 @@ export const footer = page => `
     <div class="footer-signal" data-signal="${esc(FINAL)}"></div>
     <p>${esc(profile.name)}</p>
     <p>
-      <a href="mailto:${esc(profile.email)}">Email</a>
+      <a href="mailto:${esc(profile.email.general)}">Email</a>
       <a href="${esc(profile.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
       <a href="${esc(profile.links.github)}" target="_blank" rel="noopener">GitHub</a>
       <a href="ethics.html">Ethics</a>

@@ -14,7 +14,13 @@ export const profile = {
   country: 'South Korea',
   get location() { return `${this.city}, ${this.country}`; },
   homeBase: 'Maryland, USA',
-  email: 'williamgarrettennis@gmail.com',
+  // Two addresses, each for one kind of mail. The SKKU address is for research
+  // and collaboration. Everything else, recruiters included, goes to the
+  // personal address so it stays out of the school inbox.
+  email: {
+    research: 'redrobe@g.skku.edu',
+    general: 'williamgarrettennis@gmail.com',
+  },
   links: {
     linkedin: 'https://www.linkedin.com/in/garrett-ennis-security/',
     github: 'https://github.com/hi-im-pod',
