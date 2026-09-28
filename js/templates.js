@@ -32,10 +32,15 @@ export const esc = value => String(value).replace(/[&<>"']/g, ch => ENTITIES[ch]
 // Takes markup, not text: callers escape the value first.
 const ko = html => `<span lang="ko">${html}</span>`;
 
+// Keeps each hyphenated word on one line. Browsers break at a hard hyphen, and
+// the tagline split "AI-" from "assisted" on the smallest phones. Takes
+// markup: callers escape first, and escaping adds no hyphens.
+const whole = html => html.replace(/[\w’']+(?:-[\w’']+)+/g, '<span class="whole">$&</span>');
+
 export const hero = () => `
     <p class="eyebrow-line">${esc(profile.role)}</p>
     <h1>${esc(profile.name)}</h1>
-    <p class="tagline">${esc(profile.tagline)}</p>
+    <p class="tagline">${whole(esc(profile.tagline))}</p>
     <div class="hero-actions">
       <a class="btn btn--primary" href="#contact">Get in touch</a>
       <a class="btn" href="resume.html">Résumé</a>

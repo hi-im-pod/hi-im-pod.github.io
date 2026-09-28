@@ -59,13 +59,17 @@ const html = `<!doctype html>
     position: relative; z-index: 1;
     font-size: 1.6rem; color: var(--color-text-muted); margin: 0; max-width: 46rem;
   }
+  /* A hyphenated word stays on one line. Chrome breaks at a hard hyphen, and
+     "AI-" at a line end with "assisted" below it reads as a typo on an image
+     nobody can reflow. */
+  .whole { white-space: nowrap; }
   canvas { filter: drop-shadow(0 0 7px var(--color-pink-glow)); }
 </style></head>
 <body>
   <div class="field" id="field"></div>
   <p class="role">${profile.role}</p>
   <h1>${profile.name}</h1>
-  <p class="tagline">${profile.tagline}</p>
+  <p class="tagline">${profile.tagline.replace(/[\w’']+(?:-[\w’']+)+/g, '<span class="whole">$&</span>')}</p>
   <script type="module">
     import { createWaveform } from './js/waveform.js';
     // Not animated: a still frame sits every bar at the top of its band, which
