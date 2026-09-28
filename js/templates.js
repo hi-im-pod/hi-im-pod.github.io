@@ -107,8 +107,11 @@ export const projectsList = () => projects.map(project => {
     </div>
   `;
   }
+  // The label sits above the title so the difference between a tile with a
+  // write-up and one without shows before anyone reads to the bottom of either.
   return `
-    <a class="tile tile--link" href="work.html#${esc(project.id)}">${body}
+    <a class="tile tile--link" href="work.html#${esc(project.id)}">
+      <span class="tile__depth">Full write-up</span>${body}
       <span class="tile__cue">How I approached it</span>
     </a>
   `;

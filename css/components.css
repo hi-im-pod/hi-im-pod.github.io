@@ -447,7 +447,10 @@
   padding: var(--space-3);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
-.tile:hover {
+/* Only a tile that links somewhere lifts. A plain tile that lifted on hover
+   looked clickable and then did nothing when clicked. */
+.tile--link:hover,
+.tile--link:focus-visible {
   border-color: var(--color-signal);
   box-shadow: 0 0 0 1px var(--color-signal-glow), 0 8px 24px -12px var(--color-signal-glow);
   transform: translateY(-2px);
@@ -679,6 +682,19 @@
 }
 .tile--link:hover { text-decoration: none; }
 .tile--link p { flex: 1; }
+/* Same label treatment as the beat headings on work.html, so the marker on the
+   tile and the page it opens read as one thing. align-self keeps it the width
+   of its text inside the flex column. */
+.tile__depth {
+  align-self: flex-start;
+  margin-bottom: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-pink);
+}
 .tile__cue {
   margin-top: var(--space-2);
   font-family: var(--font-mono);
