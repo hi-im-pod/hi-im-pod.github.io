@@ -231,6 +231,8 @@
 }
 .reading-back { margin-top: var(--space-2); }
 
+.not-found-links { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: grid; gap: var(--space-1); }
+
 .reading-position {
   max-width: var(--content-width);
   margin: 0 0 var(--space-3);

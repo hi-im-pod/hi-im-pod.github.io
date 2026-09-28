@@ -55,6 +55,11 @@ the `PAGES` map in `tools/build-static.mjs` and a line in `sitemap.xml`.
 `arrival.html` is left out of the sitemap on purpose and carries `noindex`. It
 is found by decoding the footer message, not by search.
 
+`404.html` is what GitHub Pages serves for any address that does not exist,
+at that address. It is out of the sitemap and carries `noindex`, and its
+`<base href="/">` keeps its links working when the missing address is nested,
+such as `/old/path`.
+
 ## Escaping
 
 Every value from `js/content.js` and `js/playlist.js` reaches the page through

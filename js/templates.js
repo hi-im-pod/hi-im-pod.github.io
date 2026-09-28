@@ -361,10 +361,12 @@ export const footer = page => `
 // resolve against. They match og:url and the canonical links in each <head>.
 const SITE_URL = 'https://hi-im-pod.github.io';
 
+// The Person sits inside a ProfilePage, the type Google reads for a page whose
+// subject is one person. knowsAbout is the research interest titles, so a name
+// shared with other people is tied to this field of work.
 export const personJsonLd = () => {
   const current = experience.find(job => job.end === 'Present');
   const person = {
-    '@context': 'https://schema.org',
     '@type': 'Person',
     name: profile.name,
     // Left out, not a thrown build, if no role is marked Present between jobs.
@@ -384,8 +386,15 @@ export const personJsonLd = () => {
     url: `${SITE_URL}/`,
     image: `${SITE_URL}/assets/garrett-400.jpg`,
     sameAs: [profile.links.github, profile.links.linkedin],
+    knowsAbout: researchInterests.map(item => item.title),
   };
-  const json = JSON.stringify(person, null, 2).replace(/</g, '\\u003c');
+  const page = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url: `${SITE_URL}/`,
+    mainEntity: person,
+  };
+  const json = JSON.stringify(page, null, 2).replace(/</g, '\\u003c');
   return `
   <script type="application/ld+json" id="person-jsonld">
 ${json.replace(/^/gm, '  ')}
