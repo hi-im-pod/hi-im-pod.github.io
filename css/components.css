@@ -151,6 +151,35 @@
   50% { opacity: 1; transform: scale(1.4); }
 }
 
+/* --- about --- */
+
+/* The photo goes beside the paragraph rather than in the hero, so the hero
+   field and the name keep the width they were laid out for. On a phone it
+   stacks above the text, smaller, since beside it the text column would be a
+   few words wide. */
+.about-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+/* The studio backdrop was white. It was replaced with a pale wash of the
+   pink and lavender tokens before export, so this only has to draw the ring:
+   the padding shows the gradient behind the image, and border-radius clips
+   the photo inside it. */
+.headshot img {
+  width: 200px;
+  height: 200px;
+  padding: 3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-pink), var(--color-lavender) 55%, var(--color-signal));
+  box-shadow: 0 0 24px -4px var(--color-pink-glow);
+}
+@media (max-width: 40rem) {
+  .about-body { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+  .headshot img { width: 144px; height: 144px; }
+}
+
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-hairline);

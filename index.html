@@ -67,7 +67,16 @@
 
     <section id="about" class="section">
       <h2>About</h2>
-      <div id="about-content"><!-- gen:about-content --><p>I am a master’s student and researcher at the SecAI Lab at Sungkyunkwan University (SKKU), and a security engineer by background. My work covers both sides of one problem: how AI assistance changes what an attacker can do at scale, and what a defender needs in order to keep pace. Before moving into research, I designed SOC architectures and SIEM ingestion pipelines for regulated environments. The limiting factor there was rarely detection logic. It was alert volume that no team could triage, which is the constraint my research starts from.</p><!-- /gen:about-content --></div>
+      <!-- The photo sits outside the generated region on purpose. The build
+           script and the browser both rewrite everything between the markers,
+           and the photo has nothing in content.js to be generated from. -->
+      <div class="about-body">
+        <picture class="headshot">
+          <source type="image/webp" srcset="assets/garrett-200.webp 200w, assets/garrett-400.webp 400w" sizes="(max-width: 40rem) 144px, 200px">
+          <img src="assets/garrett-200.jpg" srcset="assets/garrett-200.jpg 200w, assets/garrett-400.jpg 400w" sizes="(max-width: 40rem) 144px, 200px" width="200" height="200" alt="Garrett Ennis" loading="lazy" decoding="async">
+        </picture>
+        <div id="about-content"><!-- gen:about-content --><p>I am a master’s student and researcher at the SecAI Lab at Sungkyunkwan University (SKKU), and a security engineer by background. My work covers both sides of one problem: how AI assistance changes what an attacker can do at scale, and what a defender needs in order to keep pace. Before moving into research, I designed SOC architectures and SIEM ingestion pipelines for regulated environments. The limiting factor there was rarely detection logic. It was alert volume that no team could triage, which is the constraint my research starts from.</p><!-- /gen:about-content --></div>
+      </div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="UPTIME"></div>
