@@ -350,7 +350,15 @@ export function createWaveform(container, { animated = false, height = 60, paral
 
   resize();
   draw(0);
-  window.addEventListener('resize', () => { resize(); draw(0); });
+  // Printed, resume.html hides its footer field with display:none, and the
+  // resize the browser fires on the way into print then measures the container
+  // at zero wide. A bed canvas of zero width makes drawImage throw, so a hidden
+  // field keeps its last frame and redraws on the resize back to the screen.
+  window.addEventListener('resize', () => {
+    if (!container.clientWidth) return;
+    resize();
+    draw(0);
+  });
 
   if (animated && !reduceMotion) {
     animatedRegistry.set(container, { draw, visible: false });

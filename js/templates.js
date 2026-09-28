@@ -157,11 +157,9 @@ const mailto = (address, subject) =>
   esc(`mailto:${address}?subject=${encodeURIComponent(subject)}`);
 
 // Each address carries its own label so a visitor can see which inbox a
-// message belongs in before writing it.
-export const contact = () => `
-    <p>${esc(profile.lookingFor)}</p>
-    <p>Based in ${esc(profile.city)} ${ko(`(${esc(profile.cityKorean)})`)}, ${esc(profile.country)}, with a home base in ${esc(profile.homeBase)}. Send research and collaboration email to my SKKU address, and everything else, including recruiting, to my personal one.</p>
-    <dl class="contact-routes">
+// message belongs in before writing it. Shared with resume(), so the two pages
+// cannot route the same address to different kinds of mail.
+const emailRoutes = () => `
       <div>
         <dt>Research and collaboration (SKKU)</dt>
         <dd><a href="${mailto(profile.email.research, 'Research collaboration')}">${esc(profile.email.research)}</a></dd>
@@ -169,11 +167,54 @@ export const contact = () => `
       <div>
         <dt>Everything else (personal)</dt>
         <dd><a href="${mailto(profile.email.general, 'Hello from your site')}">${esc(profile.email.general)}</a></dd>
-      </div>
+      </div>`;
+
+const place = () => `${esc(profile.city)} ${ko(`(${esc(profile.cityKorean)})`)}, ${esc(profile.country)}`;
+
+export const contact = () => `
+    <p>${esc(profile.lookingFor)}</p>
+    <p>Based in ${place()}, with a home base in ${esc(profile.homeBase)}. Send research and collaboration email to my SKKU address, and everything else, including recruiting, to my personal one.</p>
+    <dl class="contact-routes">${emailRoutes()}
     </dl>
     <div class="hero-actions">
       <a class="btn" href="${esc(profile.resumeHref)}" download>Download résumé (PDF)</a>
+      <a class="text-link" href="resume.html">Read it as a web page</a>
     </div>
+  `;
+
+// The profile links are printed as their addresses rather than as "LinkedIn"
+// and "GitHub", because resume.html is also meant to be printed, and a word on
+// paper cannot be clicked.
+const bareUrl = url => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+// The résumé as a page, from the same data as the front page. The two lists are
+// the front page's own templates rather than a résumé version of them, so a
+// role added to content.js reaches both at once.
+export const resume = () => `
+    <header class="resume-head">
+      <p class="eyebrow-line">${esc(profile.role)}</p>
+      <h1 class="page-title">${esc(profile.name)}</h1>
+      <p class="resume-place">${place()}</p>
+      <dl class="contact-routes resume-contact">${emailRoutes()}
+        <div>
+          <dt>LinkedIn</dt>
+          <dd><a href="${esc(profile.links.linkedin)}" target="_blank" rel="noopener">${esc(bareUrl(profile.links.linkedin))}</a></dd>
+        </div>
+        <div>
+          <dt>GitHub</dt>
+          <dd><a href="${esc(profile.links.github)}" target="_blank" rel="noopener">${esc(bareUrl(profile.links.github))}</a></dd>
+        </div>
+      </dl>
+      <p class="resume-download"><a class="btn" href="${esc(profile.resumeHref)}" download>Download PDF</a></p>
+    </header>
+    <section class="resume-section">
+      <h2>Experience</h2>
+      <ol class="timeline">${experienceList()}</ol>
+    </section>
+    <section class="resume-section">
+      <h2>Education</h2>
+      <ol class="timeline">${educationList()}</ol>
+    </section>
   `;
 
 export const reading = () => researchInterests.map(item => {

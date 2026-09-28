@@ -40,3 +40,26 @@
   --max-width: 72rem;
   --content-width: 42rem;
 }
+
+/* Paper is white, so the printed résumé takes the same palette inverted
+   rather than a second set of colours in every component. The accents are
+   darkened until they hold at least 4.5:1 on white, and the glows are dropped,
+   because a printer renders a soft glow as a grey smudge.
+
+   Scoped to resume.html. The other pages keep printing as they always have,
+   and on those the bar fields are part of what gets printed: a field on paper
+   can still be read. */
+@media print {
+  .page-resume {
+    --color-ink: #FFFFFF;
+    --color-surface: #FFFFFF;
+    --color-hairline: #C4C5D0;
+    --color-text-primary: #12131A;
+    --color-text-muted: #3A3B4A;
+    --color-signal: #0B6B61;
+    --color-pink: #A3195B;
+    --color-lavender: #5A3FB0;
+    --color-pink-glow: transparent;
+    --color-signal-glow: transparent;
+  }
+}

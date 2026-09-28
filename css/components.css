@@ -754,3 +754,83 @@
 /* A beat can run to several paragraphs, and without this they close up into
    one block that is hard to scan. */
 .work-beat p + p { margin-top: var(--space-2); }
+
+/* --- résumé --- */
+
+.resume-head { margin-bottom: var(--space-5); }
+/* Same mono line as the hero's, so the role reads the same way on both pages. */
+.resume-head .eyebrow-line {
+  margin-bottom: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--color-pink);
+}
+.resume-head .page-title { margin-bottom: var(--space-1); }
+.resume-place { margin-bottom: var(--space-3); }
+/* Two columns where they fit, one on a phone. The widest entries, the LinkedIn
+   address and the SKKU label, measure about 17.3rem, so 18rem columns never
+   break an address mid-word to fit two across. The min() lets one column
+   shrink below that on a phone narrower than 18rem instead of overflowing. */
+.resume-contact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: 0 var(--space-3);
+  max-width: var(--content-width);
+}
+.resume-download { margin: 0; }
+/* Korean breaks between any two syllables by default, which split the SKKU
+   name across two lines on paper. keep-all breaks it only at spaces, the way
+   Korean is set in print. */
+.resume [lang="ko"] { word-break: keep-all; }
+
+.resume-section {
+  max-width: var(--content-width);
+  margin-bottom: var(--space-4);
+}
+/* Labels rather than headlines. The page is one document, and at full h2 size
+   the two sections read as separate pages stacked together. */
+.resume-section h2 {
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--color-hairline);
+  margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* --- print --- */
+
+/* For the printed résumé only. The colours come from its print tokens in
+   tokens.css, and this block removes what only works on a screen: the footer's
+   bar field, which on a résumé sheet is a band of bars with no explanation next
+   to it, and the nav, footer links and download button, none of which can be
+   followed on paper. Other pages print as before, fields included. */
+@page { margin: 16mm 18mm; }
+
+@media print {
+  .page-resume { font-size: 10pt; line-height: 1.45; }
+  .page-resume::before,
+  .page-resume .site-nav,
+  .page-resume .site-footer,
+  .page-resume .noscript-note,
+  .page-resume .resume-download { display: none; }
+
+  .page-resume .section { max-width: none; padding: 0; }
+  .page-resume .page-title { font-size: 22pt; }
+  .page-resume h3 { font-size: 12pt; }
+  .resume-head { margin-bottom: 1.5rem; }
+  .resume-section { max-width: none; margin-bottom: 1rem; }
+
+  /* The timeline rail goes. Browsers drop backgrounds when printing, so the
+     dots vanished, and the border was cut into stubs wherever a role moved to
+     the next sheet. */
+  .resume .timeline { border-left: 0; }
+  .resume .timeline-item::before { display: none; }
+  /* A role split across two sheets separates its dates and title from its
+     bullets, so each one moves to the next page whole. */
+  .resume .timeline-item { padding: 0 0 1rem; break-inside: avoid; }
+  .resume h1, .resume h2, .resume h3 { break-after: avoid; }
+}

@@ -51,6 +51,11 @@ const PAGES = {
     'work-content': t.work,
     'site-footer': () => t.footer('work.html'),
   },
+  'resume.html': {
+    'site-nav': () => t.nav('resume.html'),
+    'resume-content': t.resume,
+    'site-footer': () => t.footer('resume.html'),
+  },
   'decoder.html': {
     'site-nav': () => t.nav('decoder.html'),
     'site-footer': () => t.footer('decoder.html'),
