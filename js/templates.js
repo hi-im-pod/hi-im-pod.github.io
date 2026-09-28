@@ -78,7 +78,7 @@ export const researchList = () => researchInterests.map(item => {
     <a class="card card--link" href="reading.html#${esc(item.id)}">
       <h3>${esc(item.title)}</h3>
       <p>${esc(item.description)}</p>
-      <span class="card__cue">${papers.length} ${papers.length === 1 ? 'paper' : 'papers'}</span>
+      <span class="card__cue">Reading list · ${papers.length} ${papers.length === 1 ? 'paper' : 'papers'}</span>
     </a>
   `;
 }).join('');
