@@ -173,7 +173,7 @@ async function build() {
     <div class="fp-panel">
       <h2>All of it, as one code</h2>
       <p class="fp-value fp-code">${code}</p>
-      <div class="divider fp-signature" data-signature></div>
+      <div class="divider fp-signature" data-signature role="img" aria-label="The code above, written in Morse code."></div>
       <p class="fp-prose">Those bars are the same code, written the same way as the rest of this site.
         You can check it on the <a href="decoder.html">decoder</a>. It is derived from the values above and
         nothing else, it is computed in your browser, and it is not sent anywhere or written down.

@@ -319,10 +319,20 @@ export function footerHints(page) {
   return hints.length ? `<p class="footer-hint">${hints.join(' ')}</p>` : '';
 }
 
+// What a screen reader hears for a bar field. The canvas is hidden from
+// assistive tech, so without this the field is silent. The label says a message
+// is there and where to learn to read it, and never what it says: reading it is
+// the point. The dividers in the static HTML carry the same two strings by hand.
+export function signalLabel(page) {
+  return page.endsWith('decoder.html')
+    ? 'A message in Morse code. This page shows how to read it.'
+    : 'A message in Morse code. The decoder page shows how to read it.';
+}
+
 // The bar field is a div here and a canvas once a script fills it. Everything
 // that matters without JavaScript, the name and the links, is plain markup.
 export const footer = page => `
-    <div class="footer-signal" data-signal="${esc(FINAL)}"></div>
+    <div class="footer-signal" data-signal="${esc(FINAL)}" role="img" aria-label="${esc(signalLabel(page))}"></div>
     <p>${esc(profile.name)}</p>
     <p>
       <a href="mailto:${esc(profile.email.general)}">Email</a>

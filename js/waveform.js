@@ -240,9 +240,10 @@ export function createWaveform(container, { animated = false, height = 60, paral
     barGradient = gradient;
 
     geom = measure(width);
-    // Published so diagnostics.html and the Morse verifier can read the real
-    // geometry instead of inferring it from pixels, where the reflection below
-    // the baseline is easily miscounted as more rows.
+    // Exposed for inspection. No script on the site reads these. They are here
+    // so someone checking a field in devtools can see the real geometry instead
+    // of inferring it from pixels, where the reflection below the baseline is
+    // easily miscounted as more rows.
     canvas.dataset.segRows = geom.segRows;
     canvas.dataset.fieldHeight = geom.fieldHeight.toFixed(1);
     buildBed();
