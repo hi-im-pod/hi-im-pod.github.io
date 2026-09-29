@@ -35,7 +35,7 @@ const PAGES = {
     'site-nav': () => t.nav('index.html'),
     'hero-content': t.hero,
     'about-content': t.about,
-    'experience-list': t.experienceList,
+    'experience-list': t.experienceSummary,
     'education-list': t.educationList,
     'research-list': t.researchList,
     'projects-list': t.projectsList,

@@ -49,7 +49,7 @@ export const hero = () => `
 
 export const about = () => `<p>${esc(profile.about)}</p>`;
 
-export const experienceList = () => experience.map(job => `
+export const experienceList = (jobs = experience) => jobs.map(job => `
     <li class="timeline-item">
       <time datetime="${esc(job.start)}">${esc(job.start)}–${esc(job.end)}</time>
       <h3>${esc(job.role)}, ${esc(job.org)}</h3>
@@ -58,6 +58,27 @@ export const experienceList = () => experience.map(job => `
       </ul>
     </li>
   `).join('');
+
+// The front page's version. Roles that started before EARLIER_THAN fold into
+// one line that points at the résumé, so the oldest and least related work
+// does not take as much of the page as the current work. resume.html keeps
+// every role in full through experienceList().
+const EARLIER_THAN = 2021;
+export const experienceSummary = () => {
+  const recent = experience.filter(job => Number(job.start) >= EARLIER_THAN);
+  const earlier = experience.filter(job => Number(job.start) < EARLIER_THAN);
+  if (!earlier.length) return experienceList();
+  const from = Math.min(...earlier.map(job => Number(job.start)));
+  const to = earlier[0].end;
+  const roles = earlier.map(job => `${esc(job.role)}, ${esc(job.org)}`).join('; ');
+  return experienceList(recent) + `
+    <li class="timeline-item timeline-item--earlier">
+      <time datetime="${from}">${from}–${esc(to)}</time>
+      <h3>Earlier: ${roles}</h3>
+      <p><a href="resume.html">Details on the résumé</a></p>
+    </li>
+  `;
+};
 
 export const educationList = () => education.map(item => `
     <li class="timeline-item">

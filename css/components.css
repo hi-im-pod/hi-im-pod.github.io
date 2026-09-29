@@ -526,6 +526,9 @@
   margin-bottom: var(--space-1);
 }
 .timeline-item ul { margin: var(--space-1) 0 0; padding-left: 1.1rem; }
+/* The folded older roles: one quieter line, so the eye stays on recent work. */
+.timeline-item--earlier h3 { font-size: var(--fs-body); color: var(--color-text-muted); }
+.timeline-item--earlier p { margin: var(--space-1) 0 0; font-size: var(--fs-small); }
 .timeline-item li { margin-bottom: 0.35rem; }
 
 .btn {
