@@ -14,7 +14,7 @@
 // ever needs a link or emphasis gets it from a template here, the way the
 // footer hints do, so the data files stay plain text throughout.
 
-import { profile, experience, education, researchInterests, projects } from './content.js';
+import { profile, experience, education, certifications, researchInterests, projects } from './content.js';
 import { playlist, radioIntro } from './playlist.js';
 import { FINAL } from './progress.js';
 
@@ -80,13 +80,28 @@ export const experienceSummary = () => {
   `;
 };
 
-export const educationList = () => education.map(item => `
+// Degrees and certifications share one timeline on both pages, since the front
+// page and the résumé use this template. Newest first, by the last year in each
+// period, so a certification lands between the degrees it overlaps. A name
+// here carries its issuer already ("Microsoft Certified: ..."), so there is no
+// separate issuer field.
+const endYear = period => Number(period.match(/\d{4}/g).pop());
+export const educationList = () => [
+  ...education.map(item => ({ period: item.period, html: `
     <li class="timeline-item">
       <time>${esc(item.period)}</time>
       <h3>${esc(item.degree)}, ${esc(item.org)}${item.orgKorean ? ` ${ko(esc(item.orgKorean))}` : ''}</h3>
       <p>${esc(item.detail)}</p>
     </li>
-  `).join('');
+  ` })),
+  ...certifications.map(cert => ({ period: cert.period, html: `
+    <li class="timeline-item">
+      <time>${esc(cert.period)}</time>
+      <h3>${esc(cert.name)}</h3>
+      <p>${esc(cert.status)} <a href="${esc(cert.url)}" target="_blank" rel="noopener">Verification page</a></p>
+    </li>
+  ` })),
+].sort((a, b) => endYear(b.period) - endYear(a.period)).map(entry => entry.html).join('');
 
 export const researchList = () => researchInterests.map(item => {
   // An interest with no papers yet is a plain card, not a link to an empty

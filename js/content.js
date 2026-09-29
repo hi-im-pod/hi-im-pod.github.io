@@ -134,6 +134,18 @@ export const education = [
   },
 ];
 
+// Listed with both dates and its state as Microsoft's verification page shows
+// it. The link goes to that page, so a reader who checks sees the same thing
+// the site says. Update `status` if it is renewed.
+export const certifications = [
+  {
+    name: 'Microsoft Certified: Security Operations Analyst Associate (SC-200)',
+    period: '2024–2026',
+    status: 'Earned February 2024, expired February 2026.',
+    url: 'https://learn.microsoft.com/en-us/users/GarrettEnnis-6599/credentials/91277926DDA9D77F',
+  },
+];
+
 // Every entry in `reading` is peer reviewed and was checked against the
 // publisher's own proceedings page. No preprints.
 export const researchInterests = [
