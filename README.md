@@ -68,7 +68,8 @@ markup is the markup written in `templates.js` itself: the tags around each
 value, `ko()`, and the links in `footerHints()`. No data field holds HTML. If a
 field needs a link or emphasis, add it in the template that renders the field,
 as `footerHints()` does, and keep the data plain text. `esc()` does not check
-URL schemes, so check any link you add to `content.js` yourself.
+URL schemes; `build-static.mjs` does. It fails the build on any generated
+`href` or `src` that is not `https:`, `mailto:` or a path on this site.
 
 ## Tools
 

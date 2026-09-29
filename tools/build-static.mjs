@@ -80,8 +80,20 @@ const PAGES = {
 let stale = 0;
 let written = 0;
 let broken = 0;
+let unsafe = 0;
+
+// esc() stops a value from becoming markup, but it leaves a URL's scheme alone,
+// so a javascript: link in content.js would reach the page intact. Every href
+// and src the templates write must be https, mailto, or a path on this site
+// (no scheme at all). Anything else fails the build and the page is not
+// written. Mixed case and leading spaces still count, because browsers strip
+// the spaces and ignore the case.
+const SAFE_URL = /^(?:https:|mailto:|[^:]*$)/i;
+const unsafeUrls = html =>
+  [...html.matchAll(/\b(?:href|src)="([^"]*)"/g)].map(m => m[1]).filter(url => !SAFE_URL.test(url));
 
 for (const [page, regions] of Object.entries(PAGES)) {
+  let badLinks = 0;
   let missing = 0;
   const path = join(root, page);
   const original = readFileSync(path, 'utf8');
@@ -101,7 +113,16 @@ for (const [page, regions] of Object.entries(PAGES)) {
       continue;
     }
     const body = html().replace(/\r?\n/g, eol);
+    for (const url of unsafeUrls(body)) {
+      console.error(`UNSAFE     ${page} ${name}: link scheme not allowed: ${url}`);
+      badLinks++;
+    }
     next = next.slice(0, from + start.length) + body + next.slice(to);
+  }
+
+  if (badLinks) {
+    unsafe += badLinks;
+    continue;
   }
 
   // Reported before the unchanged/stale check, and never as "unchanged". A page
@@ -131,6 +152,7 @@ for (const [page, regions] of Object.entries(PAGES)) {
 
 const problems = [];
 if (broken) problems.push(`${broken} region(s) have no markers`);
+if (unsafe) problems.push(`${unsafe} link(s) with a scheme other than https: or mailto:, nothing written for those pages`);
 if (stale) problems.push(`${stale} file(s) out of date, run: node tools/build-static.mjs`);
 
 if (problems.length) {
