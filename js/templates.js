@@ -230,6 +230,10 @@ export const resume = () => `
           <dt>GitHub</dt>
           <dd><a href="${esc(profile.links.github)}" target="_blank" rel="noopener">${esc(bareUrl(profile.links.github))}</a></dd>
         </div>
+        <div>
+          <dt>ORCID</dt>
+          <dd><a href="${esc(profile.links.orcid)}" target="_blank" rel="noopener">${esc(bareUrl(profile.links.orcid))}</a></dd>
+        </div>
       </dl>
       <p class="resume-download"><a class="btn" href="${esc(profile.resumeHref)}" download>Download PDF</a></p>
     </header>
@@ -364,6 +368,7 @@ export const footer = page => `
       <a href="mailto:${esc(profile.email.general)}">Email</a>
       <a href="${esc(profile.links.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>
       <a href="${esc(profile.links.github)}" target="_blank" rel="noopener">GitHub</a>
+      <a href="${esc(profile.links.orcid)}" target="_blank" rel="noopener">ORCID</a>
       <a href="ethics.html">Ethics</a>
     </p>
     ${footerHints(page)}
@@ -395,6 +400,7 @@ export const personJsonLd = () => {
   const person = {
     '@type': 'Person',
     name: profile.name,
+    alternateName: profile.legalName,
     // Left out, not a thrown build, if no role is marked Present between jobs.
     jobTitle: current?.role,
     affiliation: {
@@ -411,7 +417,7 @@ export const personJsonLd = () => {
       .map(item => ({ '@type': 'CollegeOrUniversity', name: item.org })),
     url: `${SITE_URL}/`,
     image: `${SITE_URL}/assets/garrett-400.jpg`,
-    sameAs: [profile.links.github, profile.links.linkedin],
+    sameAs: [profile.links.orcid, profile.links.github, profile.links.linkedin],
     knowsAbout: researchInterests.map(item => item.title),
   };
   const page = {

@@ -4,6 +4,10 @@
 // A field that needs a link or emphasis gets it from its template instead.
 export const profile = {
   name: 'Garrett Ennis',
+  // The name the lab page and ORCID use. Search engines treat the two forms as
+  // different people unless something says they are one, so the structured
+  // data carries it as an alternate name.
+  legalName: 'William Garrett Ennis',
   role: 'AI Security Researcher / Security Engineer',
   tagline: 'Actively researching AI on both sides of security: building AI-assisted attackers, and the defenders that stop them.',
   city: 'Suwon',
@@ -24,6 +28,9 @@ export const profile = {
   links: {
     linkedin: 'https://www.linkedin.com/in/garrett-ennis-security/',
     github: 'https://github.com/hi-im-pod',
+    // The researcher ID that keeps papers attached to this person rather than
+    // to the other people who share the name.
+    orcid: 'https://orcid.org/0009-0007-6651-9111',
   },
   resumeHref: 'assets/Garrett_Ennis_CV_General.pdf',
   lookingFor:
