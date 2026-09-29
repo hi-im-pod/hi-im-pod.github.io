@@ -57,7 +57,7 @@ const html = `<!doctype html>
   }
   .tagline {
     position: relative; z-index: 1;
-    font-size: 1.6rem; color: var(--color-text-muted); margin: 0; max-width: 46rem;
+    font-size: 1.6rem; color: var(--color-text-muted); margin: 0; max-width: 46rem; text-wrap: balance;
   }
   /* A hyphenated word stays on one line. Chrome breaks at a hard hyphen, and
      "AI-" at a line end with "assisted" below it reads as a typo on an image

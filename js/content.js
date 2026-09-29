@@ -9,7 +9,7 @@ export const profile = {
   // data carries it as an alternate name.
   legalName: 'William Garrett Ennis',
   role: 'AI Security Researcher / Security Engineer',
-  tagline: 'Actively researching AI on both sides of security: building AI-assisted attackers, and the defenders that stop them.',
+  tagline: 'Building AI-assisted attackers, and the defenders that stop them.',
   city: 'Suwon',
   // Rendered inside lang="ko" so browsers and screen readers pick the right
   // font and the right voice for it. The template adds that element around the
