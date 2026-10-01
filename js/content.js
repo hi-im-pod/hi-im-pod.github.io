@@ -304,9 +304,11 @@ export const researchInterests = [
   },
 ];
 
-// Each project is an approach rather than an artifact, because the systems
+// Most projects are an approach rather than an artifact, because the systems
 // themselves are confidential and a rebuilt toy would prove less than the
-// reasoning does.
+// reasoning does. A project that is public in its own right has a `link`
+// instead: { href, label }, with an https href. Its tile opens that page in a
+// new tab, and it has no write-up on work.html.
 //
 // The four fields below are the write-up. Fill all four and the project gets a
 // section on work.html, with its tile on the front page linking there. Leave
@@ -379,6 +381,18 @@ export const projects = [
       'Underneath both, one criterion. An analyst worked a single queue, and if the platform '
       + 'behind an alert changed how they triaged it, the architecture had failed.',
     ],
+  },
+  {
+    id: 'apt-explorer',
+    title: 'APT Explorer',
+    description:
+      'A public, non-commercial explorer for the threat-actor data in a CCS 2025 paper by my labmate Shakhzod Yuldoshkhujaev. A Python pipeline rebuilds the data every week, and a static site lets you browse actors, reports and reporting trends.',
+    tags: ['Threat Intel', 'Python', 'SvelteKit', 'Open Data'],
+    link: { href: 'https://hi-im-pod.github.io/apt-explorer/', label: 'Open APT Explorer' },
+    constraint: '',
+    decision: '',
+    rejected: '',
+    measure: '',
   },
   {
     id: 'cloud-identity',

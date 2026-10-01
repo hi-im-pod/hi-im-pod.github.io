@@ -141,6 +141,14 @@ export const projectsList = () => projects.map(project => {
         ${project.tags.map(tag => `<span class="tile__tag">${esc(tag)}</span>`).join('')}
       </div>`;
 
+  if (project.link) {
+    return `
+    <a class="tile tile--link" href="${esc(project.link.href)}" target="_blank" rel="noopener">
+      <span class="tile__depth">Live project</span>${body}
+      <span class="tile__cue">${esc(project.link.label)}<span class="visually-hidden"> (opens in a new tab)</span></span>
+    </a>
+  `;
+  }
   if (!writtenUp(project)) {
     return `
     <div class="tile">${body}
