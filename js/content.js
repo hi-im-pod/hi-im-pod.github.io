@@ -405,15 +405,4 @@ export const projects = [
     rejected: '',
     measure: '',
   },
-  {
-    id: 'apt-infrastructure',
-    title: 'APT infrastructure tracking pattern',
-    description:
-      'A method for correlating adversary infrastructure indicators over time, so hunting starts from infrastructure reuse rather than single indicators.',
-    tags: ['Threat Intel', 'OPSEC'],
-    constraint: '',
-    decision: '',
-    rejected: '',
-    measure: '',
-  },
 ];
