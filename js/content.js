@@ -451,13 +451,26 @@ export const projects = [
   {
     id: 'autonomous-agents',
     title: 'Evaluating autonomous pentest agents',
-    status: 'In the lab',
+    status: 'Lab study',
     description:
-      'A sealed-lab study of what an autonomous, LLM-driven penetration-testing agent does on its own, and how much of that the detection tooling shipped with it actually catches. An early read: not much. Write-up once the results hold up.',
-    tags: ['AI Agents', 'Detection', 'Lab Research'],
-    constraint: '',
-    decision: '',
-    rejected: '',
-    measure: '',
+      'A sealed-lab study of an open-source, LLM-driven penetration-testing platform: what it does unsupervised against vulnerable targets, and how much of that the detection shipped alongside it catches.',
+    tags: ['AI Agents', 'Detection Engineering', 'Isolated Lab'],
+    constraint: [
+      'Autonomous penetration-testing agents are moving from demonstration to practice, including in real misuse. The question for a defender is not whether one can run a scan, but whether it chains a whole intrusion on its own, and whether anything watching notices.',
+      'Measuring that honestly needs an environment the agent cannot escape, a capable model behind it, and a detection layer running in the same session, so offense and detection are recorded together.',
+    ],
+    decision: [
+      'Run the platform in a fully isolated lab against intentionally vulnerable targets, with network segmentation the agent cannot reach from inside, and both Suricata and the detection rules shipped with the tool watching.',
+      'Vary the one thing that matters most, the model. Compare a local open-weight model against a frontier API model on the same target, holding the framework constant.',
+    ],
+    rejected: [
+      'Reading a clean autonomous result as proof the environment is secure. On one target, a prompt that forbade escalation honestly reported no compromise, while a prompt that allowed it reached root and moved laterally. The outcome tracked the rules given to the agent, not the security of the target.',
+      'Studying the framework with a single model. The framework amplifies a model rather than replacing its judgment, so without varying the model, the result that capability sets the ceiling would not have shown up.',
+    ],
+    measure: [
+      'Model capability set the ceiling, not the framework. On one target a frontier model surfaced roughly 22 findings against about 4 for a local open-weight model, and weaker models failed on tool-calling alone.',
+      'Given a capable model, the agent ran the full chain unsupervised, from reconnaissance through privilege escalation to lateral movement across a segmented network, for about $9 of API credit across the whole investigation.',
+      'The detection shipped with the platform caught almost none of it: one alert for the entire investigation, and that alert matched the self-identifying traffic the tool sends. Its safety deny-rules, in contrast, fired correctly during hands-off runs. Detection has to be built for the behavior, because the tooling will not flag itself.',
+    ],
   },
 ];
