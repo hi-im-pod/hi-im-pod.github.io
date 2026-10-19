@@ -52,13 +52,39 @@
 
     <section class="section section--page-head">
       <h1 class="page-title">How I work</h1>
-      <p class="section-lede">The systems behind these are covered by agreements, so what follows is the reasoning rather than the artifacts: what made each one hard, what I chose, and what I turned down.</p>
+      <p class="section-lede">Each write-up covers what made the problem hard, what I chose, what I turned down, and how I would know it worked. The client work is described at the level of architecture and reasoning, with no client names or data.</p>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="METHOD" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
 
     <section class="section">
       <div id="work-content"><!-- gen:work-content -->
+    <div class="work-group" id="agent-sigma">
+      <p class="tile__depth">Current study</p>
+      <h2>Agent-led malware analysis for Sigma rules</h2>
+      <p class="reading-group__note">My thesis. Does an AI agent that chooses its own next analysis step write Sigma rules that catch more malware, with fewer false alerts, than a fixed workflow using the same tools? Approved in October 2026. No results yet.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">Malware Analysis</span><span class="tile__tag">Sigma</span><span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span>
+      </div>
+      
+      <div class="work-beat">
+        <h3>The constraint</h3>
+        <p>Generating detection rules with a language model is no longer new. Recent work already turns threat reports and sandbox output into Sigma rules, the vendor-neutral format for detections over log events, and tests them against variants and benign activity. A thesis that only generates rules would repeat that work.</p><p>The question I am testing is narrower: whether the analysis steps matter. Packed malware hides its behavior in the file on disk, so what an analyst learns depends on what they do next, such as unpacking it, dumping memory, or running it again. An agent can choose those steps. A fixed workflow runs the same ones every time.</p>
+      </div>
+      <div class="work-beat">
+        <h3>The decision</h3>
+        <p>Compare two workflows that differ only in who picks the analysis steps. Both get the same model, the same rule writer, the same tool menu, and the same resource ceiling. One follows a sequence frozen on development samples. The other lets an agent choose the next step and records each question, action, result, and decision to stop.</p><p>Sigma is the main output, written from recorded endpoint activity. YARA rules come second, and only where a specific file or memory artifact supports one. Every behavior claim and every rule condition links back to the event records that support it.</p><p>Existing rules and deterministic templates run as controls, so a gain has to beat what simple generation from the same evidence already achieves.</p>
+      </div>
+      <div class="work-beat">
+        <h3>What I rejected</h3>
+        <p>Starting by building a general-purpose analysis agent. It is the obvious first step and the wrong one here, because an agent with no fixed baseline beside it cannot show that its choices helped. The plan starts with one reproducible case, then a pilot of 10 to 20 files, and adds adaptive tool choice only after the fixed workflow works.</p><p>Counting rules that parse as success. A rule that is valid YAML can still match nothing, or match everything. Each rule has to compile, run against real event records, and be checked against benign activity before it counts.</p><p>Treating unpacking as the goal. Unpacking is one way to gather evidence, and the result that matters is whether the rule it leads to detects anything.</p>
+      </div>
+      <div class="work-beat">
+        <h3>How I would know it worked</h3>
+        <p>Detection on malware the rules never saw. Rules are written from one set of samples, frozen, then replayed on a sealed set from different payload groups. Related copies stay on the same side of that split, so a repacked copy of a development sample cannot pass as a new one.</p><p>False alerts on benign workloads, measured alongside detection. A rule that fires on routine administration costs an analyst more time than it saves.</p><p>Behavior accuracy against independently reviewed labels, plus failures, abstentions, and machine cost. If the fixed workflow writes equally useful rules for less, that is a result, and I will report it as one. Engineer review time comes later, as a separate study, and only if the technical results justify it.</p>
+      </div>
+    </div>
+  
     <div class="work-group" id="siem-fidelity">
       <h2>Multi-tenant SIEM architecture</h2>
       <p class="reading-group__note">Three SIEM platforms across more than 30 government-contractor clients, each chosen for the estate it had to monitor, all feeding one alert queue.</p>
@@ -72,11 +98,11 @@
       </div>
       <div class="work-beat">
         <h3>The decision</h3>
-        <p>Three platforms, chosen per client rather than one standard, behind a single alert surface.</p><p>Sentinel took the GCC High cloud workloads, ingesting through log forwarding, Event Hubs, Defender, and connectors I built for Microsoft XDR, with Azure Arc and the Azure Monitor Agent extending reach to machines outside the tenant. On-premises servers and firewalls went through a local Kafka platform that normalised before writing to an analytics bucket, with syslog split to its own.</p><p>AlienVault took the clients outside full FedRAMP scope who were not running SentinelOne. That one is almost entirely agent-based, with API integrations to Azure, FortiGate and whichever EDR the client had, and on-premises sensors forwarding network and firewall data over HTTPS.</p><p>SentinelOne took the clients already using it for EDR. I wrote parsers and translators into its parsing engine in regex and JSON, covering whatever applications a client asked for, fed from endpoint agents and a Scalyr agent on a hardened central server. Everything was normalised before it reached the data lake.</p><p>Detection was written per platform, as analytics and fusion rules in Sentinel and STAR rules against the SentinelOne lake. One API then polled all three for alerts in near real time and pushed them into the SOC dashboard in our PSA tool, so an analyst worked a single queue.</p>
+        <p>Three platforms, chosen per client rather than one standard, behind a single alert surface.</p><p>Sentinel took the GCC High cloud workloads, ingesting through log forwarding, Event Hubs, Defender, and connectors I built for Microsoft XDR, with Azure Arc and the Azure Monitor Agent extending reach to machines outside the tenant. On-premises servers and firewalls went through a local Kafka platform that normalized before writing to an analytics bucket, with syslog split to its own.</p><p>AlienVault took the clients outside full FedRAMP scope who were not running SentinelOne. That one is almost entirely agent-based, with API integrations to Azure, FortiGate and whichever EDR the client had, and on-premises sensors forwarding network and firewall data over HTTPS.</p><p>SentinelOne took the clients already using it for EDR. I wrote parsers and translators into its parsing engine in regex and JSON, covering whatever applications a client asked for, fed from endpoint agents and a Scalyr agent on a hardened central server. Everything was normalized before it reached the data lake.</p><p>Detection was written per platform, as analytics and fusion rules in Sentinel and STAR rules against the SentinelOne lake. One API then polled all three for alerts in near real time and pushed them into the SOC dashboard in our PSA tool, so an analyst worked a single queue.</p>
       </div>
       <div class="work-beat">
         <h3>What I rejected</h3>
-        <p>Standardising on one SIEM and fitting every client to it. That is cheaper to run and it was the wrong answer here, because the estates differed in exactly the ways that decide the tool.</p><p>A cloud-native GCC High tenant, a site of on-premises firewalls with no cloud presence, and a client with SentinelOne already deployed are three different ingestion problems. Retrofitting one platform across all three means paying for the mismatch in every environment instead of choosing once per client. Architecture, tooling and scope should follow the environment rather than the other way round.</p>
+        <p>Standardizing on one SIEM and fitting every client to it. That is cheaper to run and it was the wrong answer here, because the estates differed in exactly the ways that decide the tool.</p><p>A cloud-native GCC High tenant, a site of on-premises firewalls with no cloud presence, and a client with SentinelOne already deployed are three different ingestion problems. Retrofitting one platform across all three means paying for the mismatch in every environment instead of choosing once per client. Architecture, tooling and scope should follow the environment rather than the other way around.</p>
       </div>
       <div class="work-beat">
         <h3>How I would know it worked</h3>

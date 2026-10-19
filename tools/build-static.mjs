@@ -37,6 +37,7 @@ const PAGES = {
     'about-content': t.about,
     'experience-list': t.experienceSummary,
     'education-list': t.educationList,
+    'certifications-list': t.certificationsList,
     'research-list': t.researchList,
     'projects-list': t.projectsList,
     'contact-content': t.contact,

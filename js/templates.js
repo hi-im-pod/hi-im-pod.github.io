@@ -80,28 +80,26 @@ export const experienceSummary = () => {
   `;
 };
 
-// Degrees and certifications share one timeline on both pages, since the front
-// page and the résumé use this template. Newest first, by the last year in each
-// period, so a certification lands between the degrees it overlaps. A name
-// here carries its issuer already ("Microsoft Certified: ..."), so there is no
-// separate issuer field.
-const endYear = period => Number(period.match(/\d{4}/g).pop());
-export const educationList = () => [
-  ...education.map(item => ({ period: item.period, html: `
+// Degrees only, newest first in data order. A name here carries its issuer
+// already, so there is no separate issuer field. Certifications used to share
+// this timeline; they sit in their own block now, so a dated, expired entry
+// does not line up next to the degrees as if it were one.
+export const educationList = () => education.map(item => `
     <li class="timeline-item">
       <time>${esc(item.period)}</time>
       <h3>${esc(item.degree)}, ${esc(item.org)}${item.orgKorean ? ` ${ko(esc(item.orgKorean))}` : ''}</h3>
       <p>${esc(item.detail)}</p>
     </li>
-  ` })),
-  ...certifications.map(cert => ({ period: cert.period, html: `
-    <li class="timeline-item">
-      <time>${esc(cert.period)}</time>
-      <h3>${esc(cert.name)}</h3>
-      <p>${esc(cert.status)} <a href="${esc(cert.url)}" target="_blank" rel="noopener">Verification page</a></p>
+  `).join('');
+
+// Name and a verify link, nothing else. No dates or status, by choice: a reader
+// who wants them follows the link to Microsoft's page.
+export const certificationsList = () => certifications.map(cert => `
+    <li>
+      <span class="cert-name">${esc(cert.name)}</span>
+      <a href="${esc(cert.url)}" target="_blank" rel="noopener">Verify<span class="visually-hidden"> on Microsoft Learn (opens in a new tab)</span></a>
     </li>
-  ` })),
-].sort((a, b) => endYear(b.period) - endYear(a.period)).map(entry => entry.html).join('');
+  `).join('');
 
 export const researchList = () => researchInterests.map(item => {
   // An interest with no papers yet is a plain card, not a link to an empty
@@ -150,9 +148,11 @@ export const projectsList = () => projects.map(project => {
   `;
   }
   if (!writtenUp(project)) {
+    // A plain tile: work with no write-up yet. A `status` prints as the same
+    // eyebrow the linked tiles use, so a teaser reads as in-progress rather
+    // than as a finished project someone forgot to link.
     return `
-    <div class="tile">${body}
-      <p class="tile__note">The systems are covered by agreements. The reasoning is not.</p>
+    <div class="tile">${project.status ? `<span class="tile__depth">${esc(project.status)}</span>` : ''}${body}
     </div>
   `;
   }
@@ -160,7 +160,7 @@ export const projectsList = () => projects.map(project => {
   // write-up and one without shows before anyone reads to the bottom of either.
   return `
     <a class="tile tile--link" href="work.html#${esc(project.id)}">
-      <span class="tile__depth">Full write-up</span>${body}
+      <span class="tile__depth">${esc(project.status ?? 'Full write-up')}</span>${body}
       <span class="tile__cue">How I approached it</span>
     </a>
   `;
@@ -184,7 +184,8 @@ export const work = () => {
   `;
   }
   return ready.map(p => `
-    <div class="work-group" id="${esc(p.id)}">
+    <div class="work-group" id="${esc(p.id)}">${p.status ? `
+      <p class="tile__depth">${esc(p.status)}</p>` : ''}
       <h2>${esc(p.title)}</h2>
       <p class="reading-group__note">${esc(p.description)}</p>
       <div class="tile__tags">
@@ -267,6 +268,10 @@ export const resume = () => `
     <section class="resume-section">
       <h2>Education</h2>
       <ol class="timeline">${educationList()}</ol>
+    </section>
+    <section class="resume-section">
+      <h2>Certifications</h2>
+      <ul class="cert-list">${certificationsList()}</ul>
     </section>
   `;
 

@@ -85,8 +85,8 @@ function updateBands(t) {
   for (let b = 0; b < env.bands; b++) {
     const a = env.data[f0 * env.bands + b];
     const c = env.data[f1 * env.bands + b];
-    // A contrast curve on top of the per-band normalisation in the builder.
-    // Normalising gives every bar the whole column; this is what makes it
+    // A contrast curve on top of the per-band normalization in the builder.
+    // Normalizing gives every bar the whole column; this is what makes it
     // actually travel, by deepening the troughs while leaving the peaks where
     // they are. Without it a dense mix keeps every band busy enough that bars
     // hover in the upper half and never visibly drop between hits.

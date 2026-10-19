@@ -56,9 +56,9 @@ export const experience = [
     start: '2026',
     end: 'Present',
     bullets: [
-      'Study how AI assistance changes adversary capability, and what detection has to do once reconnaissance and evasion are cheap to automate.',
-      'Evaluate where AI assistance lowers analyst load in a security operations center (SOC), and where it moves the bottleneck instead of removing it.',
-      'Research in progress, with no published results yet.',
+      'Build AI-driven attack tooling in a sealed lab, then measure how much of it current detection catches.',
+      'Map where AI trims a security operations center (SOC) analyst’s alert backlog, and where it only relocates the work.',
+      'Thesis: whether an AI agent that chooses its own malware analysis steps writes better Sigma detection rules than a fixed workflow. Approved in October 2026, with no results yet.',
     ],
   },
   {
@@ -134,14 +134,12 @@ export const education = [
   },
 ];
 
-// Listed with both dates and its state as Microsoft's verification page shows
-// it. The link goes to that page, so a reader who checks sees the same thing
-// the site says. Update `status` if it is renewed.
+// Name and verification link only. No dates and no earned/expired state: the
+// link goes to Microsoft's page, so anyone who wants that detail can read it
+// there. Listed in its own small block, not the education timeline.
 export const certifications = [
   {
     name: 'Microsoft Certified: Security Operations Analyst Associate (SC-200)',
-    period: '2024–2026',
-    status: 'Earned February 2024, expired February 2026.',
     url: 'https://learn.microsoft.com/en-us/users/GarrettEnnis-6599/credentials/91277926DDA9D77F',
   },
 ];
@@ -304,11 +302,16 @@ export const researchInterests = [
   },
 ];
 
-// Most projects are an approach rather than an artifact, because the systems
-// themselves are confidential and a rebuilt toy would prove less than the
-// reasoning does. A project that is public in its own right has a `link`
-// instead: { href, label }, with an https href. Its tile opens that page in a
-// new tab, and it has no write-up on work.html.
+// Most projects are an approach rather than an artifact. The client work is
+// described at the level of architecture and reasoning, with no client names or
+// data, and a rebuilt toy would prove less than the reasoning does. A project
+// that is public in its own right has a `link` instead: { href, label }, with an
+// https href. Its tile opens that page in a new tab, and it has no write-up on
+// work.html.
+//
+// `status` is optional. It replaces the "Full write-up" label on the tile and
+// heads the write-up, so work that has not produced results yet says so before
+// anyone reads the plan as a finished project.
 //
 // The four fields below are the write-up. Fill all four and the project gets a
 // section on work.html, with its tile on the front page linking there. Leave
@@ -319,12 +322,63 @@ export const researchInterests = [
 //               one: "14,000 alerts a day against two analysts".
 //   decision    What you chose. One sentence, in the active voice.
 //   rejected    The option you did not take, and why it was wrong HERE rather
-//               than wrong in general. This is the beat that shows judgement;
+//               than wrong in general. This is the beat that shows judgment;
 //               the rest is description.
 //   measure     How you would know it worked. A metric, not a feeling:
 //               false-positive rate, time to triage, coverage against ATT&CK,
 //               how long the rule survived contact with the estate.
 export const projects = [
+  {
+    id: 'agent-sigma',
+    title: 'Agent-led malware analysis for Sigma rules',
+    status: 'Current study',
+    description:
+      'My thesis. Does an AI agent that chooses its own next analysis step write Sigma rules that catch more malware, with fewer false alerts, than a fixed workflow using the same tools? Approved in October 2026. No results yet.',
+    tags: ['Malware Analysis', 'Sigma', 'AI Agents', 'Detection Engineering'],
+    constraint: [
+      'Generating detection rules with a language model is no longer new. Recent work already '
+      + 'turns threat reports and sandbox output into Sigma rules, the vendor-neutral format for '
+      + 'detections over log events, and tests them against variants and benign activity. A thesis '
+      + 'that only generates rules would repeat that work.',
+      'The question I am testing is narrower: whether the analysis steps matter. Packed malware '
+      + 'hides its behavior in the file on disk, so what an analyst learns depends on what they do '
+      + 'next, such as unpacking it, dumping memory, or running it again. An agent can choose those '
+      + 'steps. A fixed workflow runs the same ones every time.',
+    ],
+    decision: [
+      'Compare two workflows that differ only in who picks the analysis steps. Both get the same '
+      + 'model, the same rule writer, the same tool menu, and the same resource ceiling. One follows '
+      + 'a sequence frozen on development samples. The other lets an agent choose the next step and '
+      + 'records each question, action, result, and decision to stop.',
+      'Sigma is the main output, written from recorded endpoint activity. YARA rules come second, '
+      + 'and only where a specific file or memory artifact supports one. Every behavior claim and '
+      + 'every rule condition links back to the event records that support it.',
+      'Existing rules and deterministic templates run as controls, so a gain has to beat what '
+      + 'simple generation from the same evidence already achieves.',
+    ],
+    rejected: [
+      'Starting by building a general-purpose analysis agent. It is the obvious first step and the '
+      + 'wrong one here, because an agent with no fixed baseline beside it cannot show that its '
+      + 'choices helped. The plan starts with one reproducible case, then a pilot of 10 to 20 files, '
+      + 'and adds adaptive tool choice only after the fixed workflow works.',
+      'Counting rules that parse as success. A rule that is valid YAML can still match nothing, or '
+      + 'match everything. Each rule has to compile, run against real event records, and be checked '
+      + 'against benign activity before it counts.',
+      'Treating unpacking as the goal. Unpacking is one way to gather evidence, and the result that '
+      + 'matters is whether the rule it leads to detects anything.',
+    ],
+    measure: [
+      'Detection on malware the rules never saw. Rules are written from one set of samples, frozen, '
+      + 'then replayed on a sealed set from different payload groups. Related copies stay on the '
+      + 'same side of that split, so a repacked copy of a development sample cannot pass as a new one.',
+      'False alerts on benign workloads, measured alongside detection. A rule that fires on routine '
+      + 'administration costs an analyst more time than it saves.',
+      'Behavior accuracy against independently reviewed labels, plus failures, abstentions, and '
+      + 'machine cost. If the fixed workflow writes equally useful rules for less, that is a '
+      + 'result, and I will report it as one. Engineer review time comes later, as a separate '
+      + 'study, and only if the technical results justify it.',
+    ],
+  },
   {
     id: 'siem-fidelity',
     title: 'Multi-tenant SIEM architecture',
@@ -345,7 +399,7 @@ export const projects = [
       'Sentinel took the GCC High cloud workloads, ingesting through log forwarding, Event Hubs, '
       + 'Defender, and connectors I built for Microsoft XDR, with Azure Arc and the Azure Monitor '
       + 'Agent extending reach to machines outside the tenant. On-premises servers and firewalls '
-      + 'went through a local Kafka platform that normalised before writing to an analytics bucket, '
+      + 'went through a local Kafka platform that normalized before writing to an analytics bucket, '
       + 'with syslog split to its own.',
       'AlienVault took the clients outside full FedRAMP scope who were not running SentinelOne. '
       + 'That one is almost entirely agent-based, with API integrations to Azure, FortiGate and '
@@ -354,20 +408,20 @@ export const projects = [
       'SentinelOne took the clients already using it for EDR. I wrote parsers and translators into '
       + 'its parsing engine in regex and JSON, covering whatever applications a client asked for, '
       + 'fed from endpoint agents and a Scalyr agent on a hardened central server. Everything was '
-      + 'normalised before it reached the data lake.',
+      + 'normalized before it reached the data lake.',
       'Detection was written per platform, as analytics and fusion rules in Sentinel and STAR rules '
       + 'against the SentinelOne lake. One API then polled all three for alerts in near real time '
       + 'and pushed them into the SOC dashboard in our PSA tool, so an analyst worked a single queue.',
     ],
     rejected: [
-      'Standardising on one SIEM and fitting every client to it. That is cheaper to run and it was '
+      'Standardizing on one SIEM and fitting every client to it. That is cheaper to run and it was '
       + 'the wrong answer here, because the estates differed in exactly the ways that decide the '
       + 'tool.',
       'A cloud-native GCC High tenant, a site of on-premises firewalls with no cloud presence, and '
       + 'a client with SentinelOne already deployed are three different ingestion problems. '
       + 'Retrofitting one platform across all three means paying for the mismatch in every '
       + 'environment instead of choosing once per client. Architecture, tooling and scope should '
-      + 'follow the environment rather than the other way round.',
+      + 'follow the environment rather than the other way around.',
     ],
     measure: [
       'Alert latency from source to dashboard, and how long a new client took to stand up.',
@@ -395,11 +449,12 @@ export const projects = [
     measure: '',
   },
   {
-    id: 'cloud-identity',
-    title: 'Cloud identity threat model',
+    id: 'autonomous-agents',
+    title: 'Evaluating autonomous pentest agents',
+    status: 'In the lab',
     description:
-      'A threat-modeling walkthrough for Azure and Microsoft 365 identity flows. It maps privilege-escalation paths and ranks them by what an attacker gains.',
-    tags: ['Azure', 'Threat Modeling', 'M365'],
+      'A sealed-lab study of what an autonomous, LLM-driven penetration-testing agent does on its own, and how much of that the detection tooling shipped with it actually catches. An early read: not much. Write-up once the results hold up.',
+    tags: ['AI Agents', 'Detection', 'Lab Research'],
     constraint: '',
     decision: '',
     rejected: '',
