@@ -7,8 +7,10 @@ Live at [hi-im-pod.github.io](https://hi-im-pod.github.io).
 
 ## What is on it
 
-- **Research and experience.** Background, education, research interests, and a
-  reading list of peer-reviewed papers.
+- **Selected work.** The thesis plan, exploratory pentest-agent study, SIEM
+  architecture, and APT Explorer appear directly after About.
+- **Experience and reading.** Career history, education, and research interests
+  with a reading list of peer-reviewed papers.
 - **How I work.** The reasoning behind past projects: the constraint, the
   decision, the alternative I turned down, and the result.
 - **Morse meters.** Every bar field spells a word in Morse. The decoder page
@@ -30,7 +32,7 @@ npx http-server -p 8788 -c-1
 
 | Path | Contents |
 | --- | --- |
-| `js/content.js` | All site text. Edit content here. |
+| `js/content.js` | Profile, career history, research interests, and project copy. |
 | `js/templates.js` | The HTML for that content, shared by the browser and the build tool. |
 | `js/resume.js` | Renders `resume.html`. |
 | `js/render.js` | Renders the front page and wires up its features. |
@@ -113,8 +115,28 @@ appears on `work.html`, and its front-page tile links there.
 | `measure` | How success was measured, as a metric. |
 
 Each field takes a string, or an array of strings for several paragraphs.
-`rejected` carries the most weight, because it shows the judgement behind the
+`rejected` carries the most weight, because it shows the judgment behind the
 build. Run `node tools/build-static.mjs` after editing.
+
+Use `status` to distinguish a study plan from completed work. `measureLabel`
+can rename the last heading when it describes observations rather than proposed
+metrics. An optional `evidence` object adds a methods table with `heading`,
+`intro`, `rows` (measure, observation, limit), `source`, and `next` fields.
+Keep these values as plain text; the template escapes them.
+
+The pentest-agent study separates captured task records from later written
+summaries. Its reported finding counts are not adjudicated vulnerability counts,
+and its alert observations apply only to the bundled rules and sensor placement.
+Update the source snapshot and review date when changing those claims.
+
+Navigation order lives in `js/templates.js`; homepage section order lives in
+`index.html`. Keep `TARGETS` in `js/progress.js` in the same order as the Morse
+fields. Existing section IDs remain stable so shared links keep working.
+
+Page titles and descriptions live in each HTML head. The downloadable résumé
+PDF is a separate asset, not an output of `build-static.mjs`. Check it separately
+when changing career information. Regenerate the social card after changing the
+hero tagline.
 
 ## Fonts
 

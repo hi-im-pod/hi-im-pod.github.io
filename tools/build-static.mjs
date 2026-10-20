@@ -113,7 +113,8 @@ for (const [page, regions] of Object.entries(PAGES)) {
       missing++;
       continue;
     }
-    const body = html().replace(/\r?\n/g, eol);
+    // Empty template branches otherwise add whitespace-only lines to every diff.
+    const body = html().replace(/[ \t]+$/gm, '').replace(/\r?\n/g, eol);
     for (const url of unsafeUrls(body)) {
       console.error(`UNSAFE     ${page} ${name}: link scheme not allowed: ${url}`);
       badLinks++;

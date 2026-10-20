@@ -69,7 +69,7 @@
     }
   }
   </script>
-  <!-- /gen:person-jsonld -->
+<!-- /gen:person-jsonld -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2312131A%22/><path d=%22M20 55 L40 55 L48 35 L58 70 L68 55 L80 55%22 stroke=%22%232FD9C4%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/tokens.css">
@@ -82,15 +82,15 @@
     <a href="#hero" class="site-nav__brand">Garrett Ennis</a>
     <div class="site-nav__links">
       <a href="#about">About</a>
+      <a href="#projects">Selected work</a>
       <a href="#experience">Experience</a>
       <a href="#education">Education</a>
-      <a href="#research">Research</a>
+      <a href="#research">Interests</a>
       <a href="reading.html">Reading</a>
-      <a href="#projects">Projects</a>
       <a href="#radio">Radio</a>
       <a href="#contact">Contact</a>
     </div>
-  <!-- /gen:site-nav --></nav>
+<!-- /gen:site-nav --></nav>
 
   <main>
     <noscript>
@@ -105,12 +105,13 @@
       <div id="hero-content" class="hero-content"><!-- gen:hero-content -->
     <p class="eyebrow-line">AI Security Researcher / Security Engineer</p>
     <h1>Garrett Ennis</h1>
-    <p class="tagline">Building <span class="whole">AI-assisted</span> attackers, and the defenders that stop them.</p>
+    <p class="tagline">Studying <span class="whole">AI-assisted</span> attacks and building <span class="whole">evidence-based</span> detections.</p>
     <div class="hero-actions">
-      <a class="btn btn--primary" href="#contact">Get in touch</a>
+      <a class="btn btn--primary" href="#projects">Explore my work</a>
+      <a class="btn" href="#contact">Get in touch</a>
       <a class="btn" href="resume.html">Résumé</a>
     </div>
-  <!-- /gen:hero-content --></div>
+<!-- /gen:hero-content --></div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="WHOAMI" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
@@ -129,6 +130,54 @@
       </div>
     </section>
 
+    <div class="divider" data-waveform-divider data-signal="ARTIFACTS" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
+
+    <section id="projects" class="section">
+      <h2>Selected work</h2>
+      <p class="section-lede">Current research, exploratory lab results, and systems I built in practice.</p>
+      <div id="projects-list" class="tile-grid"><!-- gen:projects-list -->
+    <a class="tile tile--link" href="work.html#agent-sigma">
+      <span class="tile__depth">Current study</span>
+      <h3>Agent-led malware analysis for Sigma rules</h3>
+      <p>My thesis. Does an AI agent that chooses its own next analysis step write Sigma rules that catch more malware, with fewer false alerts, than a fixed workflow using the same tools? Approved in October 2026. No results yet.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">Malware Analysis</span><span class="tile__tag">Sigma</span><span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span>
+      </div>
+      <span class="tile__cue">How I approached it</span>
+    </a>
+
+    <a class="tile tile--link" href="work.html#autonomous-agents">
+      <span class="tile__depth">Exploratory lab study</span>
+      <h3>Evaluating autonomous pentest agents</h3>
+      <p>An exploratory study of autonomous pentest agents on intentionally vulnerable lab targets, with recorded outcomes, detection coverage limits, and API spending.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">Isolated Lab</span>
+      </div>
+      <span class="tile__cue">Methods, observations, and limits</span>
+    </a>
+
+    <a class="tile tile--link" href="work.html#siem-fidelity">
+      <span class="tile__depth">Full write-up</span>
+      <h3>Multi-tenant SIEM architecture</h3>
+      <p>Three SIEM platforms across more than 30 government-contractor clients, each chosen for the estate it had to monitor, all feeding one alert queue.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">SIEM</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">GCC High</span><span class="tile__tag">Kafka</span>
+      </div>
+      <span class="tile__cue">How I approached it</span>
+    </a>
+
+    <a class="tile tile--link" href="https://hi-im-pod.github.io/apt-explorer/" target="_blank" rel="noopener">
+      <span class="tile__depth">Live project</span>
+      <h3>APT Explorer</h3>
+      <p>A public, non-commercial explorer for the threat-actor data in a CCS 2025 paper by my labmate Shakhzod Yuldoshkhujaev. A Python pipeline rebuilds the data every week, and a static site lets you browse actors, reports and reporting trends.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">Threat Intel</span><span class="tile__tag">Python</span><span class="tile__tag">SvelteKit</span><span class="tile__tag">Open Data</span>
+      </div>
+      <span class="tile__cue">Open APT Explorer<span class="visually-hidden"> (opens in a new tab)</span></span>
+    </a>
+<!-- /gen:projects-list --></div>
+    </section>
+
     <div class="divider" data-waveform-divider data-signal="UPTIME" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
 
     <section id="experience" class="section">
@@ -138,10 +187,10 @@
       <time datetime="2026">2026–Present</time>
       <h3>AI Security Researcher, SecAI Lab, SKKU</h3>
       <ul>
-        <li>Build AI-driven attack tooling in a sealed lab, then measure how much of it current detection catches.</li><li>Map where AI trims a security operations center (SOC) analyst’s alert backlog, and where it only relocates the work.</li><li>Thesis: whether an AI agent that chooses its own malware analysis steps writes better Sigma detection rules than a fixed workflow. Approved in October 2026, with no results yet.</li>
+        <li>Evaluate autonomous pentest agents against lab targets, recording their actions and the coverage of the bundled detection rules.</li><li>Map where AI trims a security operations center (SOC) analyst’s alert backlog, and where it only relocates the work.</li><li>Thesis: whether an AI agent that chooses its own malware analysis steps writes better Sigma detection rules than a fixed workflow. Approved in October 2026, with no results yet.</li>
       </ul>
     </li>
-  
+
     <li class="timeline-item">
       <time datetime="2024">2024–2026</time>
       <h3>Lead Security Engineer, SysArc</h3>
@@ -149,7 +198,7 @@
         <li>Led the security engineering and incident response team.</li><li>Directed threat hunting initiatives and cloud security operations across Azure and Microsoft 365 environments.</li><li>Delivered executive-level reporting and strategic security posture assessments.</li>
       </ul>
     </li>
-  
+
     <li class="timeline-item">
       <time datetime="2022">2022–2024</time>
       <h3>Security Engineer, SysArc</h3>
@@ -157,7 +206,7 @@
         <li>Helped enterprises and government contractors reach and maintain NIST 800-171 and CMMC compliance.</li><li>Designed and implemented enterprise SOC architectures for commercial and government contractor clients.</li><li>Engineered SIEM ingestion pipelines processing firewall, endpoint, and cloud telemetry; improved alert fidelity and reduced noise through structured normalization validation.</li><li>Wrote and tuned SIEM detection rules across endpoint, firewall, and cloud telemetry to expand attack coverage.</li><li>Managed the cybersecurity tool stack for the proactive services department.</li>
       </ul>
     </li>
-  
+
     <li class="timeline-item">
       <time datetime="2021">2021–2022</time>
       <h3>Software Engineer III, Cybersecurity (Pentest), Walmart Global Tech</h3>
@@ -165,13 +214,13 @@
         <li>Conducted enterprise application penetration testing for web and mobile platforms.</li><li>Scoped and ran assessments as the final gate in the application development cycle.</li><li>Developed structured threat models and collaborated with engineering teams to integrate secure SDLC controls.</li><li>Evaluated authentication, authorization, and input sanitization implementations in high-sensitivity environments.</li>
       </ul>
     </li>
-  
+
     <li class="timeline-item timeline-item--earlier">
       <time datetime="2019">2019–2021</time>
       <h3>Earlier: Network Administrator, Blue Heron Systems</h3>
       <p><a href="resume.html">Details on the résumé</a></p>
     </li>
-  <!-- /gen:experience-list --></ol>
+<!-- /gen:experience-list --></ol>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="TUTELAGE" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
@@ -184,19 +233,19 @@
       <h3>M.S. Computer Science and Engineering (AI), Sungkyunkwan University (SKKU) <span lang="ko">성균관대학교</span></h3>
       <p>SecAI Lab. Research on AI-assisted defense and SOC automation.</p>
     </li>
-  
+
     <li class="timeline-item">
       <time>2020–2021</time>
       <h3>B.S. Computer Networks and Cybersecurity, University of Maryland Global Campus</h3>
       <p>Completed after transferring credits from Anne Arundel Community College. Minor in East Asian Studies.</p>
     </li>
-  
+
     <li class="timeline-item">
       <time>2018–2020</time>
       <h3>Associate degrees, Cyber Security and Computer Networking, Anne Arundel Community College</h3>
       <p>Dual degrees. Concentration in computer and information systems security and information assurance.</p>
     </li>
-  <!-- /gen:education-list --></ol>
+<!-- /gen:education-list --></ol>
 
       <div class="cert-block">
         <h3 class="cert-block__head">Certifications</h3>
@@ -205,81 +254,34 @@
       <span class="cert-name">Microsoft Certified: Security Operations Analyst Associate (SC-200)</span>
       <a href="https://learn.microsoft.com/en-us/users/GarrettEnnis-6599/credentials/91277926DDA9D77F" target="_blank" rel="noopener">Verify<span class="visually-hidden"> on Microsoft Learn (opens in a new tab)</span></a>
     </li>
-  <!-- /gen:certifications-list --></ul>
+<!-- /gen:certifications-list --></ul>
       </div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="INQUIRY" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
 
     <section id="research" class="section">
-      <h2>Research</h2>
-      <p class="section-lede">Each area links to my reading list for it: peer-reviewed papers, linked to the publisher, none of them mine.</p>
+      <h2>Research interests and reading</h2>
+      <p class="section-lede">Papers that inform my work, grouped by research interest. These are other authors’ publications; my studies are in Selected work.</p>
       <div id="research-list" class="card-grid"><!-- gen:research-list -->
     <a class="card card--link" href="reading.html#ai-adversarial">
       <h3>AI-augmented adversarial attack and defense</h3>
       <p>How automated offense changes attacker cost, and what detection has to do once reconnaissance and evasion are cheap.</p>
       <span class="card__cue">Reading list · 6 papers</span>
     </a>
-  
+
     <a class="card card--link" href="reading.html#soc">
       <h3>SOC optimization</h3>
       <p>Where AI assistance lowers analyst load, and where it moves the bottleneck instead of removing it.</p>
       <span class="card__cue">Reading list · 4 papers</span>
     </a>
-  
+
     <a class="card card--link" href="reading.html#threat-hunting">
       <h3>Threat hunting and adversary intelligence</h3>
       <p>Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.</p>
       <span class="card__cue">Reading list · 5 papers</span>
     </a>
-  <!-- /gen:research-list --></div>
-    </section>
-
-    <div class="divider" data-waveform-divider data-signal="ARTIFACTS" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
-
-    <section id="projects" class="section">
-      <h2>Projects</h2>
-      <div id="projects-list" class="tile-grid"><!-- gen:projects-list -->
-    <a class="tile tile--link" href="work.html#agent-sigma">
-      <span class="tile__depth">Current study</span>
-      <h3>Agent-led malware analysis for Sigma rules</h3>
-      <p>My thesis. Does an AI agent that chooses its own next analysis step write Sigma rules that catch more malware, with fewer false alerts, than a fixed workflow using the same tools? Approved in October 2026. No results yet.</p>
-      <div class="tile__tags">
-        <span class="tile__tag">Malware Analysis</span><span class="tile__tag">Sigma</span><span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span>
-      </div>
-      <span class="tile__cue">How I approached it</span>
-    </a>
-  
-    <a class="tile tile--link" href="work.html#siem-fidelity">
-      <span class="tile__depth">Full write-up</span>
-      <h3>Multi-tenant SIEM architecture</h3>
-      <p>Three SIEM platforms across more than 30 government-contractor clients, each chosen for the estate it had to monitor, all feeding one alert queue.</p>
-      <div class="tile__tags">
-        <span class="tile__tag">SIEM</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">GCC High</span><span class="tile__tag">Kafka</span>
-      </div>
-      <span class="tile__cue">How I approached it</span>
-    </a>
-  
-    <a class="tile tile--link" href="https://hi-im-pod.github.io/apt-explorer/" target="_blank" rel="noopener">
-      <span class="tile__depth">Live project</span>
-      <h3>APT Explorer</h3>
-      <p>A public, non-commercial explorer for the threat-actor data in a CCS 2025 paper by my labmate Shakhzod Yuldoshkhujaev. A Python pipeline rebuilds the data every week, and a static site lets you browse actors, reports and reporting trends.</p>
-      <div class="tile__tags">
-        <span class="tile__tag">Threat Intel</span><span class="tile__tag">Python</span><span class="tile__tag">SvelteKit</span><span class="tile__tag">Open Data</span>
-      </div>
-      <span class="tile__cue">Open APT Explorer<span class="visually-hidden"> (opens in a new tab)</span></span>
-    </a>
-  
-    <a class="tile tile--link" href="work.html#autonomous-agents">
-      <span class="tile__depth">Lab study</span>
-      <h3>Evaluating autonomous pentest agents</h3>
-      <p>A sealed-lab study of an open-source, LLM-driven penetration-testing platform: what it does unsupervised against vulnerable targets, and how much of that the detection shipped alongside it catches.</p>
-      <div class="tile__tags">
-        <span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">Isolated Lab</span>
-      </div>
-      <span class="tile__cue">How I approached it</span>
-    </a>
-  <!-- /gen:projects-list --></div>
+<!-- /gen:research-list --></div>
     </section>
 
     <div class="divider" data-waveform-divider data-signal="RADIO" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
@@ -293,22 +295,22 @@
         <span class="radio-track-title">WannaCry</span>
         <span class="radio-track-artist">Ninajirachi &amp; Porter Robinson</span>
       </li>
-    
+
       <li>
         <span class="radio-track-title">Hard Refresh (DJ Dave Remix)</span>
         <span class="radio-track-artist">DJ Dave</span>
       </li>
-    
+
       <li>
         <span class="radio-track-title">The Peace (Frost Children Remix)</span>
         <span class="radio-track-artist">underscores</span>
       </li>
-    
+
       <li>
         <span class="radio-track-title">iPod Touch (Madeon Remix)</span>
         <span class="radio-track-artist">Ninajirachi</span>
       </li>
-    <!-- /gen:radio-list --></ul>
+<!-- /gen:radio-list --></ul>
 
       <p class="radio-status" id="radio-status" hidden></p>
 
@@ -340,7 +342,7 @@
       <a class="btn" href="assets/Garrett_Ennis_CV_General.pdf" download>Download résumé (PDF)</a>
       <a class="btn" href="resume.html">Read it as a web page</a>
     </div>
-  <!-- /gen:contact-content --></div>
+<!-- /gen:contact-content --></div>
     </section>
   </main>
 
@@ -375,7 +377,7 @@
       <a href="ethics.html">Ethics</a>
     </p>
     <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them, and <a href="decoder.html">so can you</a>. Bars sitting still? <a href="diagnostics.html">Check your browser</a>.</p>
-  <!-- /gen:site-footer --></footer>
+<!-- /gen:site-footer --></footer>
 
   <script type="module" src="js/render.js"></script>
 </body>

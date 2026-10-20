@@ -42,7 +42,8 @@ export const hero = () => `
     <h1>${esc(profile.name)}</h1>
     <p class="tagline">${whole(esc(profile.tagline))}</p>
     <div class="hero-actions">
-      <a class="btn btn--primary" href="#contact">Get in touch</a>
+      <a class="btn btn--primary" href="#projects">Explore my work</a>
+      <a class="btn" href="#contact">Get in touch</a>
       <a class="btn" href="resume.html">Résumé</a>
     </div>
   `;
@@ -131,7 +132,9 @@ const filled = v => (Array.isArray(v) ? v.length > 0 && v.every(Boolean) : Boole
 const writtenUp = p => [p.constraint, p.decision, p.rejected, p.measure].every(filled);
 export const projectsWithWriteUp = () => projects.filter(writtenUp);
 
-export const projectsList = () => projects.map(project => {
+const workOrder = ['agent-sigma', 'autonomous-agents', 'siem-fidelity', 'apt-explorer'];
+const orderedProjects = () => [...projects].sort((a, b) => workOrder.indexOf(a.id) - workOrder.indexOf(b.id));
+export const projectsList = () => orderedProjects().map(project => {
   const body = `
       <h3>${esc(project.title)}</h3>
       <p>${esc(project.description)}</p>
@@ -161,7 +164,7 @@ export const projectsList = () => projects.map(project => {
   return `
     <a class="tile tile--link" href="work.html#${esc(project.id)}">
       <span class="tile__depth">${esc(project.status ?? 'Full write-up')}</span>${body}
-      <span class="tile__cue">How I approached it</span>
+      <span class="tile__cue">${project.evidence ? 'Methods, observations, and limits' : 'How I approached it'}</span>
     </a>
   `;
 }).join('');
@@ -177,13 +180,15 @@ const BEATS = [
 ];
 
 export const work = () => {
-  const ready = projectsWithWriteUp();
+  const ready = orderedProjects().filter(writtenUp);
   if (!ready.length) {
     return `
     <p class="reading-meta">Nothing written up yet.</p>
   `;
   }
-  return ready.map(p => `
+  return `<nav class="work-index" aria-label="Study and project write-ups">
+    ${ready.map(p => `<a href="#${esc(p.id)}">${esc(p.title)}</a>`).join('\n    ')}
+  </nav>` + ready.map(p => `
     <div class="work-group" id="${esc(p.id)}">${p.status ? `
       <p class="tile__depth">${esc(p.status)}</p>` : ''}
       <h2>${esc(p.title)}</h2>
@@ -193,9 +198,26 @@ export const work = () => {
       </div>
       ${BEATS.map(([key, label]) => `
       <div class="work-beat">
-        <h3>${label}</h3>
+        <h3>${esc(key === 'measure' ? p.measureLabel ?? label : label)}</h3>
         ${[p[key]].flat().map(para => `<p>${esc(para)}</p>`).join('')}
       </div>`).join('')}
+      ${p.evidence ? `
+      <section class="study-evidence" aria-labelledby="${esc(p.id)}-evidence">
+        <h3 id="${esc(p.id)}-evidence">${esc(p.evidence.heading)}</h3>
+        <p>${esc(p.evidence.intro)}</p>
+        <p class="evidence-hint">Scroll sideways to read the evidence limits on a small screen.</p>
+        <div class="evidence-scroll" role="region" aria-label="Scrollable study evidence table" tabindex="0">
+          <table class="evidence-table">
+            <caption>Recorded observations and what they support</caption>
+            <thead><tr><th scope="col">Measure</th><th scope="col">Recorded observation</th><th scope="col">Limit</th></tr></thead>
+            <tbody>${p.evidence.rows.map(([measure, observation, limit]) => `
+              <tr><th scope="row">${esc(measure)}</th><td>${esc(observation)}</td><td>${esc(limit)}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <p class="evidence-source">${esc(p.evidence.source)}</p>
+        <p>${esc(p.evidence.next)}</p>
+      </section>` : ''}
     </div>
   `).join('');
 };
@@ -325,14 +347,14 @@ export const radioTracks = () => playlist.map(track => `
 // is safe because gateRadio in render.js removes it unless the key is present.
 //
 // `current` names the pages that mark an item as the one being read. work.html
-// is the long form of the projects section, so it marks Projects.
+// is the long form of the projects section, so it marks Selected work.
 const NAV_ITEMS = [
   { label: 'About', section: 'about' },
+  { label: 'Selected work', section: 'projects', current: ['work.html'] },
   { label: 'Experience', section: 'experience' },
   { label: 'Education', section: 'education' },
-  { label: 'Research', section: 'research' },
+  { label: 'Interests', section: 'research' },
   { label: 'Reading', href: 'reading.html', current: ['reading.html'] },
-  { label: 'Projects', section: 'projects', current: ['work.html'] },
   { label: 'Radio', section: 'radio', only: 'index.html' },
   { label: 'Contact', section: 'contact' },
 ];

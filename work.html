@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Titled for the one write-up the page holds, so it can rank for what
-       practitioners search. Retitle here and in og:title and twitter:title
-       when a second project is written up. -->
-  <title>Multi-tenant SIEM architecture for 30+ CMMC clients, Garrett Ennis</title>
-  <meta name="description" content="How Garrett Ennis approached a multi-tenant SIEM for more than 30 government-contractor clients: the constraint, the decision, the option rejected, and how success was measured." />
+  <title>AI security studies and security engineering, Garrett Ennis</title>
+  <meta name="description" content="Garrett Ennis’s work on malware analysis, autonomous pentest agents, and multi-tenant SIEM architecture, with methods, observations, and evidence limits." />
   <!-- Link previews. Without these a shared link shows as bare text, which
        matters on a page whose point is to be sent to people. -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Garrett Ennis" />
-  <meta property="og:title" content="Multi-tenant SIEM architecture for 30+ CMMC clients, Garrett Ennis" />
-  <meta property="og:description" content="How Garrett Ennis approached a multi-tenant SIEM for more than 30 government-contractor clients: the constraint, the decision, the option rejected, and how success was measured." />
+  <meta property="og:title" content="AI security studies and security engineering, Garrett Ennis" />
+  <meta property="og:description" content="Garrett Ennis’s work on malware analysis, autonomous pentest agents, and multi-tenant SIEM architecture, with methods, observations, and evidence limits." />
   <meta property="og:url" content="https://hi-im-pod.github.io/work.html" />
   <link rel="canonical" href="https://hi-im-pod.github.io/work.html" />
   <meta property="og:image" content="https://hi-im-pod.github.io/assets/social-card.png" />
@@ -21,8 +18,8 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Garrett Ennis, AI Security Researcher and Security Engineer, over a bar-meter field" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Multi-tenant SIEM architecture for 30+ CMMC clients, Garrett Ennis" />
-  <meta name="twitter:description" content="How Garrett Ennis approached a multi-tenant SIEM for more than 30 government-contractor clients: the constraint, the decision, the option rejected, and how success was measured." />
+  <meta name="twitter:title" content="AI security studies and security engineering, Garrett Ennis" />
+  <meta name="twitter:description" content="Garrett Ennis’s work on malware analysis, autonomous pentest agents, and multi-tenant SIEM architecture, with methods, observations, and evidence limits." />
   <meta name="twitter:image" content="https://hi-im-pod.github.io/assets/social-card.png" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2312131A%22/><path d=%22M20 55 L40 55 L48 35 L58 70 L68 55 L80 55%22 stroke=%22%232FD9C4%22 stroke-width=%226%22 fill=%22none%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22/></svg>">
   <link rel="stylesheet" href="css/fonts.css">
@@ -36,14 +33,14 @@
     <a href="index.html" class="site-nav__brand">Garrett Ennis</a>
     <div class="site-nav__links">
       <a href="index.html#about">About</a>
+      <a href="index.html#projects" class="is-active">Selected work</a>
       <a href="index.html#experience">Experience</a>
       <a href="index.html#education">Education</a>
-      <a href="index.html#research">Research</a>
+      <a href="index.html#research">Interests</a>
       <a href="reading.html">Reading</a>
-      <a href="index.html#projects" class="is-active">Projects</a>
       <a href="index.html#contact">Contact</a>
     </div>
-  <!-- /gen:site-nav --></nav>
+<!-- /gen:site-nav --></nav>
 
   <main>
     <noscript>
@@ -58,7 +55,11 @@
     <div class="divider" data-waveform-divider data-signal="METHOD" role="img" aria-label="A message in Morse code. The decoder page shows how to read it."></div>
 
     <section class="section">
-      <div id="work-content"><!-- gen:work-content -->
+      <div id="work-content"><!-- gen:work-content --><nav class="work-index" aria-label="Study and project write-ups">
+    <a href="#agent-sigma">Agent-led malware analysis for Sigma rules</a>
+    <a href="#autonomous-agents">Evaluating autonomous pentest agents</a>
+    <a href="#siem-fidelity">Multi-tenant SIEM architecture</a>
+  </nav>
     <div class="work-group" id="agent-sigma">
       <p class="tile__depth">Current study</p>
       <h2>Agent-led malware analysis for Sigma rules</h2>
@@ -66,7 +67,7 @@
       <div class="tile__tags">
         <span class="tile__tag">Malware Analysis</span><span class="tile__tag">Sigma</span><span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span>
       </div>
-      
+
       <div class="work-beat">
         <h3>The constraint</h3>
         <p>Generating detection rules with a language model is no longer new. Recent work already turns threat reports and sandbox output into Sigma rules, the vendor-neutral format for detections over log events, and tests them against variants and benign activity. A thesis that only generates rules would repeat that work.</p><p>The question I am testing is narrower: whether the analysis steps matter. Packed malware hides its behavior in the file on disk, so what an analyst learns depends on what they do next, such as unpacking it, dumping memory, or running it again. An agent can choose those steps. A fixed workflow runs the same ones every time.</p>
@@ -83,15 +84,63 @@
         <h3>How I would know it worked</h3>
         <p>Detection on malware the rules never saw. Rules are written from one set of samples, frozen, then replayed on a sealed set from different payload groups. Related copies stay on the same side of that split, so a repacked copy of a development sample cannot pass as a new one.</p><p>False alerts on benign workloads, measured alongside detection. A rule that fires on routine administration costs an analyst more time than it saves.</p><p>Behavior accuracy against independently reviewed labels, plus failures, abstentions, and machine cost. If the fixed workflow writes equally useful rules for less, that is a result, and I will report it as one. Engineer review time comes later, as a separate study, and only if the technical results justify it.</p>
       </div>
+
     </div>
-  
+
+    <div class="work-group" id="autonomous-agents">
+      <p class="tile__depth">Exploratory lab study</p>
+      <h2>Evaluating autonomous pentest agents</h2>
+      <p class="reading-group__note">An exploratory study of autonomous pentest agents on intentionally vulnerable lab targets, with recorded outcomes, detection coverage limits, and API spending.</p>
+      <div class="tile__tags">
+        <span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">Isolated Lab</span>
+      </div>
+
+      <div class="work-beat">
+        <h3>The constraint</h3>
+        <p>I studied how an autonomous pentest platform uses its tools, follows scope restrictions, and reports results against intentionally vulnerable targets. I also checked what the detection rules bundled with the platform could observe.</p><p>The lab changed during the investigation. Models, context settings, task permissions, and inherited findings varied. These runs support observations about those configurations, but do not isolate model capability as the cause of every difference.</p>
+      </div>
+      <div class="work-beat">
+        <h3>The decision</h3>
+        <p>Use a lab with a controlled external boundary and deliberately vulnerable targets. Internal segmentation was part of the test environment. Local inference and API inference were separate configurations; API access used a restricted relay.</p><p>Run local model profiles and an API model on Metasploitable2, then expand to a segmented lab. Preserve task goals, activity, findings, and account-balance snapshots where the capture harness was used.</p><p>Place Suricata on the analysis VM’s target-facing interface with the bundled rules. That sensor did not monitor the internal switch. The rules mainly identified the tool’s HTTP User-Agent strings; this was not a benchmark of general intrusion detection.</p>
+      </div>
+      <div class="work-beat">
+        <h3>What I rejected</h3>
+        <p>Treating a restricted task as a security verdict. Task 20 inherited an existing foothold and prohibited further escalation and lateral exploitation. Later tasks allowed more actions and inherited earlier findings. Their different outcomes do not form a controlled prompt-only comparison.</p><p>Counting every reported finding as a verified vulnerability. The records mix identification, demonstrated access, and pending findings. Without consistent adjudication and deduplication, the counts cannot establish precision or a model ranking.</p>
+      </div>
+      <div class="work-beat">
+        <h3>Observations and limits</h3>
+        <p>The investigation report lists 4 findings for each of two local profiles and 22 for the API configuration before further follow-up findings. These are reported counts across different task histories, not independently adjudicated unique vulnerabilities from repeated matched trials.</p><p>The later assessment notes describe privilege escalation and lateral access during an approximately three-hour autonomous task. Those tasks’ raw database records are not exported in the repository reviewed for this page. I distinguish these documented observations from the captured runs.</p><p>The detection report records one alert from a manual signature test before the assessment tasks. It reports no alerts from the subsequent runs under those rules. The narrow rule scope and unmonitored internal segment prevent a recall estimate or a conclusion about general detection effectiveness.</p><p>Account snapshots show a $0.12 decrease during task 19 and $0.08 during task 20. The later notes report about $9.13 consumed from the initial $10 credit across the investigation. These are API account-balance changes, excluding local compute, setup, and review; delayed charges prevent exact per-task billing.</p>
+      </div>
+
+      <section class="study-evidence" aria-labelledby="autonomous-agents-evidence">
+        <h3 id="autonomous-agents-evidence">Methods and evidence</h3>
+        <p>October 2026 exploratory runs. The evidence below distinguishes captured records from later written summaries. The source repository is private; this page publishes a summary, not a reproducible benchmark.</p>
+        <p class="evidence-hint">Scroll sideways to read the evidence limits on a small screen.</p>
+        <div class="evidence-scroll" role="region" aria-label="Scrollable study evidence table" tabindex="0">
+          <table class="evidence-table">
+            <caption>Recorded observations and what they support</caption>
+            <thead><tr><th scope="col">Measure</th><th scope="col">Recorded observation</th><th scope="col">Limit</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Model comparison</th><td>The findings report names qwen3.8-bigctx2:27b, superqwen-bigctx:27b, and DeepSeek-flash, with reported counts of 4, 4, and 22.</td><td>These are recorded profile labels. Immutable model versions, matched budgets, repeated trials, and a uniform adjudication procedure are not established by the committed evidence.</td></tr>
+              <tr><th scope="row">Captured tasks 19–20</th><td>Task 19 records a web-user foothold with a finding marked pending. Task 20 inherits it for restricted enumeration, with up to six workers and a 600-second budget.</td><td>The repository includes requests, status snapshots, balances, and activity or monitoring records. Stale task cards show zero counters despite recorded activity.</td></tr>
+              <tr><th scope="row">Later tasks 21–22</th><td>Assessment notes report escalation in task 21 and lateral access in task 22. Task 22 is described as approximately three hours, with 48 new findings and 126 including inherited records.</td><td>Raw records for these tasks remained in the lab database. Counts are reported records, not a verified vulnerability total; no local capture harness was used.</td></tr>
+              <tr><th scope="row">Detection</th><td>The findings report records one manual signature-test alert and no assessment-run alerts from the bundled rules.</td><td>Suricata watched the analysis VM interface, not the internal switch. User-Agent signatures do not provide general behavior coverage. The committed record does not establish recall or a false-positive rate.</td></tr>
+              <tr><th scope="row">Cost</th><td>Committed balances: task 19, $6.64 to $6.52; task 20, $6.52 to $6.44. Later notes report approximately $0.87 left from $10.</td><td>Balance changes can include delayed API charges. The total excludes hardware, electricity, engineering, and review time.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="evidence-source">Source snapshot: private lab repository, commit a7d36aa. FINDINGS_REPORT.md, sections 2, 5, and 6; ASSESSMENT_STATUS.md and its October 19 addendum; captured task 19 and task 20 run directories. Reviewed October 20, 2026.</p>
+        <p>A follow-up evaluation needs frozen model and framework versions, clean target resets, matched budgets, repeated runs, adjudicated findings, and sensors on every evaluated segment.</p>
+      </section>
+    </div>
+
     <div class="work-group" id="siem-fidelity">
       <h2>Multi-tenant SIEM architecture</h2>
       <p class="reading-group__note">Three SIEM platforms across more than 30 government-contractor clients, each chosen for the estate it had to monitor, all feeding one alert queue.</p>
       <div class="tile__tags">
         <span class="tile__tag">SIEM</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">GCC High</span><span class="tile__tag">Kafka</span>
       </div>
-      
+
       <div class="work-beat">
         <h3>The constraint</h3>
         <p>An MSSP with more than 30 SOC customers, all government contractors under CMMC. The estates had almost nothing in common: different services, different architectures, different sites, and devices we did not own. A conventional SOC structure assumes one estate, and there were thirty.</p><p>GCC High added a limit of its own. Its management APIs lag the commercial tenant and use different URLs and parameters, so tooling that works against commercial Microsoft does not necessarily work there at all.</p>
@@ -106,36 +155,11 @@
       </div>
       <div class="work-beat">
         <h3>How I would know it worked</h3>
-        <p>Alert latency from source to dashboard, and how long a new client took to stand up.</p><p>SentinelOne and AlienVault delivered under a minute. GCC High Sentinel delivered under five. That gap is the constraint above showing up in the numbers rather than a tuning failure, and no version of this design closes it.</p><p>A new client was onboarded in under a week, gated by their own IT team rather than by us. That figure is the real test of choosing per client: a bespoke architecture is only affordable if standing one up is routine, so every deployment was scripted and staged in advance, maintenance scripts included.</p><p>Underneath both, one criterion. An analyst worked a single queue, and if the platform behind an alert changed how they triaged it, the architecture had failed.</p>
+        <p>Alert latency from source to dashboard, and how long a new client took to stand up.</p><p>SentinelOne and AlienVault delivered under a minute. GCC High Sentinel delivered under five in these deployments. Those are operational observations from this design, not latency guarantees for the platforms.</p><p>A new client was onboarded in under a week, gated by their own IT team rather than by us. That figure is the real test of choosing per client: a bespoke architecture is only affordable if standing one up is routine, so every deployment was scripted and staged in advance, maintenance scripts included.</p><p>Underneath both, one criterion. An analyst worked a single queue, and if the platform behind an alert changed how they triaged it, the architecture had failed.</p>
       </div>
+
     </div>
-  
-    <div class="work-group" id="autonomous-agents">
-      <p class="tile__depth">Lab study</p>
-      <h2>Evaluating autonomous pentest agents</h2>
-      <p class="reading-group__note">A sealed-lab study of an open-source, LLM-driven penetration-testing platform: what it does unsupervised against vulnerable targets, and how much of that the detection shipped alongside it catches.</p>
-      <div class="tile__tags">
-        <span class="tile__tag">AI Agents</span><span class="tile__tag">Detection Engineering</span><span class="tile__tag">Isolated Lab</span>
-      </div>
-      
-      <div class="work-beat">
-        <h3>The constraint</h3>
-        <p>Autonomous penetration-testing agents are moving from demonstration to practice, including in real misuse. The question for a defender is not whether one can run a scan, but whether it chains a whole intrusion on its own, and whether anything watching notices.</p><p>Measuring that honestly needs an environment the agent cannot escape, a capable model behind it, and a detection layer running in the same session, so offense and detection are recorded together.</p>
-      </div>
-      <div class="work-beat">
-        <h3>The decision</h3>
-        <p>Run the platform in a fully isolated lab against intentionally vulnerable targets, with network segmentation the agent cannot reach from inside, and both Suricata and the detection rules shipped with the tool watching.</p><p>Vary the one thing that matters most, the model. Compare a local open-weight model against a frontier API model on the same target, holding the framework constant.</p>
-      </div>
-      <div class="work-beat">
-        <h3>What I rejected</h3>
-        <p>Reading a clean autonomous result as proof the environment is secure. On one target, a prompt that forbade escalation honestly reported no compromise, while a prompt that allowed it reached root and moved laterally. The outcome tracked the rules given to the agent, not the security of the target.</p><p>Studying the framework with a single model. The framework amplifies a model rather than replacing its judgment, so without varying the model, the result that capability sets the ceiling would not have shown up.</p>
-      </div>
-      <div class="work-beat">
-        <h3>How I would know it worked</h3>
-        <p>Model capability set the ceiling, not the framework. On one target a frontier model surfaced roughly 22 findings against about 4 for a local open-weight model, and weaker models failed on tool-calling alone.</p><p>Given a capable model, the agent ran the full chain unsupervised, from reconnaissance through privilege escalation to lateral movement across a segmented network, for about $9 of API credit across the whole investigation.</p><p>The detection shipped with the platform caught almost none of it: one alert for the entire investigation, and that alert matched the self-identifying traffic the tool sends. Its safety deny-rules, in contrast, fired correctly during hands-off runs. Detection has to be built for the behavior, because the tooling will not flag itself.</p>
-      </div>
-    </div>
-  <!-- /gen:work-content --></div>
+<!-- /gen:work-content --></div>
       <p class="reading-back"><a href="index.html#projects">Back to the main page</a></p>
     </section>
   </main>
@@ -151,7 +175,7 @@
       <a href="ethics.html">Ethics</a>
     </p>
     <p class="footer-hint">The meters are not decorative. A certain Mr. Morse could read them, and <a href="decoder.html">so can you</a>. Bars sitting still? <a href="diagnostics.html">Check your browser</a>.</p>
-  <!-- /gen:site-footer --></footer>
+<!-- /gen:site-footer --></footer>
 
   <script type="module" src="js/work.js"></script>
 </body>

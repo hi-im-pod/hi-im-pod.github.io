@@ -9,7 +9,7 @@ export const profile = {
   // data carries it as an alternate name.
   legalName: 'William Garrett Ennis',
   role: 'AI Security Researcher / Security Engineer',
-  tagline: 'Building AI-assisted attackers, and the defenders that stop them.',
+  tagline: 'Studying AI-assisted attacks and building evidence-based detections.',
   city: 'Suwon',
   // Rendered inside lang="ko" so browsers and screen readers pick the right
   // font and the right voice for it. The template adds that element around the
@@ -56,7 +56,7 @@ export const experience = [
     start: '2026',
     end: 'Present',
     bullets: [
-      'Build AI-driven attack tooling in a sealed lab, then measure how much of it current detection catches.',
+      'Evaluate autonomous pentest agents against lab targets, recording their actions and the coverage of the bundled detection rules.',
       'Map where AI trims a security operations center (SOC) analyst’s alert backlog, and where it only relocates the work.',
       'Thesis: whether an AI agent that chooses its own malware analysis steps writes better Sigma detection rules than a fixed workflow. Approved in October 2026, with no results yet.',
     ],
@@ -158,8 +158,9 @@ export const researchInterests = [
       '"could an agent do this" into a number, and a number is what lets a ' +
       'defender argue about coverage instead of intuition. I am more ' +
       'optimistic than most about which side gains from this. The same ' +
-      'automation that produces an exploit also produces the detection for ' +
-      'it, and the defender gets to run it against their own environment first.',
+      'automation could help defenders generate detections from observed ' +
+      'attacks. Whether those detections work on new activity without flooding ' +
+      'analysts with false alerts is the question my thesis tests.',
     reading: [
       {
         title: 'Cybench: A Framework for Evaluating Cybersecurity Capabilities and Risks of Language Models',
@@ -255,8 +256,8 @@ export const researchInterests = [
     description:
       'Hunting, OPSEC, and tracking adversary infrastructure over time, including what that tradecraft costs to sustain.',
     position:
-      'Provenance-based detection answers the attribution question and ' +
-      'creates a volume question. HOLMES, UNICORN, and MAGIC each produce a ' +
+      'Provenance-based detection connects suspicious activity across events ' +
+      'and creates a volume question. HOLMES, UNICORN, and MAGIC each produce a ' +
       'graph that an analyst still has to read. The Tea Leaves result is the ' +
       'uncomfortable one, because threat intelligence feeds agree with each ' +
       'other less than most teams assume. Given the choice, I would rather ' +
@@ -426,8 +427,8 @@ export const projects = [
     measure: [
       'Alert latency from source to dashboard, and how long a new client took to stand up.',
       'SentinelOne and AlienVault delivered under a minute. GCC High Sentinel delivered under '
-      + 'five. That gap is the constraint above showing up in the numbers rather than a tuning '
-      + 'failure, and no version of this design closes it.',
+      + 'five in these deployments. Those are operational observations from this design, '
+      + 'not latency guarantees for the platforms.',
       'A new client was onboarded in under a week, gated by their own IT team rather than by us. '
       + 'That figure is the real test of choosing per client: a bespoke architecture is only '
       + 'affordable if standing one up is routine, so every deployment was scripted and staged in '
@@ -449,28 +450,67 @@ export const projects = [
     measure: '',
   },
   {
-    id: 'autonomous-agents',
-    title: 'Evaluating autonomous pentest agents',
-    status: 'Lab study',
-    description:
-      'A sealed-lab study of an open-source, LLM-driven penetration-testing platform: what it does unsupervised against vulnerable targets, and how much of that the detection shipped alongside it catches.',
-    tags: ['AI Agents', 'Detection Engineering', 'Isolated Lab'],
-    constraint: [
-      'Autonomous penetration-testing agents are moving from demonstration to practice, including in real misuse. The question for a defender is not whether one can run a scan, but whether it chains a whole intrusion on its own, and whether anything watching notices.',
-      'Measuring that honestly needs an environment the agent cannot escape, a capable model behind it, and a detection layer running in the same session, so offense and detection are recorded together.',
+    "id": "autonomous-agents",
+    "title": "Evaluating autonomous pentest agents",
+    "status": "Exploratory lab study",
+    "description": "An exploratory study of autonomous pentest agents on intentionally vulnerable lab targets, with recorded outcomes, detection coverage limits, and API spending.",
+    "tags": [
+      "AI Agents",
+      "Detection Engineering",
+      "Isolated Lab"
     ],
-    decision: [
-      'Run the platform in a fully isolated lab against intentionally vulnerable targets, with network segmentation the agent cannot reach from inside, and both Suricata and the detection rules shipped with the tool watching.',
-      'Vary the one thing that matters most, the model. Compare a local open-weight model against a frontier API model on the same target, holding the framework constant.',
+    "constraint": [
+      "I studied how an autonomous pentest platform uses its tools, follows scope restrictions, and reports results against intentionally vulnerable targets. I also checked what the detection rules bundled with the platform could observe.",
+      "The lab changed during the investigation. Models, context settings, task permissions, and inherited findings varied. These runs support observations about those configurations, but do not isolate model capability as the cause of every difference."
     ],
-    rejected: [
-      'Reading a clean autonomous result as proof the environment is secure. On one target, a prompt that forbade escalation honestly reported no compromise, while a prompt that allowed it reached root and moved laterally. The outcome tracked the rules given to the agent, not the security of the target.',
-      'Studying the framework with a single model. The framework amplifies a model rather than replacing its judgment, so without varying the model, the result that capability sets the ceiling would not have shown up.',
+    "decision": [
+      "Use a lab with a controlled external boundary and deliberately vulnerable targets. Internal segmentation was part of the test environment. Local inference and API inference were separate configurations; API access used a restricted relay.",
+      "Run local model profiles and an API model on Metasploitable2, then expand to a segmented lab. Preserve task goals, activity, findings, and account-balance snapshots where the capture harness was used.",
+      "Place Suricata on the analysis VM’s target-facing interface with the bundled rules. That sensor did not monitor the internal switch. The rules mainly identified the tool’s HTTP User-Agent strings; this was not a benchmark of general intrusion detection."
     ],
-    measure: [
-      'Model capability set the ceiling, not the framework. On one target a frontier model surfaced roughly 22 findings against about 4 for a local open-weight model, and weaker models failed on tool-calling alone.',
-      'Given a capable model, the agent ran the full chain unsupervised, from reconnaissance through privilege escalation to lateral movement across a segmented network, for about $9 of API credit across the whole investigation.',
-      'The detection shipped with the platform caught almost none of it: one alert for the entire investigation, and that alert matched the self-identifying traffic the tool sends. Its safety deny-rules, in contrast, fired correctly during hands-off runs. Detection has to be built for the behavior, because the tooling will not flag itself.',
+    "rejected": [
+      "Treating a restricted task as a security verdict. Task 20 inherited an existing foothold and prohibited further escalation and lateral exploitation. Later tasks allowed more actions and inherited earlier findings. Their different outcomes do not form a controlled prompt-only comparison.",
+      "Counting every reported finding as a verified vulnerability. The records mix identification, demonstrated access, and pending findings. Without consistent adjudication and deduplication, the counts cannot establish precision or a model ranking."
     ],
+    "measure": [
+      "The investigation report lists 4 findings for each of two local profiles and 22 for the API configuration before further follow-up findings. These are reported counts across different task histories, not independently adjudicated unique vulnerabilities from repeated matched trials.",
+      "The later assessment notes describe privilege escalation and lateral access during an approximately three-hour autonomous task. Those tasks’ raw database records are not exported in the repository reviewed for this page. I distinguish these documented observations from the captured runs.",
+      "The detection report records one alert from a manual signature test before the assessment tasks. It reports no alerts from the subsequent runs under those rules. The narrow rule scope and unmonitored internal segment prevent a recall estimate or a conclusion about general detection effectiveness.",
+      "Account snapshots show a $0.12 decrease during task 19 and $0.08 during task 20. The later notes report about $9.13 consumed from the initial $10 credit across the investigation. These are API account-balance changes, excluding local compute, setup, and review; delayed charges prevent exact per-task billing."
+    ],
+    "measureLabel": "Observations and limits",
+    "evidence": {
+      "heading": "Methods and evidence",
+      "intro": "October 2026 exploratory runs. The evidence below distinguishes captured records from later written summaries. The source repository is private; this page publishes a summary, not a reproducible benchmark.",
+      "rows": [
+        [
+          "Model comparison",
+          "The findings report names qwen3.8-bigctx2:27b, superqwen-bigctx:27b, and DeepSeek-flash, with reported counts of 4, 4, and 22.",
+          "These are recorded profile labels. Immutable model versions, matched budgets, repeated trials, and a uniform adjudication procedure are not established by the committed evidence."
+        ],
+        [
+          "Captured tasks 19–20",
+          "Task 19 records a web-user foothold with a finding marked pending. Task 20 inherits it for restricted enumeration, with up to six workers and a 600-second budget.",
+          "The repository includes requests, status snapshots, balances, and activity or monitoring records. Stale task cards show zero counters despite recorded activity."
+        ],
+        [
+          "Later tasks 21–22",
+          "Assessment notes report escalation in task 21 and lateral access in task 22. Task 22 is described as approximately three hours, with 48 new findings and 126 including inherited records.",
+          "Raw records for these tasks remained in the lab database. Counts are reported records, not a verified vulnerability total; no local capture harness was used."
+        ],
+        [
+          "Detection",
+          "The findings report records one manual signature-test alert and no assessment-run alerts from the bundled rules.",
+          "Suricata watched the analysis VM interface, not the internal switch. User-Agent signatures do not provide general behavior coverage. The committed record does not establish recall or a false-positive rate."
+        ],
+        [
+          "Cost",
+          "Committed balances: task 19, $6.64 to $6.52; task 20, $6.52 to $6.44. Later notes report approximately $0.87 left from $10.",
+          "Balance changes can include delayed API charges. The total excludes hardware, electricity, engineering, and review time."
+        ]
+      ],
+      "source": "Source snapshot: private lab repository, commit a7d36aa. FINDINGS_REPORT.md, sections 2, 5, and 6; ASSESSMENT_STATUS.md and its October 19 addendum; captured task 19 and task 20 run directories. Reviewed October 20, 2026.",
+      "next": "A follow-up evaluation needs frozen model and framework versions, clean target resets, matched budgets, repeated runs, adjudicated findings, and sensors on every evaluated segment."
+    }
   },
 ];

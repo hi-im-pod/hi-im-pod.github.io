@@ -17,10 +17,10 @@
 export const TARGETS = [
   'GARRETT ENNIS',
   'WHOAMI',      // About
+  'ARTIFACTS',   // Selected work
   'UPTIME',      // Experience
   'TUTELAGE',    // Education
   'INQUIRY',     // Research
-  'ARTIFACTS',   // Projects
   'HANDSHAKE',   // Contact
 ];
 

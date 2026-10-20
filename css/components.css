@@ -803,6 +803,23 @@
 .tile--link:hover .tile__cue { color: var(--color-pink); }
 
 .work-group { margin-bottom: var(--space-6); }
+.work-index { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-3); margin-bottom: var(--space-4); }
+.work-index a { text-decoration: underline; text-underline-offset: 0.2em; }
+.study-evidence { margin-top: var(--space-4); }
+.study-evidence h3 { font-size: var(--fs-h3); }
+.evidence-scroll { overflow-x: auto; margin-bottom: var(--space-2); }
+.evidence-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.evidence-table caption { text-align: left; color: var(--color-text-muted); padding-bottom: var(--space-2); }
+.evidence-table th, .evidence-table td { text-align: left; vertical-align: top; padding: var(--space-2); border-bottom: 1px solid var(--color-hairline); overflow-wrap: anywhere; }
+.evidence-table th { color: var(--color-text-primary); }
+.evidence-table th:first-child { width: 16%; min-width: 8rem; overflow-wrap: normal; }
+.evidence-table td { color: var(--color-text-muted); }
+.evidence-source { font-size: 0.85rem; overflow-wrap: anywhere; }
+.evidence-hint { display: none; }
+@media (max-width: 40rem) {
+  .evidence-hint { display: block; font-size: 0.85rem; }
+  .evidence-table { min-width: 38rem; }
+}
 .work-group h2 { font-size: var(--fs-h3); color: var(--color-pink); margin-bottom: var(--space-1); }
 .work-group .tile__tags { margin-bottom: var(--space-3); }
 /* Each beat is labelled rather than run together, because the labels are the
