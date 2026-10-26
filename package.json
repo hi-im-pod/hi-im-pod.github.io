@@ -2,5 +2,14 @@
   "name": "garrett-portfolio",
   "private": true,
   "type": "module",
-  "description": "Personal portfolio site for Garrett Ennis"
+  "description": "Personal portfolio site for Garrett Ennis",
+  "scripts": {
+    "check": "node tools/build-static.mjs --check",
+    "test": "npm run check && playwright test",
+    "test:live": "playwright test --config=playwright.live.config.js",
+    "test:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1"
+  }
 }

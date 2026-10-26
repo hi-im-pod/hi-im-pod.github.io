@@ -28,6 +28,45 @@ the folder and open http://localhost:8788:
 npx http-server -p 8788 -c-1
 ```
 
+## Regression tests
+
+Use Node.js 22 or later. Install the pinned dependencies and Chromium once:
+
+```sh
+npm ci
+npx playwright install chromium
+npm test
+```
+
+`npm test` checks generated HTML, then runs browser tests at desktop and phone
+sizes. Playwright starts and stops its own server on `127.0.0.1:4173`.
+The tests cover Morse section placement, reduced-motion canvases, the decoder
+alphabet and editing controls, all seven solutions, rewards, progress reset,
+and discovery of the hidden radio.
+
+Radio tests replace only the YouTube API with a test player. They check lazy
+loading, play and pause, playlist selection and wraparound, volume commands,
+bar-lock controls, real contour files, clock tracking, and a blocked API.
+Unexpected external requests and uncaught JavaScript errors fail the suite.
+These checks do not prove that YouTube can stream a track.
+
+Run the separate playback check against the live site when verifying a deploy:
+
+```sh
+npm run test:live
+```
+
+This check contacts YouTube, waits up to 90 seconds for a song after pre-roll,
+and verifies playback through the player clock and controls. Audio is muted.
+Ads, regional restrictions, blockers, and network failures can fail this check;
+it does not run in CI. Set `LIVE_BASE_URL` to test another deployment, or
+`PLAYWRIGHT_CHANNEL=msedge` to use installed Edge with either suite.
+
+GitHub Actions runs the local suite on pushes and pull requests. Failures retain
+screenshots, traces, and an HTML report. Open the local report with
+`npm run test:report`. The tests check canvas presence and section association;
+they do not decode Morse from rendered pixels or assess audible sound quality.
+
 ## Layout
 
 | Path | Contents |
