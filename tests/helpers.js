@@ -39,14 +39,14 @@ export async function enterMessage(page, text, buttons = false) {
   await expect(page.locator('#output')).toHaveText(text);
 }
 
-export async function mockYouTube(page) {
+export async function mockYouTube(page, options = {}) {
   await page.route('https://www.youtube.com/iframe_api', route => route.fulfill({
     contentType: 'text/javascript',
-    body: `(${installPlayer.toString()})();`,
+    body: `(${installPlayer.toString()})(${JSON.stringify(options)});`,
   }));
 }
 
-function installPlayer() {
+function installPlayer({ preRoll } = {}) {
   class Player {
     constructor(id, options) {
       this.options = options;
@@ -59,12 +59,35 @@ function installPlayer() {
       setTimeout(() => options.events.onReady(), 0);
     }
     emit() { this.options.events.onStateChange({ data: this.state }); }
-    getCurrentTime() { return this.position + (this.state === 1 ? (performance.now() - this.started) / 1000 : 0); }
+    getCurrentTime() {
+      if (this.ad) {
+        return this.ad.mode === 'moving'
+          ? 20 + (performance.now() - this.ad.started) / 1000
+          : this.position;
+      }
+      return this.position + (this.state === 1 ? (performance.now() - this.started) / 1000 : 0);
+    }
     getPlayerState() { return this.reportedState ?? this.state; }
     getDuration() { return 1800; }
     getPlaylist() { return this.ids; }
     getPlaylistIndex() { return this.index; }
-    loadPlaylist({ playlist, index }) { this.ids = playlist; this.playVideoAt(index); }
+    loadPlaylist({ playlist, index }) {
+      this.ids = playlist;
+      this.playVideoAt(index);
+      if (preRoll) this.beginAd(preRoll, 0);
+    }
+    // Model both clock behaviors without promising which one YouTube will expose.
+    beginAd(mode, resumeAt = this.getCurrentTime()) {
+      this.position = resumeAt;
+      this.ad = { mode, started: performance.now() };
+      this.reportedState = -1;
+    }
+    endAd() {
+      this.ad = null;
+      this.started = performance.now();
+      this.state = 1;
+      // Missing events and a stale player state must not prevent clock recovery.
+    }
     setLoop(value) { this.loop = value; }
     setVolume(value) { this.volume = value; }
     playVideoAt(index) { this.index = index; this.position = 0; this.started = performance.now(); this.state = 1; this.emit(); }

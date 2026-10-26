@@ -50,6 +50,13 @@ bar-lock controls, real contour files, clock tracking, and a blocked API.
 Unexpected external requests and uncaught JavaScript errors fail the suite.
 These checks do not prove that YouTube can stream a track.
 
+Ad recovery tests simulate pre-roll and mid-song ads with either an advancing
+ad clock or a frozen song clock. They require the bar animation clock to return
+within 150 milliseconds of the song clock within 1.5 seconds of resuming, then
+check it again after two seconds of music. Recovery must work without a player
+state event, even when the reported state stays at -1. These simulations test
+the site's recovery logic, not every behavior of YouTube's ad service.
+
 Run the separate playback check against the live site when verifying a deploy:
 
 ```sh
